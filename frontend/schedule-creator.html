@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Schedule creator | Visual Schedule</title>
+  <!-- Libraries are pinned and use Subresource Integrity. If the browser console reports an
+       integrity mismatch, regenerate the hash for that exact file. -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/all.min.css" integrity="sha384-nRgPTkuX86pH8yjPJUAFuASXQSSl2/bBUiNV47vSYpKFxHJhbcrGnmlYpYJMeD7a" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="schedule-creator">
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header id="app-header"></header>
+  <main id="main" class="container py-4" tabindex="-1">
+    <h1 class="h2 mb-3">Schedule creator</h1>
+
+    <div class="creator-toolbar">
+      <div class="toolbar-field toolbar-child"><label class="form-label" for="sc-child">Child</label><select class="form-select" id="sc-child"></select></div>
+      <div class="toolbar-field toolbar-date"><label class="form-label" for="sc-date">Date</label><input class="form-control" id="sc-date" type="date"></div>
+      <div class="toolbar-actions">
+        <button class="btn btn-outline-primary" id="preview-schedule" type="button"><i class="fa-solid fa-eye me-2" aria-hidden="true"></i>Preview</button>
+        <button class="btn btn-primary" id="save-schedule" type="button"><i class="fa-solid fa-floppy-disk me-2" aria-hidden="true"></i>Save schedule</button>
+        <span id="dirty-badge" class="badge-unsaved" hidden><i class="fa-solid fa-pen me-1" aria-hidden="true"></i>Unsaved changes</span>
+      </div>
+    </div>
+
+    <div id="sc-error" class="error-banner mb-3" role="alert" hidden>
+      <span id="sc-error-text"></span>
+      <button class="btn btn-outline-primary btn-sm ms-2" id="sc-retry" type="button">Retry</button>
+    </div>
+    <div id="sr-announce" class="visually-hidden" aria-live="polite" role="status"></div>
+
+    <!-- Three panels. LEFT library, CENTER timeline (drop zone), RIGHT task settings.
+         Below 992px the panels stack and the task settings open in a dialog when a task is chosen. -->
+    <div class="row g-4">
+      <section class="col-lg-4" aria-labelledby="lib-h">
+        <div class="panel-head"><h2 id="lib-h" class="h4">Activity library</h2></div>
+        <p class="small text-muted">Drag an activity to the timeline, or press its plus button.</p>
+        <div class="chip-row" id="category-chips" role="group" aria-label="Filter by category"></div>
+        <ul id="activity-library" class="activity-list"></ul>
+      </section>
+
+      <section class="col-lg-5" aria-labelledby="tl-h">
+        <div class="panel-head">
+          <h2 id="tl-h" class="h4">Timeline</h2>
+          <button class="btn btn-outline-danger btn-sm" id="delete-schedule" type="button" hidden><i class="fa-solid fa-trash me-1" aria-hidden="true"></i>Delete schedule</button>
+        </div>
+        <ol id="timeline" class="timeline" aria-label="Tasks in order"></ol>
+        <p id="timeline-empty" class="text-muted">Drag an activity here or tap the plus.</p>
+      </section>
+
+      <section class="col-lg-3" aria-labelledby="ts-h">
+        <div class="panel-head"><h2 id="ts-h" class="h4">Task settings</h2></div>
+        <div id="task-settings-host">
+          <p id="ts-placeholder" class="text-muted">Select a task to edit its time, duration and reminder.</p>
+          <form id="task-settings-form" novalidate hidden>
+            <p class="fw-semibold mb-3"><i id="ts-icon" aria-hidden="true"></i> <span id="ts-name"></span></p>
+            <div class="mb-3"><label class="form-label" for="ts-time">Time</label><input class="form-control" id="ts-time" data-field="time" type="time" required></div>
+            <div class="mb-3"><label class="form-label" for="ts-duration">Duration (minutes, 5 to 240)</label><input class="form-control" id="ts-duration" data-field="duration" type="number" min="5" max="240" inputmode="numeric" required></div>
+            <div class="mb-3"><label class="form-label" for="ts-reminder">Reminder</label>
+              <select class="form-select" id="ts-reminder" data-field="reminder_minutes">
+                <option value="">None</option>
+                <option value="0">At the start</option>
+                <option value="5">5 minutes before</option>
+                <option value="10">10 minutes before</option>
+                <option value="15">15 minutes before</option>
+              </select>
+              <div class="form-text">Saved with the task. This version does not send reminders.</div></div>
+          </form>
+        </div>
+      </section>
+    </div>
+
+    <div class="modal fade" id="task-modal" tabindex="-1" aria-labelledby="task-modal-title" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered"><div class="modal-content">
+        <div class="modal-header"><h2 class="modal-title h5" id="task-modal-title">Task settings</h2><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>
+        <div class="modal-body" id="task-modal-body"></div>
+        <div class="modal-footer"><button type="button" class="btn btn-primary" data-bs-dismiss="modal">Done</button></div>
+      </div></div>
+    </div>
+
+    <div class="modal fade" id="preview-modal" tabindex="-1" aria-labelledby="preview-modal-title" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable"><div class="modal-content">
+        <div class="modal-header"><h2 class="modal-title h5" id="preview-modal-title">Preview: what the child will see</h2><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>
+        <div class="modal-body"><ol id="preview-list" class="task-strip"></ol></div>
+        <div class="modal-footer"><button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button></div>
+      </div></div>
+    </div>
+  </main>
+
+  <div id="toast-area" class="toast-container position-fixed bottom-0 end-0 p-3" aria-live="polite"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.7/Sortable.min.js" integrity="sha384-DgmC6Xe2bSN2WjTDXzWYbUbxyhNP+NNkGDR/g78pCXV7E7rcVTGxVg0uIVCUUcBc" crossorigin="anonymous"></script>
+  <script type="module" src="js/schedule.js"></script>
+</body>
+</html>

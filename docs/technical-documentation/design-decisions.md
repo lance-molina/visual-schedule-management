@@ -1,0 +1,55 @@
+# Design decisions and assumptions
+
+Source material for the technical documentation (section "Design decisions") and for the limitations part of the
+research paper. Each entry says what was decided and why. Entries marked *assumption* were our own reading of an
+unclear point and should be confirmed with the instructor.
+
+## Product
+
+- **Tasks live in the child view.** There is no separate task-management page. Adults create and edit tasks in the
+  schedule creator; the child completes them one at a time in the child view.
+- **The child view opens from an adult's signed-in session.** A child never has an account or a password. An adult
+  opens the page for one child and hands over the device. Leaving the child view asks for confirmation so a child
+  cannot wander into the adult pages by accident.
+- **The role is chosen at registration and all roles have the same permissions** (caregiver, occupational therapist,
+  SPED teacher). Every adult sees only the children they created; there is no sharing between adults.
+- **Photos are preset avatars.** A child's picture is one of eight preset avatar ids stored in `photo_url`; real photo
+  upload is out of scope, which also avoids storing images of children. The API rejects anything that is not an id.
+- **Reminders are stored, not sent.** `reminder_minutes` and the notification switches are saved so the settings are
+  complete, but no notification is ever delivered.
+- **Report export is client-side.** The progress page downloads a CSV built in the browser, with a guard against
+  spreadsheet formula injection. There is no server-side PDF.
+- **Filipino covers the menu, settings, child view and main labels.** The wording was written by the team and needs a
+  native-speaker review before it is quoted anywhere.
+
+## Progress rules
+
+- **Completion rate** = completed tasks / scheduled tasks. It is shown as a dash (null), never 0%, when nothing was scheduled.
+- **A task counts on the day of its schedule**, not the day it was ticked off.
+- **"Week" and "month" are rolling 7 and 30 days ending today**, not calendar weeks and months (*assumption*). The
+  browser sends its local date as `today`, so the child's day is used, not the server's. The weekly trend chart is
+  always the last four rolling 7-day blocks.
+- **"Upcoming routines"** on the dashboard counts schedules dated today or later that still have at least one pending
+  task (*assumption*).
+
+## API and data
+
+- **Saving a schedule.** A new schedule is one `POST /api/schedules` with its tasks, all or nothing. An existing
+  schedule is saved with one task call per change, skipping unchanged tasks. `PUT /api/schedules/<id>` changes the
+  date only. If a save fails, the draft stays on screen and saving again is safe.
+- **Ownership is enforced in the query** (task, schedule, child, user), and another user's record answers 404, not 403,
+  so ids cannot be probed.
+- **The server sets `completed_at`** in UTC; the client can never send it. Undo is `PUT /api/tasks/<id>` with
+  `status: pending`, which clears it. The database also enforces the pairing with a CHECK constraint.
+- **Settings are stored on the user row** (seven columns) and cached in the browser so pages style themselves before
+  the first API call returns.
+- **Passwords** are stored as bcrypt hashes, limited to 8 to 72 bytes (bcrypt reads only the first 72). Login gives one
+  generic error for an unknown email and a wrong password. There is no password reset in this version.
+
+## Tooling
+
+- **Libraries are pinned and loaded from a CDN with integrity hashes:** Bootstrap 5.3.8, Font Awesome 6.7.2,
+  Chart.js 4.6.1, SortableJS 1.15.7.
+- **Automated tests run on in-memory SQLite.** MySQL behaviour (CHECK constraints, ENUM columns) has not been tested
+  yet. Run `schema.sql` on an empty MySQL database, then run `pytest` with `TEST_DATABASE_URL` pointing at it, and
+  record the result here.

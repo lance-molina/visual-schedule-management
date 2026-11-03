@@ -1,0 +1,1230 @@
+{
+  "info": {
+    "name": "Visual Schedule API",
+    "description": "Runs the whole API in order with assertions. Start the backend first (http://127.0.0.1:5000), then run the collection (Postman Runner, or `npx newman run postman/visual-schedule.postman_collection.json`). Fictional data only. Each run registers fresh fictional users and deletes the child it creates. The token is kept in the {{token}} collection variable; never paste a real token into this file.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "token2",
+      "value": ""
+    },
+    {
+      "key": "email",
+      "value": ""
+    },
+    {
+      "key": "email2",
+      "value": ""
+    },
+    {
+      "key": "childId",
+      "value": ""
+    },
+    {
+      "key": "scheduleId",
+      "value": ""
+    },
+    {
+      "key": "taskId",
+      "value": ""
+    },
+    {
+      "key": "extraTaskId",
+      "value": ""
+    },
+    {
+      "key": "scheduleDate",
+      "value": ""
+    },
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:5000"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "1 Health",
+      "item": [
+        {
+          "name": "GET /health",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/health",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', () => pm.response.to.have.status(200));",
+                  "pm.test('status is ok', () => pm.expect(pm.response.json().status).to.eql('ok'));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "2 Auth",
+      "item": [
+        {
+          "name": "POST register",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/auth/register",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Postman Caregiver\",\n  \"email\": \"{{email}}\",\n  \"password\": \"DemoPass123\",\n  \"role\": \"caregiver\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// a fresh fictional address each run",
+                  "pm.collectionVariables.set('email', 'postman.' + Date.now() + '@example.com');"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 201', () => pm.response.to.have.status(201));",
+                  "const u = pm.response.json();",
+                  "pm.test('no password data is returned', () => { pm.expect(u).to.not.have.property('password'); pm.expect(u).to.not.have.property('password_hash'); });",
+                  "pm.test('default settings present', () => pm.expect(u.settings.font_size).to.eql('M'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST register (duplicate email gives 409)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/auth/register",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Postman Caregiver\",\n  \"email\": \"{{email}}\",\n  \"password\": \"DemoPass123\",\n  \"role\": \"caregiver\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 409', () => pm.response.to.have.status(409));",
+                  "pm.test('error names the email field', () => pm.expect(pm.response.json().error.fields.email).to.exist);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST register (invalid input gives 400)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/auth/register",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"\",\n  \"email\": \"not-an-email\",\n  \"password\": \"short\",\n  \"role\": \"wizard\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 400', () => pm.response.to.have.status(400));",
+                  "pm.test('every bad field is listed', () => pm.expect(Object.keys(pm.response.json().error.fields)).to.include.members(['name','email','password','role']));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST login",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/auth/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"DemoPass123\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', () => pm.response.to.have.status(200));",
+                  "const b = pm.response.json();",
+                  "pm.collectionVariables.set('token', b.access_token);",
+                  "pm.test('token and expiry returned', () => { pm.expect(b.access_token).to.be.a('string'); pm.expect(b.expires_in).to.be.above(0); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST login (wrong password gives the generic 401)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/auth/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"WrongPass123\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 401', () => pm.response.to.have.status(401));",
+                  "pm.test('generic message', () => pm.expect(pm.response.json().error.code).to.eql('invalid_credentials'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET me",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/auth/me"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', () => pm.response.to.have.status(200));",
+                  "pm.test('email matches', () => pm.expect(pm.response.json().email).to.eql(pm.collectionVariables.get('email')));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET me (no token gives 401)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/auth/me",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 401', () => pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "PATCH me (settings)",
+          "request": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/auth/me",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"settings\": {\n    \"font_size\": \"L\",\n    \"contrast\": \"high\"\n  }\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', () => pm.response.to.have.status(200));",
+                  "pm.test('settings saved, others unchanged', () => { const s = pm.response.json().settings; pm.expect(s.font_size).to.eql('L'); pm.expect(s.contrast).to.eql('high'); pm.expect(s.language).to.eql('en'); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "PATCH me (bad setting gives 400)",
+          "request": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/auth/me",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"settings\": {\n    \"font_size\": \"XXL\"\n  }\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 400', () => pm.response.to.have.status(400));",
+                  "pm.test('error key is settings.font_size', () => pm.expect(pm.response.json().error.fields['settings.font_size']).to.exist);"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "3 Children",
+      "item": [
+        {
+          "name": "POST child",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/children",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Mika\",\n  \"age\": 6,\n  \"delay_domain\": \"speech\",\n  \"notes\": \"Likes trains\",\n  \"photo_url\": \"train\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 201', () => pm.response.to.have.status(201));",
+                  "pm.collectionVariables.set('childId', pm.response.json().id);",
+                  "pm.test('fields echoed', () => pm.expect(pm.response.json().name).to.eql('Mika'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST child (age 0 gives 400)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/children",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Mika\",\n  \"age\": 0,\n  \"delay_domain\": \"speech\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 400', () => pm.response.to.have.status(400));",
+                  "pm.test('age is flagged', () => pm.expect(pm.response.json().error.fields.age).to.exist);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET children",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/children"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', () => pm.response.to.have.status(200));",
+                  "pm.test('paged list shape', () => { const b = pm.response.json(); pm.expect(b.items).to.be.an('array'); pm.expect(b.total).to.be.at.least(1); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET child",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/children/{{childId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "PUT child (replaces; omitted notes become null)",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/children/{{childId}}",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Mika\",\n  \"age\": 7,\n  \"delay_domain\": \"speech\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', () => pm.response.to.have.status(200));",
+                  "pm.test('age updated and notes cleared', () => { const c = pm.response.json(); pm.expect(c.age).to.eql(7); pm.expect(c.notes).to.eql(null); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "4 Schedules",
+      "item": [
+        {
+          "name": "POST schedule with tasks",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/schedules",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"child_id\": {{childId}},\n  \"date\": \"{{scheduleDate}}\",\n  \"tasks\": [\n    {\n      \"name\": \"Brush teeth\",\n      \"icon\": \"fa-tooth\",\n      \"category\": \"hygiene\",\n      \"time\": \"07:30\",\n      \"duration\": 10,\n      \"reminder_minutes\": 5\n    },\n    {\n      \"name\": \"Play time\",\n      \"icon\": \"fa-puzzle-piece\",\n      \"category\": \"play\",\n      \"time\": \"08:00\",\n      \"duration\": 30\n    }\n  ]\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// A date 30 to 400 days ahead, so reruns do not collide with an existing schedule",
+                  "const d = new Date(Date.now() + (30 + Math.floor(Math.random() * 370)) * 86400000);",
+                  "pm.collectionVariables.set('scheduleDate', d.toISOString().slice(0, 10));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 201', () => pm.response.to.have.status(201));",
+                  "const s = pm.response.json();",
+                  "pm.collectionVariables.set('scheduleId', s.id);",
+                  "pm.collectionVariables.set('taskId', s.tasks[0].id);",
+                  "pm.test('two tasks, positions 1 and 2', () => pm.expect(s.tasks.map(t => t.position)).to.eql([1, 2]));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST schedule (same date gives 409)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/schedules",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"child_id\": {{childId}},\n  \"date\": \"{{scheduleDate}}\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 409', () => pm.response.to.have.status(409));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST schedule (bad task gives 400 and saves nothing)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/schedules",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"child_id\": {{childId}},\n  \"date\": \"2099-01-01\",\n  \"tasks\": [\n    {\n      \"name\": \"\",\n      \"icon\": \"x\",\n      \"category\": \"nope\",\n      \"time\": \"7:30\",\n      \"duration\": 1\n    }\n  ]\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 400', () => pm.response.to.have.status(400));",
+                  "pm.test('errors name the task and field', () => pm.expect(pm.response.json().error.fields['tasks[0].name']).to.exist);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET schedules of a child on a date",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/schedules/{{childId}}?date={{scheduleDate}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', () => pm.response.to.have.status(200));",
+                  "pm.test('exactly one, with tasks', () => { const b = pm.response.json(); pm.expect(b.items.length).to.eql(1); pm.expect(b.items[0].tasks.length).to.eql(2); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "PUT schedule (date only)",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/schedules/{{scheduleId}}",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"date\": \"2098-12-31\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', () => pm.response.to.have.status(200));",
+                  "pm.test('date changed', () => pm.expect(pm.response.json().date).to.eql('2098-12-31'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "PUT schedule (sending tasks gives 400)",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/schedules/{{scheduleId}}",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"date\": \"2098-12-31\",\n  \"tasks\": []\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 400', () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "5 Tasks",
+      "item": [
+        {
+          "name": "GET tasks",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/tasks/{{scheduleId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', () => pm.response.to.have.status(200));",
+                  "pm.test('in position order', () => { const p = pm.response.json().items.map(t => t.position); pm.expect(p).to.eql([...p].sort((a, b) => a - b)); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST task (position defaults to the end)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/tasks",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"schedule_id\": {{scheduleId}},\n  \"name\": \"Eat breakfast\",\n  \"icon\": \"fa-utensils\",\n  \"category\": \"food\",\n  \"time\": \"08:30\",\n  \"duration\": 20\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 201', () => pm.response.to.have.status(201));",
+                  "pm.collectionVariables.set('extraTaskId', pm.response.json().id);",
+                  "pm.test('position is 3', () => pm.expect(pm.response.json().position).to.eql(3));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "PUT task (partial)",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/tasks/{{taskId}}",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Brush teeth well\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', () => pm.response.to.have.status(200));",
+                  "pm.test('only the name changed', () => { const t = pm.response.json(); pm.expect(t.name).to.eql('Brush teeth well'); pm.expect(t.duration).to.eql(10); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "PATCH task complete (server sets completed_at)",
+          "request": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/tasks/{{taskId}}/complete"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', () => pm.response.to.have.status(200));",
+                  "pm.test('completed with a UTC timestamp', () => { const t = pm.response.json(); pm.expect(t.status).to.eql('completed'); pm.expect(t.completed_at).to.match(/Z$/); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "PATCH task complete again (idempotent)",
+          "request": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/tasks/{{taskId}}/complete"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "PUT task status pending (Undo)",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/tasks/{{taskId}}",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"pending\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', () => pm.response.to.have.status(200));",
+                  "pm.test('completed_at cleared', () => { const t = pm.response.json(); pm.expect(t.status).to.eql('pending'); pm.expect(t.completed_at).to.eql(null); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "PUT task (client cannot set completed_at)",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/tasks/{{taskId}}",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"completed_at\": \"2020-01-01T00:00:00Z\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', () => pm.response.to.have.status(200));",
+                  "pm.test('still null', () => pm.expect(pm.response.json().completed_at).to.eql(null));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "DELETE task",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/tasks/{{extraTaskId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 204', () => pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "6 Dashboard and progress",
+      "item": [
+        {
+          "name": "GET dashboard summary",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/dashboard/summary?today=2026-11-02"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', () => pm.response.to.have.status(200));",
+                  "pm.test('three counts', () => { const b = pm.response.json(); pm.expect(b).to.have.keys(['total_children', 'tasks_completed_today', 'upcoming_routines']); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET progress (week)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/progress?child_id={{childId}}&range=week&today=2026-11-02"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', () => pm.response.to.have.status(200));",
+                  "const p = pm.response.json();",
+                  "pm.test('seven daily points', () => pm.expect(p.daily.length).to.eql(7));",
+                  "pm.test('four weekly blocks', () => pm.expect(p.weekly.length).to.eql(4));",
+                  "pm.test('rate is null, not 0, when nothing was scheduled', () => pm.expect(p.summary.completion_rate).to.eql(null));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET progress (bad range gives 400)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/progress?child_id={{childId}}&range=year"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 400', () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "7 Isolation (another user cannot reach these records)",
+      "item": [
+        {
+          "name": "POST register second user",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/auth/register",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Postman Other\",\n  \"email\": \"{{email2}}\",\n  \"password\": \"DemoPass123\",\n  \"role\": \"sped_teacher\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('email2', 'postman.other.' + Date.now() + '@example.com');"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 201', () => pm.response.to.have.status(201));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST login second user",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/auth/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{email2}}\",\n  \"password\": \"DemoPass123\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('token2', pm.response.json().access_token);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET first user's child (404, not 403)",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token2}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/children/{{childId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 404', () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET first user's schedules (404)",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token2}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/schedules/{{childId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 404', () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "PATCH first user's task complete (404)",
+          "request": {
+            "method": "PATCH",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token2}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/tasks/{{taskId}}/complete"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 404', () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "DELETE first user's child (404)",
+          "request": {
+            "method": "DELETE",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token2}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/children/{{childId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 404', () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET progress of first user's child (404)",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token2}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/progress?child_id={{childId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 404', () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "8 Cleanup (deletes only what this run created)",
+      "item": [
+        {
+          "name": "DELETE schedule",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/schedules/{{scheduleId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 204', () => pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET deleted schedule's tasks (404)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/tasks/{{scheduleId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 404', () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "DELETE child",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/children/{{childId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 204', () => pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET deleted child (404)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/children/{{childId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 404', () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign in | Visual Schedule</title>
+  <!-- Libraries are pinned and use Subresource Integrity. If the browser console reports an
+       integrity mismatch, regenerate the hash for that exact file. -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/all.min.css" integrity="sha384-nRgPTkuX86pH8yjPJUAFuASXQSSl2/bBUiNV47vSYpKFxHJhbcrGnmlYpYJMeD7a" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="index">
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <main id="main" class="container py-4" tabindex="-1">
+    <h1 class="h2 mb-2">Visual Schedule</h1>
+    <p class="lead">Sign in, or create an account, to build picture schedules for the children you support.</p>
+    <p id="login-notice" class="text-muted" role="status"></p>
+
+    <ul class="nav nav-tabs" id="auth-tabs" role="tablist">
+      <li class="nav-item" role="presentation"><button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login-pane" type="button" role="tab" aria-controls="login-pane" aria-selected="true">Log in</button></li>
+      <li class="nav-item" role="presentation"><button class="nav-link" id="register-tab" data-bs-toggle="tab" data-bs-target="#register-pane" type="button" role="tab" aria-controls="register-pane" aria-selected="false">Register</button></li>
+    </ul>
+
+    <div class="tab-content pt-3" style="max-width: 32rem;">
+      <div class="tab-pane fade show active" id="login-pane" role="tabpanel" aria-labelledby="login-tab">
+        <form id="login-form" novalidate>
+          <div class="mb-3"><label class="form-label" for="login-email">Email</label><input class="form-control" id="login-email" data-field="email" type="email" autocomplete="email" required></div>
+          <div class="mb-3"><label class="form-label" for="login-password">Password</label><input class="form-control" id="login-password" data-field="password" type="password" autocomplete="current-password" required></div>
+          <div class="form-check mb-3"><input class="form-check-input" id="login-remember" type="checkbox"><label class="form-check-label" for="login-remember">Keep me signed in</label></div>
+          <div id="login-error" class="form-error mb-3" role="alert"></div>
+          <button class="btn btn-primary" type="submit">Log in</button>
+        </form>
+      </div>
+
+      <div class="tab-pane fade" id="register-pane" role="tabpanel" aria-labelledby="register-tab">
+        <form id="register-form" novalidate>
+          <div class="mb-3"><label class="form-label" for="reg-name">Name</label><input class="form-control" id="reg-name" data-field="name" autocomplete="name" maxlength="100" required></div>
+          <div class="mb-3"><label class="form-label" for="reg-email">Email</label><input class="form-control" id="reg-email" data-field="email" type="email" autocomplete="email" required></div>
+          <div class="mb-3"><label class="form-label" for="reg-password">Password</label><input class="form-control" id="reg-password" data-field="password" type="password" autocomplete="new-password" required><div class="form-text">8 to 72 characters.</div></div>
+          <div class="mb-3">
+            <label class="form-label" for="reg-role">I am a</label>
+            <select class="form-select" id="reg-role" data-field="role">
+              <option value="caregiver">Caregiver</option>
+              <option value="occupational_therapist">Occupational therapist</option>
+              <option value="sped_teacher">SPED teacher</option>
+            </select>
+          </div>
+          <div id="register-error" class="form-error mb-3" role="alert"></div>
+          <button class="btn btn-primary" type="submit">Create account</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <div id="toast-area" class="toast-container position-fixed bottom-0 end-0 p-3" aria-live="polite"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <script type="module" src="js/script.js"></script>
+</body>
+</html>

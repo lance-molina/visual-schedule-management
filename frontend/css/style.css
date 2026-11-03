@@ -1,0 +1,246 @@
+/* =====================================================================
+   Visual Schedule: design tokens and shared styles
+   Palette: soft blue, green and yellow for colour, with darker values for text on colour
+   (WCAG 2.2 AA as the reference). Re-check every pair with a contrast checker after any colour change.
+   ===================================================================== */
+
+:root {
+  /* Colour */
+  --color-brand-blue: #4A90D9;      /* decorative, borders, icons; NOT for white text */
+  --color-action: #2B6CB0;          /* primary buttons, links, active nav (white text) */
+  --color-done: #7ED321;            /* success, with a check icon; dark text */
+  --color-now: #F5A623;             /* attention, with the word Now; dark text */
+  --color-text: #1F2937;
+  --color-muted: #4B5563;
+  --color-bg: #F7F8FA;
+  --color-surface: #FFFFFF;
+  --color-border: #D1D5DB;
+  --color-error: #B42318;           /* always with an icon and words */
+  --color-selected: #E8F1FB;
+
+  /* Category accents (always shown with the category word too) */
+  --cat-hygiene: #2B6CB0;
+  --cat-food: #B45309;
+  --cat-school: #6B46C1;
+  --cat-play: #2F855A;
+
+  /* Type: root size changes with the settings classes below; everything else uses rem */
+  --font-stack: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --line-height: 1.5;
+
+  /* Spacing and shape */
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
+  --space-5: 24px; --space-6: 32px; --space-7: 48px;
+  --radius: 12px;
+  --shadow: 0 1px 3px rgba(0, 0, 0, .12);
+
+  /* Targets */
+  --target-min: 44px;               /* touch targets are at least 44x44 px */
+  --target-child: 64px;             /* child view */
+  --input-height: 48px;
+  --focus-ring: 0 0 0 3px #fff, 0 0 0 6px var(--color-action);
+}
+
+/* ---- Settings: font size (S / M / L) set on <html> by applySettings() ---- */
+html { font-size: 18px; }                 /* M (default); never below 16px */
+html.fs-S { font-size: 16px; }
+html.fs-L { font-size: 20px; }
+
+/* ---- Settings: high contrast set on <html> by applySettings() ---- */
+html.contrast-high {
+  --color-text: #000000;
+  --color-muted: #000000;
+  --color-bg: #FFFFFF;
+  --color-border: #000000;
+  --color-action: #1E4E8C;
+  --color-selected: #FFFFFF;
+}
+html.contrast-high .card,
+html.contrast-high .form-control,
+html.contrast-high .form-select,
+html.contrast-high .timeline-item,
+html.contrast-high .activity-card,
+html.contrast-high .task-chip { border: 2px solid #000; box-shadow: none; }
+html.contrast-high .text-muted { color: #000 !important; }
+html.contrast-high .timeline-item.selected { outline: 4px solid #000; }
+
+body {
+  font-family: var(--font-stack);
+  line-height: var(--line-height);
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+/* ---- Accessibility basics ---- */
+.skip-link {
+  position: absolute; left: -999px; top: 0;
+  background: var(--color-surface); padding: var(--space-3); z-index: 2000;
+}
+.skip-link:focus { left: var(--space-3); top: var(--space-3); }
+
+:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+main:focus { outline: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+
+/* Flexible images */
+img { max-width: 100%; height: auto; }
+
+/* ---- Components ---- */
+.btn, .form-control, .form-select { border-radius: var(--radius); }
+.btn { min-height: var(--target-min); min-width: var(--target-min); }
+.form-control, .form-select { min-height: var(--input-height); }
+.card { border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--color-border); }
+.text-muted { color: var(--color-muted) !important; }
+
+.btn-primary { --bs-btn-bg: var(--color-action); --bs-btn-border-color: var(--color-action);
+               --bs-btn-hover-bg: #235a96; --bs-btn-hover-border-color: #235a96;
+               --bs-btn-active-bg: #1d4d82; --bs-btn-active-border-color: #1d4d82; }
+.btn-outline-primary { --bs-btn-color: var(--color-action); --bs-btn-border-color: var(--color-action);
+                       --bs-btn-hover-bg: var(--color-action); --bs-btn-hover-border-color: var(--color-action);
+                       --bs-btn-active-bg: var(--color-action); }
+.btn-success { --bs-btn-bg: var(--color-done); --bs-btn-border-color: var(--color-done); --bs-btn-color: var(--color-text);
+               --bs-btn-hover-bg: #6dbd1c; --bs-btn-hover-border-color: #6dbd1c; --bs-btn-hover-color: var(--color-text);
+               --bs-btn-active-bg: #5fa818; --bs-btn-active-color: var(--color-text);
+               --bs-btn-disabled-bg: var(--color-done); --bs-btn-disabled-color: var(--color-text); }
+.btn-warning { --bs-btn-bg: var(--color-now);  --bs-btn-border-color: var(--color-now);  --bs-btn-color: var(--color-text); }
+a { color: var(--color-action); }
+.navbar-brand { color: var(--color-text); }
+.navbar .nav-link { white-space: nowrap; }
+.user-icon { display: none; }
+@media (min-width: 1200px) and (max-width: 1399.98px) {
+  .user-icon { display: inline-block; }
+  .user-name-text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+}
+.nav-link.active { font-weight: 600; color: var(--color-action) !important; border-bottom: 3px solid var(--color-action); }
+@media (max-width: 1199.98px) { .nav-link.active { border-bottom: 0; border-left: 4px solid var(--color-action); padding-left: .5rem; } }
+
+.field-error, .form-error { color: var(--color-error); font-size: .875rem; margin-top: var(--space-1); }
+.form-error:empty { display: none; }
+.form-control.is-invalid, .form-select.is-invalid { border-color: var(--color-error); background-image: none; padding-right: .75rem; }
+.error-banner { color: var(--color-error); border: 1px solid var(--color-error); background: #fff; border-radius: var(--radius); padding: var(--space-3) var(--space-4); }
+
+/* ---- Toasts (icon and words, never colour alone) ---- */
+.app-toast { background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); border-left-width: 6px;
+             border-radius: var(--radius); box-shadow: 0 4px 12px rgba(0, 0, 0, .18); padding: var(--space-3) var(--space-4); margin-top: var(--space-2); max-width: 360px; }
+.app-toast-success { border-left-color: var(--color-done); }
+.app-toast-error { border-left-color: var(--color-error); }
+
+/* ---- Avatars ---- */
+.avatar { display: inline-flex; align-items: center; justify-content: center; width: 3rem; height: 3rem; border-radius: 50%;
+          background: var(--color-selected); color: var(--color-action); font-size: 1.4rem; flex: none; border: 2px solid var(--color-border); }
+.avatar-lg { width: 4rem; height: 4rem; font-size: 1.9rem; }
+.avatar-picker { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.avatar-picker input { position: absolute; opacity: 0; pointer-events: none; }
+.avatar-picker label { cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: var(--space-2);
+                       border: 2px solid var(--color-border); border-radius: var(--radius); min-width: 4.2rem; font-size: .8rem; background: var(--color-surface); }
+.avatar-picker input:checked + label { border-color: var(--color-action); background: var(--color-selected); font-weight: 600; }
+.avatar-picker input:focus-visible + label { box-shadow: var(--focus-ring); }
+.avatar-picker label .fa-solid { font-size: 1.4rem; }
+
+/* ---- Dashboard ---- */
+.stat-card .stat-number { font-size: 2rem; font-weight: 700; line-height: 1.1; }
+.child-card .child-meta { color: var(--color-muted); font-size: .9rem; }
+.child-card-head { display: flex; align-items: flex-start; gap: var(--space-3); }
+.child-card-title { flex: 1 1 auto; min-width: 0; align-self: center; }
+.child-card-title h3 { overflow-wrap: anywhere; }
+.child-card-tools { display: flex; gap: var(--space-2); flex: none; }
+.child-notes { margin: var(--space-3) 0 0; font-size: .9rem; color: var(--color-muted); overflow-wrap: anywhere; }
+/* Three equal links on one row, pinned to the bottom so every card in a row lines up. */
+.child-actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2); margin-top: auto; padding-top: var(--space-3); }
+/* Icon over label: three equal tiles that fit at any card width without wrapping. */
+.child-actions .btn { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; padding: .35rem .25rem; line-height: 1.2; text-align: center; }
+.child-actions .btn .fa-solid { font-size: 1.1rem; }
+
+/* ---- Schedule creator ---- */
+/* Child, date and the two buttons share one baseline and one height; they wrap as a group on narrow screens. */
+.creator-toolbar { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--space-3) var(--space-4); margin-bottom: var(--space-4); }
+.creator-toolbar .toolbar-field { min-width: 0; }
+.creator-toolbar .toolbar-child { flex: 1 1 12rem; max-width: 18rem; }
+.creator-toolbar .toolbar-date { flex: 1 1 10rem; max-width: 13rem; }
+.creator-toolbar .form-label { margin-bottom: var(--space-1); }
+.creator-toolbar .toolbar-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+.creator-toolbar .btn, .creator-toolbar .form-control, .creator-toolbar .form-select { height: var(--input-height); }
+/* One fixed-height heading row per panel, so the three panel titles and their content start level
+   whether or not the Delete schedule button is showing. */
+.panel-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); min-height: var(--target-min); margin-bottom: var(--space-2); }
+.panel-head h2 { margin: 0; }
+.chip-row { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-3); }
+.chip { border: 1px solid var(--color-border); background: var(--color-surface); border-radius: 999px; padding: .25rem .9rem; min-height: var(--target-min); }
+.chip[aria-pressed="true"] { background: var(--color-action); border-color: var(--color-action); color: #fff; font-weight: 600; }
+
+.activity-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 12.5rem), 1fr)); gap: var(--space-2); }
+.activity-card { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-2) var(--space-3); background: var(--color-surface);
+                 border: 1px solid var(--color-border); border-left: 6px solid var(--cat-hygiene); border-radius: var(--radius); cursor: grab; }
+.activity-card .activity-icon { font-size: 1.4rem; width: 1.75rem; flex: none; text-align: center; }
+.activity-card .activity-text { flex: 1; min-width: 0; line-height: 1.2; }
+.activity-card .activity-name { display: block; font-weight: 600; font-size: .95rem; overflow-wrap: anywhere; }
+.activity-card .activity-add { flex: none; }
+.activity-card .activity-cat { font-size: .8rem; color: var(--color-muted); }
+.cat-hygiene { border-left-color: var(--cat-hygiene) !important; }
+.cat-food { border-left-color: var(--cat-food) !important; }
+.cat-school { border-left-color: var(--cat-school) !important; }
+.cat-play { border-left-color: var(--cat-play) !important; }
+
+.timeline { list-style: none; padding: 0; margin: 0; min-height: 5rem; }
+.timeline-item { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-2); margin-bottom: var(--space-2); background: var(--color-surface);
+                 border: 1px solid var(--color-border); border-left: 6px solid var(--cat-hygiene); border-radius: var(--radius); }
+.timeline-item.selected { background: var(--color-selected); outline: 2px solid var(--color-action); }
+.timeline-item .position { font-weight: 700; width: 1.6rem; text-align: center; flex: none; }
+.timeline-item .drag-handle { cursor: grab; color: var(--color-muted); padding: 0 var(--space-1); flex: none; }
+.timeline-item .timeline-main { flex: 1; min-width: 0; text-align: left; background: none; border: 0; padding: var(--space-1); border-radius: var(--radius); color: inherit; }
+.timeline-item .timeline-main .task-name-line { font-weight: 600; display: block; }
+.timeline-item .timeline-main .task-sub-line { font-size: .85rem; color: var(--color-muted); display: block; }
+.timeline-item .timeline-actions { display: flex; gap: var(--space-1); flex: none; }
+.timeline-item .warn { font-size: .8rem; color: #8A4B00; display: block; }
+.timeline.drop-hint, .sortable-ghost { opacity: .5; }
+.badge-unsaved { background: #FFF4D6; color: #6B4600; border: 1px solid var(--color-now); border-radius: 999px; padding: .2rem .7rem; font-size: .85rem; }
+
+/* ---- Task chips: strip in the child view and preview ---- */
+.task-strip { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-2); }
+.task-chip { display: grid; grid-template-columns: 2.5rem 1fr auto; grid-template-areas: "icon name state" "icon time state"; gap: 0 var(--space-3);
+             align-items: center; padding: var(--space-3) var(--space-4); background: var(--color-surface); border: 1px solid var(--color-border);
+             border-radius: var(--radius); }
+.task-chip-icon { grid-area: icon; font-size: 1.6rem; text-align: center; }
+.task-chip-name { grid-area: name; font-size: 1.25rem; font-weight: 600; }
+.task-chip-time { grid-area: time; color: var(--color-muted); font-size: .9rem; }
+.task-chip-state { grid-area: state; font-weight: 600; white-space: nowrap; }
+/* Task state vocabulary: done = check + green, now = ring + the word Now, later = grey + clock */
+.task-done  { border-left: 8px solid var(--color-done); }
+.task-now   { border: 3px solid var(--color-now); background: #FFF9EC; }
+.task-later { color: var(--color-muted); border-left: 8px solid var(--color-border); }
+
+/* ---- Child view ---- */
+body[data-page="child-view"] { background: #FBFCFD; }
+.child-view .cv-header { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-4); }
+.child-view .cv-name { font-size: 1.5rem; font-weight: 700; margin: 0; }
+.child-view .cv-date { color: var(--color-muted); margin: 0; }
+.now-card { background: var(--color-surface); border: 3px solid var(--color-now); border-radius: 24px; padding: var(--space-5); text-align: center; box-shadow: var(--shadow); }
+.btn-child { min-height: var(--target-child); min-width: 220px; font-size: 1.5rem; }
+.task-icon { font-size: max(96px, 6rem); line-height: 1.1; }   /* icons at least 96px at every text size */
+.task-name { font-size: 1.75rem; font-weight: 700; margin: var(--space-2) 0; }   /* task names at least 24px */
+.task-time { font-size: 1.25rem; color: var(--color-muted); }
+.state-card { background: var(--color-surface); border: 2px solid var(--color-border); border-radius: 24px; padding: var(--space-6) var(--space-4); text-align: center; }
+.state-card .big-check { font-size: 5rem; color: #2F7D1F; }
+.undo-bar { position: fixed; left: 0; right: 0; bottom: 0; background: var(--color-surface); border-top: 3px solid var(--color-action); padding: var(--space-3) var(--space-4);
+            display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; justify-content: center; z-index: 1030; }
+.undo-bar .btn { min-height: var(--target-child); font-size: 1.25rem; }
+.child-view.has-undo { padding-bottom: 7rem; }
+.picker-list { list-style: none; padding: 0; display: grid; gap: var(--space-3); }
+.picker-list a { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4); background: var(--color-surface); border: 2px solid var(--color-border);
+                 border-radius: var(--radius); text-decoration: none; font-size: 1.5rem; font-weight: 600; color: var(--color-text); min-height: var(--target-child); }
+
+/* ---- Progress ---- */
+.chart-wrap { position: relative; height: 280px; }
+.range-group .btn { min-width: 5.5rem; }
+.range-group .btn[aria-pressed="true"] { background: var(--color-action); border-color: var(--color-action); color: #fff; font-weight: 600; }
+.metric .metric-number { font-size: 2rem; font-weight: 700; line-height: 1.1; }
+
+/* ---- Responsive: main breakpoint is 768px ---- */
+@media (max-width: 768px) {
+  main.container { padding-left: var(--space-4); padding-right: var(--space-4); }
+  .btn-child { width: 100%; }
+}
+.state-card .big-icon { font-size: 4rem; color: var(--color-muted); }
