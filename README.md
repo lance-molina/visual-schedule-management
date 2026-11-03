@@ -19,7 +19,7 @@ One section = one team of 10 students. Only the team leader (release manager) su
 
 | # | Name | GitHub handle | Main role |
 |---|------|---------------|-----------|
-| 1 | Molina, David Hans Lancelotte M. | @lance-molina | Team leader and release manager |
+| 1 | Molina, David Hans Lancelotte M. | [@lance-molina](https://github.com/lance-molina) | Team leader and release manager |
 | 2 | TODO | TODO | TODO |
 | 3 | TODO | TODO | TODO |
 | 4 | TODO | TODO | TODO |
