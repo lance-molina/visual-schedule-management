@@ -1,0 +1,2 @@
+# Keep Windows batch files with Windows line endings so double-clicking them works after a clone.
+*.bat text eol=crlf
