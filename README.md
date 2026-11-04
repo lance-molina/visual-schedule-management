@@ -170,7 +170,7 @@ the frontend address, set `API_BASE_URL` in `frontend/js/config.js`, and do **no
 - **Tests ran on SQLite only.** MySQL (CHECK constraints, ENUM columns, collation) is untested until someone runs `schema.sql`
   and `pytest` with `TEST_DATABASE_URL` on a clean MySQL.
 - **Reminders and notification switches are stored but no notification is ever sent.**
-- **Filipino covers the menu, settings, child view and main labels only**, and the wording was written by us and needs a native-speaker check.
+- **Filipino covers the menu, settings, child view and main labels only**, and the wording was written by us.
 - **No photo upload.** A child's picture is one of eight preset avatars.
 - **No password reset or change.** A forgotten password means a new account (or a database edit).
 - **Roles do not change permissions.** Caregivers, therapists and teachers each see only their own children; there is no sharing between adults.
