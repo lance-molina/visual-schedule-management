@@ -64,7 +64,7 @@ The seeded data uses invented names only. Take screenshots with the demo account
 
 ```bash
 # 1. Clone
-git clone <REPO_URL>
+git clone [<REPO_URL>](https://github.com/lance-molina/visual-schedule-management/edit/main/README.md)
 cd visual-schedule-system
 
 # 2. Backend environment
