@@ -15,8 +15,6 @@ Course project for **Modeling and Simulation** (Finals Activity).
 
 ## 1. Team and roles
 
-One section = one team of 10 students. Only the team leader (release manager) submits.
-
 | # | Name | GitHub handle | Main role |
 |---|------|---------------|-----------|
 | 1 | Molina, David Hans Lancelotte M. | [@lance-molina](https://github.com/lance-molina) | Team leader and release manager |
