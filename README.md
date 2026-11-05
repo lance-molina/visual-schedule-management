@@ -20,15 +20,15 @@ Course project for **Modeling and Simulation** (Finals Activity).
 | # | Name | GitHub handle | Main role |
 |---|------|---------------|-----------|
 | 1 | Molina, David Hans Lancelotte M. | [@lance-molina](https://github.com/lance-molina) | Team leader and release manager |
-| 2 | TODO | TODO | TODO |
-| 3 | TODO | TODO | TODO |
-| 4 | TODO | TODO | TODO |
-| 5 | TODO | TODO | TODO |
-| 6 | TODO | TODO | TODO |
-| 7 | TODO | TODO | TODO |
-| 8 | TODO | TODO | TODO |
-| 9 | TODO | TODO | TODO |
-| 10 | TODO | TODO | TODO |
+| 2 | Garciano, Ryza Vanna | TODO | TODO |
+| 3 | Gumamit, Clarence Jasper | TODO | TODO |
+| 4 | Lagarde, Fitch Gerard | TODO | TODO |
+| 5 | Lopez, Zarah | TODO | TODO |
+| 6 | Manzano, Reniel Nico | [@CodeCoderGuy](https://github.com/CodeCoderGuy) | TODO |
+| 7 | Montaniel, Arman | TODO | TODO |
+| 8 | Paaño, Robert Julien | [@trebsil](https://github.com/trebsil) | TODO |
+| 9 | Pagtakhan, Jaden Emsley | TODO | TODO |
+| 10 | Pecson, Rovin Karl | [@Chewywywy](https://github.com/Chewywywy) | TODO |
 
 ## 2. Features
 
