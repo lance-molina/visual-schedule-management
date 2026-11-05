@@ -1,7 +1,7 @@
 # Web-Based Visual Schedule and Task Management System
 
 > **Status: all planned features are built and pass the automated checks on SQLite** (124 backend tests, a 43-request
-> Postman run). Still to do as a team: run the tests once against MySQL, the usability study,
+> Postman run). Still to do as a team: run the tests once against MySQL,
 > the paper, the manual, the deployment and the demo video. See [Known limitations](#12-known-limitations).
 
 A full-stack web application that helps children with developmental delays follow
@@ -10,6 +10,8 @@ visual schedules and finish daily activities. It supports three kinds of adult u
 schedules, and a calm, large-target child view for completing tasks.
 
 Course project for **Modeling and Simulation** (Finals Activity).
+
+**Demo video:** TODO paste the link here (unlisted YouTube or Google Drive, "anyone with the link" can view)
 
 ---
 
@@ -61,6 +63,8 @@ The seeded data uses invented names only. Take screenshots with the demo account
 - Git
 
 ## 5. Setup
+
+> **New to Git or GitHub?** Follow [`docs/getting-started.md`](docs/getting-started.md): it covers installing everything, cloning, and running the app with one double-click (`run-local.bat`).
 
 ```bash
 # 1. Clone
@@ -152,7 +156,7 @@ pull request as any route change.
 ```text
 visual-schedule-system/
 |-- README.md  .gitignore
-|-- docs/               API, ERD, deployment plan, design decisions, paper, manual, usability, screenshots
+|-- docs/               API, ERD, deployment plan, design decisions, paper, manual, screenshots
 |-- frontend/           6 pages, css/style.css, js/ (one script per page + shared files)
 |-- backend/            Flask app, models, routes, services (progress maths), utils, database/, tests/
 `-- postman/            API collection with assertions
@@ -177,7 +181,7 @@ the frontend address, set `API_BASE_URL` in `frontend/js/config.js`, and do **no
 - **"Week" and "month" are rolling 7 and 30 days**, not calendar weeks and months.
 - **The token is kept in browser storage** (`localStorage`), which is simple but readable by any script on the page. The pages build all
   user text with `textContent` and load libraries with integrity hashes to limit that risk.
-- **The usability study, paper and user manual are not part of this code.** No usability or research result exists yet.
+- **The paper and user manual are not part of this code.** They are written as separate documents.
 
 ## 13. Privacy and data
 

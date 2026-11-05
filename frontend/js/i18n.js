@@ -1,7 +1,7 @@
 // i18n.js: English and Filipino strings for the navigation and the child view.
 // Scope: only these screens are translated; the adult pages stay in English (listed under Known limitations).
 // NOTE: the Filipino strings below were written without a native-speaker review. Have a fluent speaker
-// check them BEFORE the usability sessions and record who reviewed them.
+// check them before the demo and record who reviewed them.
 
 export const STRINGS = {
   en: {
