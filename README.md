@@ -23,11 +23,11 @@ Course project for **Modeling and Simulation** (Finals Activity).
 | 2 | Garciano, Ryza Vanna | [@ryzavanna](https://github.com/ryzavanna) | TODO |
 | 3 | Gumamit, Clarence Jasper | TODO | TODO |
 | 4 | Lagarde, Fitch Gerard | TODO | TODO |
-| 5 | Lopez, Zarah | TODO | TODO |
+| 5 | Lopez, Zarah | [@ZH-ZaraH](https://github.com/ZH-ZaraH) | TODO |
 | 6 | Manzano, Reniel Nico | [@CodeCoderGuy](https://github.com/CodeCoderGuy) | TODO |
 | 7 | Montaniel, Arman | [@joshuaa999](https://github.com/joshuaa999) | TODO |
 | 8 | Paaño, Robert Julien | [@trebsil](https://github.com/trebsil) | TODO |
-| 9 | Pagtakhan, Jaden Emsley | TODO | TODO |
+| 9 | Pagtakhan, Jaden Emsley | [@jadennn20](https://github.com/jadennn20) | TODO |
 | 10 | Pecson, Rovin Karl | [@Chewywywy](https://github.com/Chewywywy) | TODO |
 
 ## 2. Features
