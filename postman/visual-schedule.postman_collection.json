@@ -42,6 +42,10 @@
       "value": ""
     },
     {
+      "key": "photoCardId",
+      "value": ""
+    },
+    {
       "key": "scheduleDate",
       "value": ""
     },
@@ -1066,6 +1070,84 @@
           ]
         },
         {
+          "name": "POST card with photo and Filipino word",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/cards",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"label\": \"Banana\",\n  \"category\": \"Food\",\n  \"icon\": \"fa-carrot\",\n  \"label_fil\": \"Saging\",\n  \"image\": \"data:image/jpeg;base64,/9j/4DAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDD/2Q==\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 201', () => pm.response.to.have.status(201));",
+                  "const c = pm.response.json();",
+                  "pm.collectionVariables.set('photoCardId', c.id);",
+                  "pm.test('photo and Filipino word returned', () => { pm.expect(c.label_fil).to.eql('Saging'); pm.expect(c.image).to.include('data:image/jpeg;base64,'); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST card (picture that is not a JPEG gives 400)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/cards",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"label\": \"Bad\",\n  \"category\": \"Food\",\n  \"icon\": \"fa-carrot\",\n  \"image\": \"data:image/png;base64,AAAA\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 400', () => pm.response.to.have.status(400));",
+                  "pm.test('image field named', () => pm.expect(Object.keys(pm.response.json().error.fields)).to.include('image'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "DELETE photo card",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/cards/{{photoCardId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 204', () => pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ]
+        },
+        {
           "name": "DELETE card again (404)",
           "request": {
             "method": "DELETE",
@@ -1143,6 +1225,35 @@
                 "exec": [
                   "pm.test('status is 400', () => pm.response.to.have.status(400));",
                   "pm.test('bad fields listed', () => pm.expect(Object.keys(pm.response.json().error.fields)).to.include.members(['text','lang']));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST speech (rate out of range gives 400)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/speech",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"Water\",\n  \"lang\": \"en\",\n  \"rate\": 5\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 400', () => pm.response.to.have.status(400));",
+                  "pm.test('rate field named', () => pm.expect(Object.keys(pm.response.json().error.fields)).to.include('rate'));"
                 ]
               }
             }

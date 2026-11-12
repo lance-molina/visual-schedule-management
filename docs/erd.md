@@ -46,7 +46,9 @@ erDiagram
         int user_id FK
         varchar label "spoken word, up to 30"
         varchar category "up to 30"
+        varchar label_fil "optional Filipino word, up to 30"
         varchar icon "preset Font Awesome icon"
+        mediumtext image "optional small JPEG data URL"
         datetime created_at
     }
     TASKS {

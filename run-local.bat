@@ -12,7 +12,7 @@ python database/seed.py --create-tables
 start "API (port 5000) - close this window to stop" cmd /k python -m flask --app app run
 
 cd /d "%~dp0frontend"
-start "Website (port 5500) - close this window to stop" cmd /k python -m http.server 5500
+start "Website (port 5500) - close this window to stop" cmd /k python serve.py 5500
 
 timeout /t 4 >nul
 start http://127.0.0.1:5500

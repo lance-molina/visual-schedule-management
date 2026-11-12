@@ -2,6 +2,7 @@
 // Rule: build DOM with createElement/textContent (the h() helper below). Never put user-supplied text
 // into innerHTML.
 
+import { localizedName } from "./activities.js";
 import { t } from "./i18n.js";
 
 // ------------------------------------------------------------------ DOM helpers
@@ -169,7 +170,7 @@ export function renderTaskCard(task, { state = "later", lang = "en" } = {}) {
   const stateIcon = state === "done" ? "fa-circle-check" : state === "now" ? "fa-circle-dot" : "fa-clock";
   return h("li", { class: `task-chip task-${state}`, ...(state === "now" ? { "aria-current": "step" } : {}) },
     h("span", { class: "task-chip-icon" }, icon(task.icon)),
-    h("span", { class: "task-chip-name" }, task.name),
+    h("span", { class: "task-chip-name" }, localizedName(task.name, lang)),
     h("span", { class: "task-chip-time" }, formatTime12(task.time)),
     h("span", { class: "task-chip-state" }, icon(stateIcon, "me-1"), t(state, lang)));
 }

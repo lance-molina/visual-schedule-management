@@ -4,6 +4,8 @@ Every validate_* function returns cleaned data, or raises
 ApiError(400, "validation_error", "Invalid input", fields) where `fields` maps field name -> message.
 Unknown keys in a request body are ignored.
 """
+import base64
+import binascii
 import datetime as dt
 import re
 
@@ -32,11 +34,16 @@ LIMITS = {
     "card_label_max": 30,
     "card_category_max": 30,
     "cards_per_user_max": 100,
+    "card_photos_per_user_max": 30,
+    "card_image_max_chars": 60000,   # about 45 KB of JPEG; the browser shrinks photos to fit
+    "speech_rate_min": 0.5,
+    "speech_rate_max": 1.4,
 }
 
 _EMAIL = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 _DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 _TIME = re.compile(r"^([01]\d|2[0-3]):[0-5]\d$")
+_IMAGE_PREFIX = "data:image/jpeg;base64,"
 _ICON = re.compile(r"^fa-[a-z0-9-]{1,45}$")          # a Font Awesome class name, nothing else
 _AVATAR = re.compile(r"^[a-z0-9_-]{1,50}$")          # a preset avatar id, never a URL
 _MIN_DATE, _MAX_DATE = dt.date(2000, 1, 1), dt.date(2100, 12, 31)
@@ -362,6 +369,42 @@ def validate_card(data):
     _str(data, "label", fields, out, max_len=LIMITS["card_label_max"])
     _str(data, "category", fields, out, max_len=LIMITS["card_category_max"])
     _choice(data, "icon", fields, out, options=CARD_ICONS)
+    _str(data, "label_fil", fields, out, max_len=LIMITS["card_label_max"], required=False, nullable=True)
+    _card_image(data, fields, out)
     if fields:
         _fail(fields)
     return out
+
+
+def _card_image(data, fields, out):
+    """Optional photo. Only a small JPEG data URL is accepted: the prefix, the size, valid base64 and the JPEG
+    signature are all checked, so nothing else can be stored or later rendered as an image source."""
+    value = data.get("image")
+    if value is None or value == "":
+        out["image"] = None
+        return
+    if not isinstance(value, str) or not value.startswith(_IMAGE_PREFIX):
+        fields["image"] = "Must be a JPEG picture"
+        return
+    if len(value) > LIMITS["card_image_max_chars"]:
+        fields["image"] = "The picture is too big; use a smaller one"
+        return
+    try:
+        raw = base64.b64decode(value[len(_IMAGE_PREFIX):], validate=True)
+    except (binascii.Error, ValueError):
+        fields["image"] = "Must be a JPEG picture"
+        return
+    if not raw.startswith(b"\xff\xd8\xff"):
+        fields["image"] = "Must be a JPEG picture"
+        return
+    out["image"] = value
+
+
+def validate_speech_rate(value):
+    """Speech speed as a multiplier (1 = normal). Missing means the default slightly slow speed."""
+    if value is None:
+        return 0.85
+    lo, hi = LIMITS["speech_rate_min"], LIMITS["speech_rate_max"]
+    if isinstance(value, bool) or not isinstance(value, (int, float)) or not lo <= value <= hi:
+        _fail({"rate": f"A number from {lo} to {hi}"})
+    return round(float(value), 2)

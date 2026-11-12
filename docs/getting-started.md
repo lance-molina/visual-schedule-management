@@ -88,6 +88,12 @@ python -m pip install -r backend\requirements.txt
 This downloads Flask and the other libraries. It takes a minute or two. Red text that is only a warning about
 `pip` being out of date is fine.
 
+### 1b. If you already ran an earlier version
+
+The local demo keeps its data in a small file, `backend\instance\local.db`. When the database layout changes (v2b added two columns to the talking-board cards), starting the app with `run-local.bat` adds the missing columns for you and keeps your data. Symptom if that did not happen: the Talking board page shows "Something went wrong" and the browser console shows `GET /api/cards ... 500`. Fix: close the app, delete `backend\instance\local.db`, and start it again (you lose only the demo data).
+
+Also run `python -m pip install -r backend\requirements.txt` again so any new packages are installed.
+
 ### 2. Start everything
 
 Double-click **`run-local.bat`** in the project folder (or run `.\run-local.bat` in PowerShell).
@@ -129,7 +135,7 @@ python -m flask --app app run
 Window 2 (website):
 ```powershell
 cd frontend
-python -m http.server 5500
+python serve.py 5500
 ```
 Then open http://127.0.0.1:5500.
 

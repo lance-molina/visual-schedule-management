@@ -42,6 +42,11 @@
         <div class="mb-3"><label class="form-label" for="set-contrast">Contrast</label>
           <select class="form-select" id="set-contrast"><option value="normal" selected>Normal</option><option value="high">High</option></select></div>
         <div class="form-check form-switch mb-2"><input class="form-check-input" id="set-sound" type="checkbox" role="switch"><label class="form-check-label" for="set-sound">Play a soft sound when a task is done</label></div>
+        <div class="mb-2"><label class="form-label" for="set-voice-rate">Speaking speed: <output id="voice-rate-out">0.85</output>x</label>
+          <input class="form-range" id="set-voice-rate" type="range" min="0.5" max="1.4" step="0.05" value="0.85" aria-describedby="voice-rate-help">
+          <div class="form-text" id="voice-rate-help">How fast the talking board and the spoken messages speak. This is saved on this device only.</div>
+          <button class="btn btn-outline-primary btn-sm mt-1" id="voice-test" type="button"><i class="fa-solid fa-volume-high me-1" aria-hidden="true"></i>Test voice</button>
+          <span id="voice-note" class="small text-muted ms-2" role="status" aria-live="polite"></span></div>
       </fieldset></div>
 
       <div class="card p-3 mb-4"><fieldset><legend class="h5">Language</legend>

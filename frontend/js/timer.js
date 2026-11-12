@@ -13,8 +13,8 @@ const mmss = (ms) => {
   return `${String(Math.floor(total / 60)).padStart(2, "0")}:${String(total % 60).padStart(2, "0")}`;
 };
 
-/** Returns { el, dispose }. `minutes` is the task's duration; `onStatus(text)` lets the page announce key moments. */
-export function createTimer({ minutes, lang = "en", onStatus = () => {} }) {
+/** Returns { el, dispose }. `minutes` is the task's duration; `onStatus(text)` lets the page announce key moments; `onAlert("almost" | "up")` lets the page speak them. */
+export function createTimer({ minutes, lang = "en", onStatus = () => {}, onAlert = () => {} }) {
   const total = minutes * 60000;
   const warnAt = Math.min(WARN_MS, total * 0.2);
   let remaining = total, endAt = null, interval = null, warned = false, lastShown = "";
@@ -50,12 +50,14 @@ export function createTimer({ minutes, lang = "en", onStatus = () => {} }) {
       warned = true;
       setStatus(t("timer_almost", lang));
       playChime();
+      onAlert("almost");
     }
     draw();
     if (remaining === 0) {
       stop();
       setStatus(t("timer_up", lang));
       playChime();
+      onAlert("up");
       pauseBtn.hidden = true;
     }
   }

@@ -2,6 +2,7 @@
 // Text size and contrast preview instantly; they persist (database plus local cache) on Save.
 
 import { auth } from "./api.js";
+import { getVoiceRate, setVoiceRate, speak } from "./speech.js";
 import { applyFieldErrors, clearFieldErrors, icon, setBusy } from "./components.js";
 import { applySettings, cacheSettings, getCachedSettings, initPage, showToast } from "./script.js";
 
@@ -20,7 +21,30 @@ function fill(user) {
   $("set-notify-daily").checked = s.notify_daily;
   $("set-notify-task").checked = s.notify_task;
   $("set-notify-weekly").checked = s.notify_weekly;
+  $("set-voice-rate").value = getVoiceRate();
+  showRate();
 }
+
+function showRate() { $("voice-rate-out").textContent = Number($("set-voice-rate").value).toFixed(2).replace(/0$/, ""); }
+$("set-voice-rate").addEventListener("input", showRate);
+
+// Says a short sample at the slider's speed and tells the user what happened, so the button never seems dead.
+async function testVoice() {
+  const lang = $("set-language").value;
+  const rate = Number($("set-voice-rate").value);
+  $("voice-note").textContent = "Speaking...";
+  const how = await speak(lang === "fil" ? "Gusto ko ng tubig at mansanas." : "I want water and apple.", lang, rate);
+  $("voice-note").textContent = how === "online" ? "Online voice."
+    : how === "browser" ? "This device's own voice (the online voice is not available)."
+    : "No voice is available on this device.";
+}
+$("voice-test").addEventListener("click", testVoice);
+
+// Releasing the slider saves the speed right away (this device only) and plays the sample, so the change is heard.
+$("set-voice-rate").addEventListener("change", () => {
+  setVoiceRate(Number($("set-voice-rate").value));
+  testVoice();
+});
 
 function readSettings() {
   return {
@@ -52,6 +76,7 @@ form.addEventListener("submit", async (event) => {
   if (!email) problems.email = "Enter your email";
   else if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) problems.email = "Enter a valid email address";
   if (Object.keys(problems).length) { applyFieldErrors(form, problems); return; }
+  setVoiceRate(Number($("set-voice-rate").value));            // this device only; the other settings go to the server below
 
   const button = $("settings-save");
   setBusy(button, true);

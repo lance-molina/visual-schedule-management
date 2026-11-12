@@ -43,8 +43,10 @@ CREATE TABLE IF NOT EXISTS board_cards (
   id          INT UNSIGNED NOT NULL AUTO_INCREMENT,
   user_id     INT UNSIGNED NOT NULL,
   label       VARCHAR(30) NOT NULL,                     -- the word that is spoken
+  label_fil   VARCHAR(30) NULL,                         -- optional Filipino word, spoken when the language is Filipino
   category    VARCHAR(30) NOT NULL,                     -- Food, Emotions, Activities or a name the adult chose
   icon        VARCHAR(40) NOT NULL,                     -- one preset Font Awesome class, e.g. fa-droplet (the API only accepts the preset list)
+  image       MEDIUMTEXT NULL,                          -- optional photo: a small JPEG data URL (the API checks prefix, size and JPEG signature)
   created_at  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   KEY idx_board_cards_user (user_id),

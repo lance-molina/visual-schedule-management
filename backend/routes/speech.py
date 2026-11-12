@@ -1,6 +1,6 @@
 """Speech route. Signed-in users only; the text is validated and capped so the endpoint cannot be used as a free relay.
 
-POST /api/speech   {"text": "I want water", "lang": "en" | "fil"}  ->  200 audio/mpeg
+POST /api/speech   {"text": "I want water", "lang": "en" | "fil", "rate": 0.5 to 1.4 (optional, default 0.85)}  ->  200 audio/mpeg
                    503 code "speech_unavailable" when the online voice cannot be reached (the page then uses the browser voice)
 """
 from flask import Blueprint, Response, current_app, request
@@ -8,7 +8,7 @@ from flask_jwt_extended import jwt_required
 
 from services import speech
 from utils.errors import ApiError
-from utils.validators import json_body
+from utils.validators import json_body, validate_speech_rate
 
 bp = Blueprint("speech", __name__)
 
@@ -28,12 +28,16 @@ def speak():
         fields["text"] = f"At most {MAX_CHARS} characters"
     if lang not in speech.VOICES:
         fields["lang"] = "Must be en or fil"
+    try:
+        rate = validate_speech_rate(data.get("rate"))
+    except ApiError as exc:
+        fields.update(exc.fields)
     if fields:
         raise ApiError(400, "validation_error", "Please fix the highlighted fields.", fields)
     if not current_app.config.get("TTS_ENABLED", True):
         raise ApiError(503, "speech_unavailable", "Online speech is switched off.")
     try:
-        audio = speech.synthesize(text.strip(), lang)
+        audio = speech.synthesize(text.strip(), lang, rate)
     except speech.SpeechUnavailable as exc:
         current_app.logger.warning("Online speech unavailable: %s", exc)
         raise ApiError(503, "speech_unavailable", "Online speech is not available right now.")

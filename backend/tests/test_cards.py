@@ -108,3 +108,73 @@ def test_a_user_can_keep_at_most_100_cards(client, user_a):
     res = client.post("/api/cards", json=card_payload(), headers=user_a["headers"])
     assert res.status_code == 409
     assert res.get_json()["error"]["code"] == "conflict"
+
+
+# ---------------------------------------------------------------- photo and Filipino word (v2b)
+
+import base64
+
+
+def jpeg_url(size=200):
+    """A tiny stand-in with the JPEG signature; the API checks prefix, size, base64 and signature only."""
+    raw = b"\xff\xd8\xff\xe0" + b"0" * size + b"\xff\xd9"
+    return "data:image/jpeg;base64," + base64.b64encode(raw).decode()
+
+
+def test_card_can_have_a_photo_and_a_filipino_word(client, user_a):
+    card = make_card(client, user_a, label_fil="  Gatas ", image=jpeg_url())
+    assert card["label_fil"] == "Gatas" and card["image"] == jpeg_url()
+    listed = client.get("/api/cards", headers=user_a["headers"]).get_json()["items"][0]
+    assert listed["image"] == jpeg_url() and listed["label_fil"] == "Gatas"
+
+
+def test_photo_and_filipino_word_are_optional(client, user_a):
+    card = make_card(client, user_a)
+    assert card["image"] is None and card["label_fil"] is None
+    card = make_card(client, user_a, label_fil="  ", image="")
+    assert card["image"] is None and card["label_fil"] is None
+
+
+@pytest.mark.parametrize("image", [
+    "http://example.com/x.jpg", "data:image/png;base64,AAAA", "data:image/jpeg;base64,not base64!!",
+    "data:text/html;base64,PHNjcmlwdD4=", 12, "javascript:alert(1)",
+    "data:image/jpeg;base64," + base64.b64encode(b"GIF89a-not-a-jpeg").decode(),     # wrong signature
+])
+def test_photo_must_be_a_jpeg_data_url(client, user_a, image):
+    res = client.post("/api/cards", json=card_payload(image=image), headers=user_a["headers"])
+    assert res.status_code == 400 and "image" in res.get_json()["error"]["fields"]
+
+
+def test_photo_over_the_size_limit_is_rejected(client, user_a):
+    res = client.post("/api/cards", json=card_payload(image=jpeg_url(size=60000)), headers=user_a["headers"])
+    assert res.status_code == 400 and "image" in res.get_json()["error"]["fields"]
+
+
+def test_filipino_word_too_long_is_rejected(client, user_a):
+    res = client.post("/api/cards", json=card_payload(label_fil="x" * 31), headers=user_a["headers"])
+    assert res.status_code == 400 and "label_fil" in res.get_json()["error"]["fields"]
+
+
+def test_put_replaces_photo_and_filipino_word_and_missing_means_cleared(client, user_a):
+    card = make_card(client, user_a, label_fil="Gatas", image=jpeg_url())
+    res = client.put(f"/api/cards/{card['id']}", json=card_payload(label_fil="Tubig"), headers=user_a["headers"])
+    assert res.status_code == 200
+    assert res.get_json()["label_fil"] == "Tubig" and res.get_json()["image"] is None
+
+
+def test_photo_cards_are_capped_at_30_per_user_but_plain_cards_are_not_counted(client, user_a, user_b):
+    for i in range(30):
+        make_card(client, user_a, label=f"P{i}", image=jpeg_url())
+    over = client.post("/api/cards", json=card_payload(image=jpeg_url()), headers=user_a["headers"])
+    assert over.status_code == 409
+    assert client.post("/api/cards", json=card_payload(), headers=user_a["headers"]).status_code == 201
+    assert client.post("/api/cards", json=card_payload(image=jpeg_url()), headers=user_b["headers"]).status_code == 201
+
+
+def test_adding_a_photo_through_put_also_respects_the_cap(client, user_a):
+    for i in range(30):
+        make_card(client, user_a, label=f"P{i}", image=jpeg_url())
+    plain = make_card(client, user_a, label="Plain")
+    res = client.put(f"/api/cards/{plain['id']}", json=card_payload(label="Plain", image=jpeg_url()),
+                     headers=user_a["headers"])
+    assert res.status_code == 409

@@ -3,7 +3,8 @@
     python database/seed.py                    add the demo accounts (does nothing if they already exist)
     python database/seed.py --reset            delete the demo accounts and everything under them, then re-add
     python database/seed.py --create-tables    also create the tables from the models (for a throw-away SQLite
-                                               file only; on MySQL run database/schema.sql instead)
+                                               file only; on MySQL run database/schema.sql instead). An existing
+                                               SQLite file also gets any columns added by newer versions.
 
 Demo accounts (all use the demo-only password printed below). NEVER run this against a database that real
 people use, and change or delete these accounts on any deployed copy.
@@ -21,6 +22,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import bcrypt  # noqa: E402
 
 from app import create_app  # noqa: E402
+from database.local_upgrade import add_missing_columns  # noqa: E402
 from extensions import db  # noqa: E402
 from models.child import Child  # noqa: E402
 from models.schedule import Schedule  # noqa: E402
@@ -113,6 +115,9 @@ def main():
     with app.app_context():
         if args.create_tables:
             db.create_all()
+            added = add_missing_columns(db.engine)      # an older local.db gets the new columns instead of failing
+            if added:
+                print("Upgraded the existing local database: added " + ", ".join(added))
         seed(app, reset=args.reset)
 
 

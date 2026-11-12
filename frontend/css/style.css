@@ -259,6 +259,16 @@ body[data-page="child-view"] { background: #FBFCFD; }
   background: var(--color-surface); border: 3px solid var(--color-border); border-radius: 20px; padding: var(--space-3); color: inherit; cursor: pointer; }
 .talk-card:hover, .talk-card:focus-visible { border-color: var(--color-now); }
 .talk-pic { font-size: 3rem; line-height: 1; color: var(--color-now); }
+.talk-photo { width: 6rem; height: 6rem; object-fit: cover; border-radius: 14px; }
+.talk-card { position: relative; }
+.talk-card.is-selected { border-color: var(--color-done, #2E7D32); background: #EAF6EC; }
+.talk-check { position: absolute; top: 0.4rem; right: 0.5rem; color: #fff; background: #2E7D32; border-radius: 50%; width: 1.6rem; height: 1.6rem; display: inline-flex; align-items: center; justify-content: center; font-size: 0.9rem; }
+.sentence-photo { width: 1.75rem; height: 1.75rem; object-fit: cover; border-radius: 6px; vertical-align: middle; }
+.my-card-pic { font-size: 1.75rem; width: 2.5rem; text-align: center; }
+img.my-card-pic { width: 2.5rem; height: 2.5rem; object-fit: cover; border-radius: 8px; }
+.photo-preview { display: flex; align-items: center; gap: var(--space-3); }
+.photo-preview[hidden] { display: none; }
+.photo-preview img { border-radius: 12px; object-fit: cover; border: 2px solid #D5DEE8; }
 .talk-word { font-size: 1.25rem; font-weight: 700; text-align: center; overflow-wrap: anywhere; }
 .picture-picker { display: flex; flex-wrap: wrap; gap: 0.25rem; }
 .pic-label { display: inline-flex; align-items: center; justify-content: center; width: 2.75rem; height: 2.75rem; font-size: 1.5rem;
@@ -278,3 +288,7 @@ body[data-page="child-view"] { background: #FBFCFD; }
 .timer-status { font-size: 1.25rem; font-weight: 700; min-height: 1.75rem; }
 .timer-buttons { display: flex; gap: var(--space-2); }
 .timer-buttons .btn { min-height: 48px; min-width: 7rem; }
+
+/* Reminder banner in the child view: calm colour plus words, no flashing. */
+.reminder-banner { background: #FFF4D6; border: 2px solid #E0B94A; color: #4A3A00; border-radius: 14px; padding: var(--space-3); font-size: 1.25rem; font-weight: 700; text-align: center; margin-bottom: var(--space-3); }
+.reminder-banner[hidden] { display: none; }

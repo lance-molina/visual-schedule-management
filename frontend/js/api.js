@@ -74,14 +74,14 @@ export const schedules = {
 // Online speech (Edge voices through the backend). Returns an audio Blob; rejects when the server cannot make it,
 // and the caller then uses the browser voice. Kept here because api.js is the only file that calls fetch().
 export const speech = {
-  async say(text, lang) {
+  async say(text, lang, rate) {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), 10000);
     try {
       const res = await fetch(new URL(API_BASE_URL + "/api/speech"), {
         method: "POST", signal: controller.signal,
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${getToken()}` },
-        body: JSON.stringify({ text, lang }),
+        body: JSON.stringify(rate === undefined ? { text, lang } : { text, lang, rate }),
       });
       if (!res.ok) throw { status: res.status, code: "speech_unavailable", message: "Online speech is not available.", fields: {} };
       return await res.blob();

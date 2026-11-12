@@ -6,6 +6,8 @@ import { cards as cardsApi } from "./api.js";
 import { BUILT_IN, CATEGORIES, PICTURES } from "./board-cards.js";
 import { clear, confirmModal, h, icon, setBusy } from "./components.js";
 import { t } from "./i18n.js";
+import { cardKey, sentenceText, prefixFor, toggleCard } from "./board-sentence.js";
+import { shrinkPhoto } from "./photo.js";
 import { speak as say, stop as stopSpeaking } from "./speech.js";
 import { getCachedSettings, initPage, showToast } from "./script.js";
 
@@ -13,14 +15,13 @@ const $ = (id) => document.getElementById(id);
 await initPage("communication");
 const lang = getCachedSettings().language;
 
-const state = { custom: [], category: CATEGORIES[0], sentence: [], icon: PICTURES[0] };
+const state = { custom: [], category: CATEGORIES[0], sentence: [], icon: PICTURES[0], photo: null };
 
 // ------------------------------------------------------------------ static text (this page is for the child, so it is translated)
 
 $("talk-title").textContent = t("talk_title", lang);
 $("talk-help").textContent = t("talk_help", lang);
 $("speak-label").textContent = t("talk_speak", lang);
-$("back-label").textContent = t("talk_back", lang);
 $("clear-label").textContent = t("talk_clear", lang);
 document.title = `${t("talk_title", lang)} | Visual Schedule`;
 
@@ -37,7 +38,7 @@ const spoken = (card) => (lang === "fil" && card.fil) || card.label;
 // ------------------------------------------------------------------ cards and categories
 
 function allCards() {
-  return [...BUILT_IN, ...state.custom.map((c) => ({ ...c, custom: true }))];
+  return [...BUILT_IN, ...state.custom.map((c) => ({ ...c, fil: c.label_fil, custom: true }))];
 }
 
 function categoryNames() {
@@ -47,6 +48,17 @@ function categoryNames() {
 
 const categoryLabel = (name) => (CATEGORIES.includes(name) ? t(`cat_${name}`, lang) : name);
 
+// Opening another category starts a new sentence: the cards are cleared and the prefix changes at once.
+function setCategory(name) {
+  if (name === state.category) return;
+  state.category = name;
+  state.sentence = [];
+  stopSpeaking();
+  renderTabs();
+  renderGrid();
+  renderSentence();
+}
+
 function renderTabs() {
   const names = categoryNames();
   if (!names.includes(state.category)) state.category = names[0];
@@ -54,15 +66,25 @@ function renderTabs() {
   names.forEach((name) => $("cat-tabs").append(
     h("button", { type: "button", class: `btn btn-lg ${name === state.category ? "btn-primary" : "btn-outline-primary"}`,
                   "aria-pressed": String(name === state.category),
-                  onClick: () => { state.category = name; renderTabs(); renderGrid(); } }, categoryLabel(name))));
+                  onClick: () => setCategory(name) }, categoryLabel(name))));
 }
+
+// A photo when the adult added one, otherwise the preset picture.
+const picture = (card, cls) => (card.image
+  ? h("img", { class: `${cls} talk-photo`, src: card.image, alt: "", width: 96, height: 96 })
+  : h("span", { class: cls, "aria-hidden": "true" }, icon(card.icon)));
 
 function renderGrid() {
   clear($("card-grid"));
-  allCards().filter((c) => c.category === state.category).forEach((card) => $("card-grid").append(
-    h("button", { type: "button", class: "talk-card", onClick: () => pick(card) },
-      h("span", { class: "talk-pic", "aria-hidden": "true" }, icon(card.icon)),
-      h("span", { class: "talk-word" }, spoken(card)))));
+  const chosen = new Set(state.sentence.map(cardKey));
+  allCards().filter((c) => c.category === state.category).forEach((card) => {
+    const selected = chosen.has(cardKey(card));
+    $("card-grid").append(h("button", { type: "button", class: `talk-card${selected ? " is-selected" : ""}`,
+                                         "aria-pressed": String(selected), onClick: () => pick(card) },
+      selected ? h("span", { class: "talk-check", "aria-hidden": "true" }, icon("fa-check")) : null,
+      picture(card, "talk-pic"),
+      h("span", { class: "talk-word" }, spoken(card))));
+  });
 }
 
 // ------------------------------------------------------------------ sentence
@@ -70,23 +92,26 @@ function renderGrid() {
 function renderSentence() {
   const list = $("sentence");
   clear(list);
-  list.append(h("li", { class: "sentence-word sentence-start" }, t("talk_starter", lang)));
+  const prefix = prefixFor(state.sentence, lang, state.category);
+  if (prefix) list.append(h("li", { class: "sentence-word sentence-start" }, prefix));
+  else if (!state.sentence.length) list.append(h("li", { class: "text-muted fs-5" }, t("talk_empty", lang)));   // Basics has no prefix
   state.sentence.forEach((card) => list.append(
-    h("li", { class: "sentence-word" }, icon(card.icon), ` ${spoken(card)}`)));
-  $("back-btn").disabled = $("clear-btn").disabled = state.sentence.length === 0;
+    h("li", { class: "sentence-word" }, card.image ? h("img", { class: "sentence-photo", src: card.image, alt: "", width: 28, height: 28 }) : icon(card.icon), ` ${spoken(card)}`)));
+  $("clear-btn").disabled = state.sentence.length === 0;
   $("speak-btn").disabled = state.sentence.length === 0;
 }
 
 function pick(card) {
-  state.sentence.push(card);
+  const result = toggleCard(state.sentence, card);        // tapping a chosen card again removes it
+  if (result.change === "full") { showToast(t("talk_full", lang), "error"); return; }
+  state.sentence = result.sentence;
   renderSentence();
-  speak(spoken(card));
+  renderGrid();
+  if (result.change === "added") speak(spoken(card));
 }
 
-$("speak-btn").addEventListener("click", () =>
-  speak([t("talk_starter", lang), ...state.sentence.map(spoken)].join(" ")));
-$("back-btn").addEventListener("click", () => { state.sentence.pop(); renderSentence(); });
-$("clear-btn").addEventListener("click", () => { state.sentence = []; stopSpeaking(); renderSentence(); });
+$("speak-btn").addEventListener("click", () => speak(sentenceText(state.sentence, lang, spoken)));
+$("clear-btn").addEventListener("click", () => { state.sentence = []; stopSpeaking(); renderSentence(); renderGrid(); });
 
 // ------------------------------------------------------------------ adult tools
 
@@ -119,8 +144,8 @@ function renderMyCards() {
   $("my-cards-empty").hidden = state.custom.length > 0;
   state.custom.forEach((card) => list.append(
     h("li", { class: "d-flex align-items-center gap-2 py-1 border-bottom" },
-      h("span", { class: "fs-4", "aria-hidden": "true" }, icon(card.icon)),
-      h("span", { class: "flex-grow-1" }, card.label, h("span", { class: "text-muted small ms-2" }, categoryLabel(card.category))),
+      picture(card, "my-card-pic"),
+      h("span", { class: "flex-grow-1" }, card.label, card.label_fil ? h("span", { class: "text-muted ms-2" }, `(${card.label_fil})`) : null, h("span", { class: "text-muted small ms-2" }, categoryLabel(card.category))),
       h("button", { type: "button", class: "btn btn-outline-danger btn-sm", "aria-label": `Delete ${card.label}`,
                     onClick: () => removeCard(card) }, icon("fa-trash"), h("span", { class: "ms-1" }, "Delete")))));
 }
@@ -149,16 +174,19 @@ $("card-form").addEventListener("submit", async (event) => {
   const error = $("card-form-error");
   error.textContent = "";
   const category = $("card-category").value === NEW_CATEGORY ? $("card-new-category").value.trim() : $("card-category").value;
-  const body = { label: $("card-label").value.trim(), category, icon: state.icon };
+  const body = { label: $("card-label").value.trim(), category, icon: state.icon,
+                 label_fil: $("card-label-fil").value.trim() || null, image: state.photo };
   if (!body.label) { error.textContent = "Type the word to speak."; return; }
   if (!body.category) { error.textContent = "Type a name for the new category."; return; }
   setBusy(button, true);
   try {
     const created = await cardsApi.create(body);
     state.custom.push(created);
-    state.category = created.category;
+    setCategory(created.category);                          // shows the new card; clears an unfinished sentence
     $("card-label").value = "";
+    $("card-label-fil").value = "";
     $("card-new-category").value = "";
+    setPhoto(null);
     refreshAll();
     $("card-category").value = created.category;
     showToast("Card added");
@@ -169,6 +197,25 @@ $("card-form").addEventListener("submit", async (event) => {
     setBusy(button, false);
   }
 });
+
+function setPhoto(dataUrl) {
+  state.photo = dataUrl;
+  $("photo-preview").hidden = !dataUrl;
+  if (dataUrl) $("photo-preview-img").src = dataUrl; else { $("photo-preview-img").removeAttribute("src"); $("card-photo").value = ""; }
+}
+
+$("card-photo").addEventListener("change", async () => {
+  const file = $("card-photo").files[0];
+  $("card-form-error").textContent = "";
+  if (!file) { setPhoto(null); return; }
+  try {
+    setPhoto(await shrinkPhoto(file));
+  } catch (err) {
+    setPhoto(null);
+    $("card-form-error").textContent = err.message;
+  }
+});
+$("photo-remove").addEventListener("click", () => setPhoto(null));
 
 function refreshAll() {
   renderTabs();

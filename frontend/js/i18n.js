@@ -36,9 +36,20 @@ export const STRINGS = {
     talk_title: "Talking board",
     talk_help: "Tap a picture to say the word. Tap several pictures to build a sentence.",
     talk_speak: "Speak",
-    talk_back: "Remove last",
     talk_clear: "Clear",
+    talk_empty: "Tap a picture to start.",
     talk_starter: "I want",
+    talk_prefix_want: "I want",
+    talk_prefix_want_activity: "I want",
+    talk_prefix_feel: "I feel",
+    talk_and: "and",
+    talk_full: "The sentence is full (6 words). Press Speak, or remove a word.",
+    cat_Core: "Basics",
+    spoken_done: "Great job! You finished {task}.",
+    spoken_almost: "Almost time for {task}.",
+    spoken_up: "Time is up for {task}.",
+    reminder_soon: "Coming up: {task} in {n} min",
+    reminder_now: "Time for: {task}",
     talk_no_voice: "No voice is available on this device. The words are still shown on the screen.",
     cat_Food: "Food",
     cat_Emotions: "Feelings",
@@ -83,9 +94,20 @@ export const STRINGS = {
     talk_title: "Usapan",
     talk_help: "Pindutin ang larawan para marinig ang salita. Pumili ng ilan para makabuo ng pangungusap.",
     talk_speak: "Bigkasin",
-    talk_back: "Alisin ang huli",
     talk_clear: "Burahin",
+    talk_empty: "Pumili ng larawan para magsimula.",
     talk_starter: "Gusto ko ng",
+    talk_prefix_want: "Gusto ko ng",
+    talk_prefix_want_activity: "Gusto ko",
+    talk_prefix_feel: "Ako ay",
+    talk_and: "at",
+    talk_full: "Puno na ang pangungusap (6 na salita). Pindutin ang Bigkasin, o magtanggal ng salita.",
+    cat_Core: "Pangunahin",
+    spoken_done: "Magaling! Natapos mo na ang {task}.",
+    spoken_almost: "Malapit na ang oras para sa {task}.",
+    spoken_up: "Tapos na ang oras para sa {task}.",
+    reminder_soon: "Susunod: {task} sa loob ng {n} min",
+    reminder_now: "Oras na para sa: {task}",
     talk_no_voice: "Walang magagamit na boses sa device na ito. Makikita pa rin ang mga salita sa screen.",
     cat_Food: "Pagkain",
     cat_Emotions: "Damdamin",
@@ -102,4 +124,9 @@ export const STRINGS = {
 
 export function t(key, lang = "en") {
   return (STRINGS[lang] && STRINGS[lang][key]) || STRINGS.en[key] || key;
+}
+
+/** t() with {name} placeholders filled in: tf("spoken_done", "en", { task: "Brush teeth" }) */
+export function tf(key, lang, values = {}) {
+  return t(key, lang).replace(/\{(\w+)\}/g, (match, name) => (name in values ? values[name] : match));
 }

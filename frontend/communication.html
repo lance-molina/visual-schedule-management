@@ -21,7 +21,6 @@
       <ol id="sentence" class="sentence-words" aria-live="polite"></ol>
       <div class="sentence-actions">
         <button id="speak-btn" type="button" class="btn btn-success btn-lg"><i class="fa-solid fa-volume-high me-2" aria-hidden="true"></i><span id="speak-label">Speak</span></button>
-        <button id="back-btn" type="button" class="btn btn-outline-secondary btn-lg"><i class="fa-solid fa-delete-left me-2" aria-hidden="true"></i><span id="back-label">Remove last</span></button>
         <button id="clear-btn" type="button" class="btn btn-outline-danger btn-lg"><i class="fa-solid fa-xmark me-2" aria-hidden="true"></i><span id="clear-label">Clear</span></button>
       </div>
       <p id="voice-note" class="small text-muted mb-0 mt-2" hidden></p>
@@ -48,6 +47,11 @@
               <label class="form-label" for="card-category">Category</label>
               <select class="form-select" id="card-category"></select>
             </div>
+            <div class="col-sm-6">
+              <label class="form-label" for="card-label-fil">Filipino word <span class="text-muted">(optional)</span></label>
+              <input class="form-control" id="card-label-fil" maxlength="30" autocomplete="off" placeholder="e.g. Saging">
+              <div class="form-text">Spoken instead of the word above when the language is Filipino.</div>
+            </div>
             <div class="col-12" id="new-category-wrap" hidden>
               <label class="form-label" for="card-new-category">New category name</label>
               <input class="form-control" id="card-new-category" maxlength="30" autocomplete="off" placeholder="e.g. Toys">
@@ -56,6 +60,15 @@
               <fieldset><legend class="form-label fs-6">Picture</legend>
                 <div id="picture-picker" class="picture-picker"></div>
               </fieldset>
+            </div>
+            <div class="col-12">
+              <label class="form-label" for="card-photo">Or use your own photo <span class="text-muted">(optional)</span></label>
+              <input class="form-control" id="card-photo" type="file" accept="image/*">
+              <div class="form-text">The photo is cropped to a square and shrunk, then kept with your account. Only use photos you are allowed to use. You can keep up to 30 photo cards.</div>
+              <div id="photo-preview" class="photo-preview mt-2" hidden>
+                <img id="photo-preview-img" alt="Preview of the chosen photo" width="96" height="96">
+                <button type="button" class="btn btn-outline-secondary btn-sm" id="photo-remove"><i class="fa-solid fa-xmark me-1" aria-hidden="true"></i>Remove photo</button>
+              </div>
             </div>
           </div>
           <div id="card-form-error" class="form-error mt-2" role="alert"></div>
