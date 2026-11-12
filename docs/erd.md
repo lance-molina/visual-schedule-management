@@ -8,6 +8,7 @@ erDiagram
     USERS ||--o{ CHILDREN : "has (ON DELETE CASCADE)"
     CHILDREN ||--o{ SCHEDULES : "has (ON DELETE CASCADE)"
     SCHEDULES ||--o{ TASKS : "has (ON DELETE CASCADE)"
+    USERS ||--o{ BOARD_CARDS : "owns (ON DELETE CASCADE)"
 
     USERS {
         int id PK
@@ -40,6 +41,14 @@ erDiagram
         date date "UNIQUE with child_id"
         datetime created_at
     }
+    BOARD_CARDS {
+        int id PK
+        int user_id FK
+        varchar label "spoken word, up to 30"
+        varchar category "up to 30"
+        varchar icon "preset Font Awesome icon"
+        datetime created_at
+    }
     TASKS {
         int id PK
         int schedule_id FK
@@ -68,4 +77,7 @@ erDiagram
 - **Deleting is a cascade.** Removing a user, child or schedule removes everything below it (`ON DELETE CASCADE`).
 - **Completion is checked in the database.** `status = 'completed'` requires `completed_at`, and `pending` forbids it
   (`ck_tasks_completed`). The model and the API keep the same rule, so the three layers agree.
+- **Talking-board cards belong to the adult, not a child.** `board_cards.user_id` cascades on delete. The built-in
+  starter cards are constants in the frontend and are not rows, so a new account needs no seed data. The icon is a
+  preset Font Awesome icon validated by the API, so no files are stored.
 - **Progress is derived, not stored.** Completion rates are computed from the task rows on request; no counter can drift.

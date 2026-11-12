@@ -38,6 +38,10 @@
       "value": ""
     },
     {
+      "key": "cardId",
+      "value": ""
+    },
+    {
       "key": "scheduleDate",
       "value": ""
     },
@@ -925,6 +929,248 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test('status is 400', () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "6b Talking board cards",
+      "item": [
+        {
+          "name": "POST card",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/cards",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"label\": \"Juice\",\n  \"category\": \"Food\",\n  \"icon\": \"fa-glass-water\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 201', () => pm.response.to.have.status(201));",
+                  "const c = pm.response.json();",
+                  "pm.collectionVariables.set('cardId', c.id);",
+                  "pm.test('card fields returned', () => { pm.expect(c.label).to.eql('Juice'); pm.expect(c.category).to.eql('Food'); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST card (invalid input gives 400)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/cards",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"label\": \"\",\n  \"category\": \"Food\",\n  \"icon\": \"x\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 400', () => pm.response.to.have.status(400));",
+                  "pm.test('bad fields listed', () => pm.expect(Object.keys(pm.response.json().error.fields)).to.include.members(['label','icon']));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET cards",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/cards"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', () => pm.response.to.have.status(200));",
+                  "pm.test('list contains the new card', () => pm.expect(pm.response.json().items.map(c => c.id)).to.include(Number(pm.collectionVariables.get('cardId'))));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "PUT card",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/cards/{{cardId}}",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"label\": \"Milk\",\n  \"category\": \"Food\",\n  \"icon\": \"fa-glass-water\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', () => pm.response.to.have.status(200));",
+                  "pm.test('label updated', () => pm.expect(pm.response.json().label).to.eql('Milk'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "DELETE card",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/cards/{{cardId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 204', () => pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "DELETE card again (404)",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/cards/{{cardId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 404', () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "6c Speech (online voice; the browser voice is the fallback)",
+      "item": [
+        {
+          "name": "POST speech (no token gives 401)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/speech",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"Water\",\n  \"lang\": \"en\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 401', () => pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST speech (invalid input gives 400)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/speech",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"\",\n  \"lang\": \"fr\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 400', () => pm.response.to.have.status(400));",
+                  "pm.test('bad fields listed', () => pm.expect(Object.keys(pm.response.json().error.fields)).to.include.members(['text','lang']));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST speech (audio, or 503 when the online voice is unreachable)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/speech",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"Water\",\n  \"lang\": \"en\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 audio or 503 speech_unavailable', () => { const c = pm.response.code; pm.expect([200, 503]).to.include(c); if (c === 503) pm.expect(pm.response.json().error.code).to.eql('speech_unavailable'); else pm.expect(pm.response.headers.get('Content-Type')).to.include('audio'); });"
                 ]
               }
             }

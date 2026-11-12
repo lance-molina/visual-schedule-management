@@ -33,6 +33,7 @@ frontend origin; token sent in the `Authorization` header.
 | `JWT_REMEMBER_DAYS` | Remember-me lifetime |
 | `DATABASE_URL` | `mysql+pymysql://user:password@host:port/dbname` |
 | `CORS_ORIGINS` | Comma-separated allowed frontend origins, no wildcard |
+| `TTS_ENABLED` | `true` (default) uses the online Edge voice for the talking board; `false` uses browser voices only |
 | `LOG_LEVEL` | `INFO` in production |
 
 Set them in the host's dashboard. Never commit real values.

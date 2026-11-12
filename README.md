@@ -1,15 +1,18 @@
-# Web-Based Visual Schedule and Task Management System
+# Web-Based Visual Schedule, Task Management and Communication System
 
-> **Status: all planned features are built and pass the automated checks on SQLite** (124 backend tests, a 43-request
+> **Status: all planned features are built and pass the automated checks on SQLite** (157 backend tests, a 52-request
 > Postman run). Still to do as a team: run the tests once against MySQL,
 > the paper, the manual, the deployment and the demo video. See [Known limitations](#12-known-limitations).
 
 A full-stack web application that helps children with developmental delays follow
 visual schedules and finish daily activities. It supports three kinds of adult users
 (caregivers, occupational therapists and SPED teachers) who manage child profiles and
-schedules, and a calm, large-target child view for completing tasks.
+schedules, a calm, large-target child view for completing tasks (with an optional visual countdown timer), and a
+talking board of picture cards that speak a word or short sentence aloud.
 
 Course project for **Modeling and Simulation** (Finals Activity).
+
+**Final deadline:** November 25, 2026
 
 **Demo video:** TODO paste the link here (unlisted YouTube or Google Drive, "anyone with the link" can view)
 
@@ -40,6 +43,8 @@ see limitations).
 - [x] Visual schedule creator: 16-activity library, drag and drop **and** plus/up/down/remove buttons, per-task settings, preview, save
 - [x] Child view: one task at a time, large buttons, Done with a 5-second Undo, sound, exit confirmation (tasks live here, no separate page)
 - [x] Progress dashboard and charts: today, week and month, three charts with text alternatives, table view, CSV export
+- [x] Talking board (communication): picture cards in Food, Emotions and Activities, a sentence strip, spoken aloud (natural Edge online voice first, the browser's own voice as fallback; English or Filipino); adults add and delete their own cards
+- [x] Optional countdown timer on the child view: starts only when pressed, uses the task's duration, shows colour and words, never completes a task by itself
 - [x] Accessibility settings: font size, high contrast, sound, language (English / Filipino), saved to the database and cached in the browser
 - [x] Role stored per user (all roles share the same permissions in the MVP)
 
@@ -52,7 +57,7 @@ The seeded data uses invented names only. Take screenshots with the demo account
 | Frontend | HTML, CSS, vanilla JavaScript (ES modules), Bootstrap 5.3, Font Awesome, Chart.js, SortableJS |
 | Backend | Python, Flask (application factory + blueprints), Flask-JWT-Extended, Flask-CORS, Flask-SQLAlchemy |
 | Database | MySQL 8 (utf8mb4) |
-| Tests | pytest (124 tests), Postman collection (43 requests, 71 assertions) |
+| Tests | pytest (157 tests), Postman collection (52 requests, 85 assertions) |
 | Hosting | Not chosen yet (see `docs/deployment-plan.md`) |
 
 ## 4. Prerequisites
@@ -134,7 +139,7 @@ Each child has about two weeks of past schedules with random completions, so the
 
 ```bash
 cd backend
-pytest                       # 124 tests on in-memory SQLite, about 5 seconds
+pytest                       # 157 tests on in-memory SQLite, about 5 seconds
 ```
 
 To run the same tests on **MySQL**, create an *empty* test database (never the real one) and run
@@ -142,7 +147,7 @@ To run the same tests on **MySQL**, create an *empty* test database (never the r
 This has not been done yet; do it once and record the result.
 
 - **Postman:** import `postman/visual-schedule.postman_collection.json`, start the backend, and run the collection. It
-  registers fresh fictional users, checks 71 assertions (status codes, validation errors, ownership, progress rules)
+  registers fresh fictional users, checks 85 assertions (status codes, validation errors, ownership, progress rules)
   and deletes the child it creates. Command line: `npx newman run postman/visual-schedule.postman_collection.json`.
 - Test case table and results for the report: `docs/technical-documentation/` (fill it from these runs; do not invent results).
 
@@ -175,7 +180,9 @@ the frontend address, set `API_BASE_URL` in `frontend/js/config.js`, and do **no
   and `pytest` with `TEST_DATABASE_URL` on a clean MySQL.
 - **Reminders and notification switches are stored but no notification is ever sent.**
 - **Filipino covers the menu, settings, child view and main labels only**, and the wording was written by us.
-- **No photo upload.** A child's picture is one of eight preset avatars.
+- **No photo upload.** A child's picture is one of eight preset avatars, and talking-board cards use a preset Font Awesome icon list (no uploaded pictures).
+- **Online speech uses an unofficial Microsoft Edge voice service** (`edge-tts`). It needs internet on the server, can change or stop without notice, and the speech text goes to Microsoft. When it fails the board uses the browser's own voice (Filipino voices are often missing there) and, if there is none, shows the words only. Set `TTS_ENABLED=false` to turn the online voice off.
+- **Not built (optional in the brief):** rewards, a Monday to Sunday week view, custom activities.
 - **No password reset or change.** A forgotten password means a new account (or a database edit).
 - **Roles do not change permissions.** Caregivers, therapists and teachers each see only their own children; there is no sharing between adults.
 - **"Week" and "month" are rolling 7 and 30 days**, not calendar weeks and months.

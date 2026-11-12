@@ -68,6 +68,11 @@ to the signed-in user, so a request for another user's record returns 404, not 4
 | `PATCH /api/tasks/<id>/complete` | Mark complete; **the server sets `completed_at`** | none | 200 task | 401, 404 | same chain |
 | `GET /api/dashboard/summary` | Counts for the three stat cards | `today` | 200 totals | 400, 401 | own children only |
 | `GET /api/progress` | Data for all charts and cards | child_id, range, today | 200 summary, daily, weekly, tasks | 400, 401, 404 | child must be yours |
+| `GET /api/cards` | List own talking-board cards (ordered by category, label) | page, per_page | 200 items | 401 | filtered by user |
+| `POST /api/cards` | Add a card (at most 100 per user) | label, category, icon | 201 card | 400, 401, 409 | user from token |
+| `PUT /api/cards/<id>` | Replace label, category and icon | label, category, icon | 200 card | 400, 401, 404 | id and user |
+| `DELETE /api/cards/<id>` | Delete a card | none | 204 | 401, 404 | id and user |
+| `POST /api/speech` | Text to speech (MP3). 503 `speech_unavailable` means use the browser voice | text (1 to 200 characters), lang `en` or `fil` | 200 `audio/mpeg` | 400, 401, 503 | token required |
 | `GET /health` | Deployment smoke test | none | 200 `{"status":"ok"}` | none | public |
 
 ### Behaviour worth knowing
@@ -110,6 +115,9 @@ Text is trimmed before it is checked. An optional text field that is blank becom
 | `duration` | Whole number of minutes, 5 to 240 |
 | `position` | Whole number 1 to 1000 |
 | `reminder_minutes` | Optional whole number 0 to 60, or `null`. **Stored only; no notification is sent** |
+| `card.label` | Required, 1 to 30 characters (the spoken word) |
+| `card.category` | Required, 1 to 30 characters; the UI offers Food, Emotions, Activities or a new name |
+| `card.icon` | One of 27 preset Font Awesome icon (see `CARD_ICONS` in `backend/models/card.py`) |
 | `status` | `pending` or `completed` (only on `PUT /api/tasks/<id>`) |
 | `settings.font_size` | `S`, `M` or `L` |
 | `settings.contrast` | `normal` or `high` |
@@ -235,6 +243,30 @@ PUT /api/tasks/456                   (Undo)
 
 200   same task with "status": "pending" and "completed_at": null
 ```
+
+### Talking board cards
+
+```json
+POST /api/cards
+{ "label": "Juice", "category": "Food", "icon": "fa-glass-water" }
+
+201
+{ "id": 5, "label": "Juice", "category": "Food", "icon": "fa-glass-water", "created_at": "2026-11-12T03:10:00Z" }
+```
+
+The 101st card answers `409 conflict`. Another user's card id answers `404`.
+
+### Speech
+
+```json
+POST /api/speech
+{ "text": "I want Water", "lang": "en" }
+
+200  audio/mpeg bytes
+503  { "error": { "code": "speech_unavailable", "message": "Online speech is not available right now." } }
+```
+
+Voices: `en-US-AnaNeural` and `fil-PH-BlessicaNeural` through the unofficial `edge-tts` package. Results are cached in memory (200 entries). The page falls back to the browser voice on any non-200.
 
 ### Dashboard and progress
 

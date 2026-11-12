@@ -9,6 +9,7 @@ import re
 
 from flask import request
 
+from models.card import CARD_ICONS
 from models.task import CATEGORIES, STATUSES
 from models.user import CONTRASTS, FONT_SIZES, LANGUAGES, ROLES
 from utils.errors import ApiError
@@ -28,6 +29,9 @@ LIMITS = {
     "position_max": 1000,
     "reminder_max": 60,
     "tasks_per_schedule_max": 50,
+    "card_label_max": 30,
+    "card_category_max": 30,
+    "cards_per_user_max": 100,
 }
 
 _EMAIL = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
@@ -350,3 +354,14 @@ def query_choice(name, options, *, default):
     if raw not in options:
         _fail({name: "Must be one of: " + ", ".join(options)})
     return raw
+
+
+def validate_card(data):
+    """Talking-board card: label (spoken word), category, and one preset icon."""
+    fields, out = {}, {}
+    _str(data, "label", fields, out, max_len=LIMITS["card_label_max"])
+    _str(data, "category", fields, out, max_len=LIMITS["card_category_max"])
+    _choice(data, "icon", fields, out, options=CARD_ICONS)
+    if fields:
+        _fail(fields)
+    return out

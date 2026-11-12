@@ -71,12 +71,37 @@ export const schedules = {
   remove:   (id)             => request("DELETE", `/api/schedules/${id}`),
 };
 
+// Online speech (Edge voices through the backend). Returns an audio Blob; rejects when the server cannot make it,
+// and the caller then uses the browser voice. Kept here because api.js is the only file that calls fetch().
+export const speech = {
+  async say(text, lang) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 10000);
+    try {
+      const res = await fetch(new URL(API_BASE_URL + "/api/speech"), {
+        method: "POST", signal: controller.signal,
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${getToken()}` },
+        body: JSON.stringify({ text, lang }),
+      });
+      if (!res.ok) throw { status: res.status, code: "speech_unavailable", message: "Online speech is not available.", fields: {} };
+      return await res.blob();
+    } finally { clearTimeout(timer); }
+  },
+};
+
 export const tasks = {
   forSchedule: (scheduleId, query) => request("GET", `/api/tasks/${scheduleId}`, { query }),
   create:      (payload)           => request("POST", "/api/tasks", { body: payload }),
   update:      (id, payload)       => request("PUT", `/api/tasks/${id}`, { body: payload }),
   remove:      (id)                => request("DELETE", `/api/tasks/${id}`),
   complete:    (id)                => request("PATCH", `/api/tasks/${id}/complete`),
+};
+
+export const cards = {
+  list:   (query)       => request("GET", "/api/cards", { query }),
+  create: (payload)     => request("POST", "/api/cards", { body: payload }),
+  update: (id, payload) => request("PUT", `/api/cards/${id}`, { body: payload }),
+  remove: (id)          => request("DELETE", `/api/cards/${id}`),
 };
 
 export const dashboard = {

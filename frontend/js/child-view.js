@@ -1,6 +1,7 @@
 // Child view: today's routine, one thing at a time. Tasks are completed HERE.
 // Rules: a large picture with a short word, one primary button in the same place, a calm check mark,
-// no timers, no flashing, a 5-second Undo, and an exit that needs a confirmation.
+// no flashing, a 5-second Undo, an exit that needs a confirmation, and an OPTIONAL countdown (js/timer.js) that
+// only starts when someone presses Start.
 // The SERVER sets completed_at; Undo uses PUT /api/tasks/<id> with status "pending".
 
 import { children as childrenApi, schedules, tasks as tasksApi } from "./api.js";
@@ -8,6 +9,7 @@ import { clear, confirmModal, formatDateLong, formatTime12, h, icon, renderAvata
          todayLocal } from "./components.js";
 import { t } from "./i18n.js";
 import { getCachedSettings, initPage, playChime } from "./script.js";
+import { createTimer } from "./timer.js";
 
 const $ = (id) => document.getElementById(id);
 const UNDO_MS = 5000;
@@ -15,7 +17,7 @@ const UNDO_MS = 5000;
 await initPage("child-view");
 const lang = getCachedSettings().language;
 
-const state = { childId: null, child: null, tasks: [], undoTimer: null, undoTaskId: null };
+const state = { childId: null, child: null, tasks: [], undoTimer: null, undoTaskId: null, timer: null };
 const main = $("cv-main");
 
 $("exit-label").textContent = t("back_adult", lang);
@@ -46,6 +48,8 @@ function renderError() {
 }
 
 function render() {
+  state.timer?.dispose();                                  // a new render means a new current task: stop the old countdown
+  state.timer = null;
   const states = taskStates(state.tasks);
   const nowIndex = states.indexOf("now");
   clear(main);
@@ -73,6 +77,7 @@ function render() {
       h("div", { class: "task-icon", "aria-hidden": "true" }, icon(task.icon)),
       h("p", { class: "task-name" }, task.name),
       h("p", { class: "task-time" }, formatTime12(task.time)),
+      (state.timer = createTimer({ minutes: task.duration, lang, onStatus: live })).el,
       button));
   }
 

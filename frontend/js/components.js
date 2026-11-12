@@ -117,6 +117,7 @@ const NAV_ITEMS = [
   { href: "dashboard.html", key: "nav_dashboard", icon: "fa-house", page: "dashboard" },
   { href: "schedule-creator.html", key: "nav_schedule", icon: "fa-calendar-days", page: "schedule-creator" },
   { href: "child-view.html", key: "nav_child_view", icon: "fa-child", page: "child-view" },
+  { href: "communication.html", key: "nav_talk", icon: "fa-comments", page: "communication" },
   { href: "progress.html", key: "nav_progress", icon: "fa-chart-simple", page: "progress" },
   { href: "settings.html", key: "nav_settings", icon: "fa-gear", page: "settings" },
 ];

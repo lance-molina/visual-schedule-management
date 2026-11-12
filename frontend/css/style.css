@@ -244,3 +244,37 @@ body[data-page="child-view"] { background: #FBFCFD; }
   .btn-child { width: 100%; }
 }
 .state-card .big-icon { font-size: 4rem; color: var(--color-muted); }
+
+/* ------------------------------------------------------------------ talking board */
+.sentence-strip { background: var(--color-surface); border: 2px solid var(--color-border); border-radius: 20px; padding: var(--space-4); margin-bottom: var(--space-4); }
+.sentence-words { list-style: none; display: flex; flex-wrap: wrap; gap: var(--space-2); margin: 0 0 var(--space-3); padding: 0; min-height: 3.5rem; align-items: center; }
+.sentence-word { font-size: 1.5rem; font-weight: 700; background: #EEF4FA; border-radius: 14px; padding: var(--space-2) var(--space-3); }
+.sentence-start { background: transparent; padding-left: 0; }
+.sentence-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.sentence-actions .btn { min-height: 48px; }
+.cat-tabs { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-3); }
+.cat-tabs .btn { min-height: 48px; }
+.card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr)); gap: var(--space-3); }
+.talk-card { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-2); min-height: 9rem;
+  background: var(--color-surface); border: 3px solid var(--color-border); border-radius: 20px; padding: var(--space-3); color: inherit; cursor: pointer; }
+.talk-card:hover, .talk-card:focus-visible { border-color: var(--color-now); }
+.talk-pic { font-size: 3rem; line-height: 1; color: var(--color-now); }
+.talk-word { font-size: 1.25rem; font-weight: 700; text-align: center; overflow-wrap: anywhere; }
+.picture-picker { display: flex; flex-wrap: wrap; gap: 0.25rem; }
+.pic-label { display: inline-flex; align-items: center; justify-content: center; width: 2.75rem; height: 2.75rem; font-size: 1.5rem;
+  border: 2px solid var(--color-border); border-radius: 10px; cursor: pointer; background: var(--color-surface); }
+.pic-option input:checked + .pic-label { border-color: var(--color-now); background: #E3EEFB; }
+.pic-option input:focus-visible + .pic-label { outline: 3px solid var(--color-now); outline-offset: 2px; }
+
+/* ------------------------------------------------------------------ optional countdown timer (child view) */
+.timer { margin: var(--space-3) 0; }
+.timer-start { min-height: 48px; }
+.timer-start[hidden], .timer-panel[hidden] { display: none; }
+.timer-panel { display: flex; flex-direction: column; align-items: center; gap: var(--space-2); }
+.timer-pie { --pie-angle: 360deg; --pie-color: #2F7D1F; width: 9rem; height: 9rem; border-radius: 50%;
+  background: conic-gradient(var(--pie-color) var(--pie-angle), #E6E9ED 0); border: 3px solid var(--color-border); }
+.timer-pie.timer-warn { --pie-color: #B45309; }
+.timer-time { font-size: 2.5rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.timer-status { font-size: 1.25rem; font-weight: 700; min-height: 1.75rem; }
+.timer-buttons { display: flex; gap: var(--space-2); }
+.timer-buttons .btn { min-height: 48px; min-width: 7rem; }

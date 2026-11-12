@@ -22,6 +22,15 @@ unclear point and should be confirmed with the instructor.
 - **Filipino covers the menu, settings, child view and main labels.** The wording was written by the team and needs a
   native-speaker review before it is quoted anywhere.
 
+- **The talking board is small on purpose.** Cards are text plus a preset Font Awesome icon, stored per adult in `board_cards`
+  (limit 100). The built-in starter cards live in the frontend so nothing has to be seeded (*recommendation*).
+- **Speech is online first, browser second.** `POST /api/speech` asks Microsoft Edge's online voices (`edge-tts`, a child-like English voice and a Filipino voice) and the page plays the MP3; on any failure it uses the browser's `speechSynthesis`, and if that is missing it shows the words only. `edge-tts` is unofficial and can break, so it is never the only path (*recommendation*; an official alternative is Azure Speech with a key, *unresolved*).
+- **The countdown timer is opt-in.** It uses the task's stored `duration`, starts only when the adult or child presses
+  Start, shows colour and the words "Almost time" and "Time's up!", and never completes a task by itself, so it cannot
+  create a false completion record (*recommendation*; the brief lists a timer as a sample feature).
+- **Not built:** rewards, a Monday to Sunday week view and custom activities. The brief marks them optional; confirm
+  with the instructor (*unresolved*).
+
 ## Progress rules
 
 - **Completion rate** = completed tasks / scheduled tasks. It is shown as a dash (null), never 0%, when nothing was scheduled.

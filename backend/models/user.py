@@ -32,6 +32,7 @@ class User(db.Model):
     created_at = db.Column(db.DateTime, nullable=False, default=utcnow)
 
     children = db.relationship("Child", back_populates="user", cascade="all, delete-orphan")
+    cards = db.relationship("BoardCard", back_populates="user", cascade="all, delete-orphan")
 
     def settings_dict(self):
         return {key: getattr(self, key) for key in SETTING_KEYS}

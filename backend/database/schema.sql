@@ -39,6 +39,18 @@ CREATE TABLE IF NOT EXISTS children (
   CONSTRAINT ck_children_age CHECK (age BETWEEN 1 AND 18)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE IF NOT EXISTS board_cards (
+  id          INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  user_id     INT UNSIGNED NOT NULL,
+  label       VARCHAR(30) NOT NULL,                     -- the word that is spoken
+  category    VARCHAR(30) NOT NULL,                     -- Food, Emotions, Activities or a name the adult chose
+  icon        VARCHAR(40) NOT NULL,                     -- one preset Font Awesome class, e.g. fa-droplet (the API only accepts the preset list)
+  created_at  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY idx_board_cards_user (user_id),
+  CONSTRAINT fk_board_cards_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 CREATE TABLE IF NOT EXISTS schedules (
   id          INT UNSIGNED NOT NULL AUTO_INCREMENT,
   child_id    INT UNSIGNED NOT NULL,
