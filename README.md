@@ -22,7 +22,7 @@ Course project for **Modeling and Simulation** (Finals Activity).
 | 1 | Molina, David Hans Lancelotte M. | [@lance-molina](https://github.com/lance-molina) | Team leader and release manager |
 | 2 | Garciano, Ryza Vanna | [@ryzavanna](https://github.com/ryzavanna) | TODO |
 | 3 | Gumamit, Clarence Jasper | [@clarencejaspergumamitcvt](https://github.com/clarencejaspergumamitcvt) | TODO |
-| 4 | Lagarde, Fitch Gerard | [@fitchlagrade40-afk](https://github.com/fitchlagrade40-afk) | TODO |
+| 4 | Lagarde, Fitch Gerard | [@fitchlagarde40-afk](https://github.com/fitchlagarde40-afk) | TODO |
 | 5 | Lopez, Zarah | [@ZH-ZaraH](https://github.com/ZH-ZaraH) | TODO |
 | 6 | Manzano, Reniel Nico | [@CodeCoderGuy](https://github.com/CodeCoderGuy) | TODO |
 | 7 | Montaniel, Arman | [@joshuaa999](https://github.com/joshuaa999) | TODO |
