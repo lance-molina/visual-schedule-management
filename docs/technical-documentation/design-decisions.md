@@ -53,6 +53,25 @@ unclear point and should be confirmed with the instructor.
 - **Passwords** are stored as bcrypt hashes, limited to 8 to 72 bytes (bcrypt reads only the first 72). Login gives one
   generic error for an unknown email and a wrong password. There is no password reset in this version.
 
+## Visual design (v2e)
+
+- **Colour from the PDF, used as a system.** Blue #4A90D9, green #7ED321 and yellow #F5A623 are kept (brand tile and sky edge,
+  the Done button, the "Now" task). Six pastel families (sky, apricot, lilac, mint, rose, sun) each have a tint, an edge and an
+  ink colour. Categories always show a word too, so colour is never the only cue.
+- **One memorable idea: tactile "toy keys."** Talking-board keys, category tabs, the Done button and the child picker have a
+  thick bottom edge and press down. Adult screens stay flat and quiet. Motion is only a response to a tap or hover, and
+  `prefers-reduced-motion` switches it off.
+- **Corners:** 12px on standard controls (the PDF); 20 to 28px on big child-facing surfaces.
+- **Type:** Nunito 500 to 800 from Google Fonts. The smallest text is never under 16px at any text size
+  (`--text-sm: max(.89rem, 16px)`). Without internet the system font is used.
+- **Icons get their own colours** (water blue, apple red, smile gold) through `--ic` in `style.css`; anything not listed
+  uses its family colour. High contrast turns every tint white and every edge and icon black.
+- **Exit button in the child view is only an icon**; its words show as a tooltip on hover or keyboard focus and stay
+  available to screen readers.
+- **Not changed:** every HTML id, `data-*` attribute and JS-targeted class. The only JavaScript change is one line in
+  `progress.js` that gives the charts the page font. Chart colours still come from `--color-action`, `--color-text`
+  and `--color-border`.
+
 ## Tooling
 
 - **Libraries are pinned and loaded from a CDN with integrity hashes:** Bootstrap 5.3.8, Font Awesome 6.7.2,

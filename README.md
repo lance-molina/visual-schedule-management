@@ -205,8 +205,9 @@ the frontend address, set `API_BASE_URL` in `frontend/js/config.js`, and do **no
 
 ## 14. References and acknowledgements
 
-Libraries used (all loaded from a CDN with integrity hashes except the Python packages): Bootstrap 5.3.8, Font Awesome Free 6.7.2
-(icons CC BY 4.0, fonts SIL OFL, code MIT), Chart.js 4.6.1, SortableJS 1.15.7; Flask, Flask-SQLAlchemy, Flask-JWT-Extended,
+Libraries used (loaded from a CDN with integrity hashes, except the Python packages and the Nunito font): Bootstrap 5.3.8, Font Awesome Free 6.7.2
+(icons CC BY 4.0, fonts SIL OFL, code MIT), Chart.js 4.6.1, SortableJS 1.15.7; the Nunito typeface (SIL OFL) from Google Fonts, which needs internet
+(without it the pages use the system font and stay readable);  Flask, Flask-SQLAlchemy, Flask-JWT-Extended,
 Flask-CORS, PyMySQL, bcrypt, pytest. Add paper sources here only after you have read and cited them.
 
 ---

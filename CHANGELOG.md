@@ -2,6 +2,22 @@
 
 Every change since the v1 baseline (`docs/versions/v1-baseline.md`, commit cd1eeee) is listed here, newest first.
 
+## v2e (2026-11-13, on top of v2d): look and feel
+
+CSS and HTML, plus one line in progress.js (chart font). No API or database changes. Verified: pytest 180 passed, Node tests passed, browser run of all 16 flows, every page checked at 360, 768, 1024 and 1280 px with no horizontal scroll.
+
+- New stylesheet: Nunito (Google Fonts link added to all 7 pages), tinted canvas, six pastel colour families, tactile "toy key" press effect on the talking board, category tabs, Done button and child picker, pill navigation with a brand tile
+- Child view: "Back to adult screens" is now a round icon button (the words show as a tooltip on hover or focus and stay for screen readers)
+- Icon colours: each picture has its own colour (water is blue, apple red, smile gold); the old single yellow is gone
+- Talking board: the open category tints its cards; selected cards turn green with a check; two columns on phones even at the largest text size
+- Schedule creator: library cards and timeline numbers are tinted by category; the timeline is a dashed drop area
+- Sign-in page: a small done / now / later preview beside the form
+- Small text raised to 16px at every text size (an automated check of the old stylesheet at the Small setting found about 70 text spots under 16px across the pages, as low as 12.8px; the new one finds none); the menu button and brand link now meet 44px (they were 40px)
+- Forms: darker field borders (3:1), larger checks and switches, a clearer slider
+- Added icons to dashboard and progress labels and settings headings (`aria-hidden`)
+- Kept: html.fs-S/M/L, html.contrast-high, focus rings, reduced motion, 44px and 64px targets
+- Docs: README libraries note, `design-decisions.md` "Visual design"
+
 ## v2d (2026-11-12, on top of v2c)
 
 - Fix: an existing local SQLite file made before v2b made `GET /api/cards` answer 500 ("no such column"), so the Talking board showed "Something went wrong". `run-local.bat` now upgrades the file in place (`backend/database/local_upgrade.py`, called by `seed.py --create-tables`; adds only missing nullable columns, keeps all data). 3 new tests (180 total). MySQL still uses `database/migrations/002_...sql`.

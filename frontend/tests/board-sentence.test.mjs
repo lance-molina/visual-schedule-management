@@ -49,7 +49,7 @@ assert.equal(toggleCard(full, mine(0)).change, "removed");                    //
 assert.equal(toggleCard([water], card("Water", "Food", "", { custom: true, id: 5 })).change, "added");
 
 // Filipino speech fixes
-assert.equal(prepareForSpeech("Manood ng TV", "fil"), "Manood ng ti-vi");
+assert.equal(prepareForSpeech("Manood ng TV", "fil"), "Manood ng tee vee");
 assert.equal(prepareForSpeech("Gusto ko ng CR", "fil"), "Gusto ko ng si-ar");
 assert.equal(prepareForSpeech("TV time", "en"), "TV time");                   // English is left alone
 assert.equal(prepareForSpeech("  Tubig  ", "fil"), "Tubig");

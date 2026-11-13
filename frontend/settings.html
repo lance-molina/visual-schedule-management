@@ -8,6 +8,10 @@
        integrity mismatch, regenerate the hash for that exact file. -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/all.min.css" integrity="sha384-nRgPTkuX86pH8yjPJUAFuASXQSSl2/bBUiNV47vSYpKFxHJhbcrGnmlYpYJMeD7a" crossorigin="anonymous">
+  <!-- Nunito (weights 500 to 800) from Google Fonts. It needs internet; without it the page falls back to the system font and stays readable. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body data-page="settings">
@@ -17,7 +21,7 @@
     <h1 class="h2 mb-4">Settings</h1>
 
     <form id="settings-form" novalidate style="max-width: 40rem;">
-      <div class="card p-3 mb-4"><fieldset><legend class="h5">Profile</legend>
+      <div class="card p-3 mb-4"><fieldset><legend class="h5"><i class="fa-solid fa-circle-user me-2" aria-hidden="true"></i>Profile</legend>
         <div class="mb-3"><label class="form-label" for="set-name">Name</label><input class="form-control" id="set-name" data-field="name" autocomplete="name" maxlength="100"></div>
         <div class="mb-3"><label class="form-label" for="set-email">Email</label><input class="form-control" id="set-email" data-field="email" type="email" autocomplete="email"></div>
         <div class="mb-3"><label class="form-label" for="set-role">Role</label>
@@ -28,14 +32,14 @@
           </select></div>
       </fieldset></div>
 
-      <div class="card p-3 mb-4"><fieldset><legend class="h5">Notifications</legend>
+      <div class="card p-3 mb-4"><fieldset><legend class="h5"><i class="fa-solid fa-bell me-2" aria-hidden="true"></i>Notifications</legend>
         <p class="small text-muted">These choices are saved with your account, but this version does not send any emails or messages.</p>
         <div class="form-check form-switch mb-2"><input class="form-check-input" id="set-notify-daily" type="checkbox" role="switch"><label class="form-check-label" for="set-notify-daily">Daily summary</label></div>
         <div class="form-check form-switch mb-2"><input class="form-check-input" id="set-notify-task" type="checkbox" role="switch"><label class="form-check-label" for="set-notify-task">Task reminders</label></div>
         <div class="form-check form-switch mb-2"><input class="form-check-input" id="set-notify-weekly" type="checkbox" role="switch"><label class="form-check-label" for="set-notify-weekly">Weekly report</label></div>
       </fieldset></div>
 
-      <div class="card p-3 mb-4"><fieldset><legend class="h5">Accessibility</legend>
+      <div class="card p-3 mb-4"><fieldset><legend class="h5"><i class="fa-solid fa-universal-access me-2" aria-hidden="true"></i>Accessibility</legend>
         <p class="small text-muted">Text size and contrast change as soon as you pick them. Press Save to keep them.</p>
         <div class="mb-3"><label class="form-label" for="set-font">Text size</label>
           <select class="form-select" id="set-font"><option value="S">Small</option><option value="M" selected>Medium</option><option value="L">Large</option></select></div>
@@ -49,7 +53,7 @@
           <span id="voice-note" class="small text-muted ms-2" role="status" aria-live="polite"></span></div>
       </fieldset></div>
 
-      <div class="card p-3 mb-4"><fieldset><legend class="h5">Language</legend>
+      <div class="card p-3 mb-4"><fieldset><legend class="h5"><i class="fa-solid fa-language me-2" aria-hidden="true"></i>Language</legend>
         <div class="mb-3"><label class="form-label" for="set-language">Language</label>
           <select class="form-select" id="set-language"><option value="en" selected>English</option><option value="fil">Filipino</option></select>
           <div class="form-text">Filipino covers the menu and the child view. The other pages stay in English.</div></div>

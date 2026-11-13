@@ -15,6 +15,7 @@ const state = { childId: null, range: "week", data: null };
 const charts = {};
 
 await initPage("progress");
+await document.fonts?.ready;   // draw the charts only after Nunito has loaded
 
 // ------------------------------------------------------------------ helpers
 
@@ -48,6 +49,7 @@ function chartOptions(c, extra = {}) {
 
 function draw(key, canvasId, config) {
   charts[key]?.destroy();
+  window.Chart.defaults.font.family = getComputedStyle(document.body).fontFamily;
   charts[key] = new window.Chart($(canvasId), config);
 }
 

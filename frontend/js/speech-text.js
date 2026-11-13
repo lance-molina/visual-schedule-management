@@ -3,7 +3,7 @@
 // These readings are our own and have not been reviewed by a native speaker.
 
 const FIL_FIXES = [
-  [/\bTV\b/g, "ti-vi"],
+  [/\bTV\b/g, "tee vee"],
   [/\bCR\b/g, "si-ar"],
 ];
 
