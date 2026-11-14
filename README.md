@@ -200,7 +200,7 @@ Flask-CORS, PyMySQL, bcrypt, pytest. Add paper sources here only after you have 
 
 ## Final repository checklist (before tagging `v1.0-submission`)
 
-- [ ] Frontend and backend both run from a fresh clone using only this README (someone who did not write the code should try it)
+- [ ] Frontend and backend both run from a fresh clone using only this README
 - [ ] No `.env`, secrets, real personal data or large unneeded files
 - [ ] `schema.sql`, `seed.py`, the Postman collection and the pytest suite are included
 - [ ] `docs/` holds the API reference, ERD, deployment plan and the documents' source files
