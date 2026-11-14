@@ -24,7 +24,7 @@ Course project for **Modeling and Simulation** (Finals Activity).
 | 3 | Gumamit, Clarence Jasper | [@clarencejaspergumamitcvt](https://github.com/clarencejaspergumamitcvt) | TODO |
 | 4 | Lagarde, Fitch Gerard | [@fitchlagarde40-afk](https://github.com/fitchlagarde40-afk) | TODO |
 | 5 | Lopez, Zarah | [@ZH-ZaraH](https://github.com/ZH-ZaraH) | TODO |
-| 6 | Manzano, Reniel Nico | [@CodeCoderGuy](https://github.com/CodeCoderGuy) | Tambay sa Kanto |
+| 6 | Manzano, Reniel Nico | [@CodeCoderGuy](https://github.com/CodeCoderGuy) | Researcher |
 | 7 | Montaniel, Arman | [@joshuaa999](https://github.com/joshuaa999) | TODO |
 | 8 | Paaño, Robert Julien | [@trebsil](https://github.com/trebsil) | TODO |
 | 9 | Pagtakhan, Jaden Emsley | [@jadennn20](https://github.com/jadennn20) | TODO |
