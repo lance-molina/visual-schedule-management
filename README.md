@@ -19,7 +19,7 @@ Course project for **Modeling and Simulation** (Finals Activity).
 
 | # | Name | GitHub handle | Main role |
 |---|------|---------------|-----------|
-| 1 | Molina, David Hans Lancelotte M. | [@lance-molina](https://github.com/lance-molina) | Project Manager |
+| 1 | Molina, David Hans Lancelotte M. | [@lance-molina](https://github.com/lance-molina) | Team Leader & Project Manager |
 | 2 | Garciano, Ryza Vanna | [@ryzavanna](https://github.com/ryzavanna) | TODO |
 | 3 | Gumamit, Clarence Jasper | [@clarencejaspergumamitcvt](https://github.com/clarencejaspergumamitcvt) | TODO |
 | 4 | Lagarde, Fitch Gerard | [@fitchlagarde40-afk](https://github.com/fitchlagarde40-afk) | TODO |
