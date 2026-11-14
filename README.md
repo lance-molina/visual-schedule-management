@@ -27,7 +27,7 @@ Course project for **Modeling and Simulation** (Finals Activity).
 | 6 | Manzano, Reniel Nico | [@CodeCoderGuy](https://github.com/CodeCoderGuy) | Researcher |
 | 7 | Montaniel, Arman | [@joshuaa999](https://github.com/joshuaa999) | Researcher |
 | 8 | Paaño, Robert Julien | [@trebsil](https://github.com/trebsil) | Researcher |
-| 9 | Pagtakhan, Jaden Emsley | [@jadennn20](https://github.com/jadennn20) | Technical Documentation Specialist & Video Maker |
+| 9 | Pagtakhan, Jaden Emsley | [@jadennn20](https://github.com/jadennn20) | Technical Documentation & App Demonstrator |
 | 10 | Pecson, Rovin Karl | [@Chewywywy](https://github.com/Chewywywy) | Deployment Planner & Researcher |
 
 ## 2. Features
