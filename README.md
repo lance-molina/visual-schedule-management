@@ -28,7 +28,7 @@ Course project for **Modeling and Simulation** (Finals Activity).
 | 7 | Montaniel, Arman | [@joshuaa999](https://github.com/joshuaa999) | TODO |
 | 8 | Paaño, Robert Julien | [@trebsil](https://github.com/trebsil) | TODO |
 | 9 | Pagtakhan, Jaden Emsley | [@jadennn20](https://github.com/jadennn20) | TODO |
-| 10 | Pecson, Rovin Karl | [@Chewywywy](https://github.com/Chewywywy) | TODO |
+| 10 | Pecson, Rovin Karl | [@Chewywywy](https://github.com/Chewywywy) | Deployment Planner & Researcher |
 
 ## 2. Features
 
