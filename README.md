@@ -23,7 +23,7 @@ Course project for **Modeling and Simulation** (Finals Activity).
 | 2 | Garciano, Ryza Vanna | [@ryzavanna](https://github.com/ryzavanna) | Researcher |
 | 3 | Gumamit, Clarence Jasper | [@clarencejaspergumamitcvt](https://github.com/clarencejaspergumamitcvt) | Researcher |
 | 4 | Lagarde, Fitch Gerard | [@fitchlagarde40-afk](https://github.com/fitchlagarde40-afk) | TODO |
-| 5 | Lopez, Zarah | [@ZH-ZaraH](https://github.com/ZH-ZaraH) | TODO |
+| 5 | Lopez, Zarah | [@ZH-ZaraH](https://github.com/ZH-ZaraH) | Researcher |
 | 6 | Manzano, Reniel Nico | [@CodeCoderGuy](https://github.com/CodeCoderGuy) | Researcher |
 | 7 | Montaniel, Arman | [@joshuaa999](https://github.com/joshuaa999) | Researcher |
 | 8 | Paaño, Robert Julien | [@trebsil](https://github.com/trebsil) | Researcher |
