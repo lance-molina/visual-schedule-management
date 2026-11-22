@@ -2,6 +2,13 @@
 
 Every change since the v1 baseline (`docs/versions/v1-baseline.md`, commit cd1eeee) is listed here, newest first.
 
+## v2k (2026-11-22, on top of v2j): settings column centred
+
+CSS only (`frontend/css/style.css`). No HTML, JavaScript, API or database changes. Why: on wide screens the 40rem settings form sat against the left edge under a full-width title card, which looked lopsided. Verified: pytest 180 passed, Node tests passed, automated contrast, text-size and target-size check on every page at 360, 768 and 1280 px in normal and high-contrast mode.
+
+- The settings form column is centred under the title card (the 40rem maximum width stays, so fields keep a comfortable length); on phones and tablets nothing changes because the form already fills the width
+- The Save settings button is centred under the cards instead of sitting on the left edge
+
 ## v2j (2026-11-22, on top of v2i): progress and settings swap colours
 
 CSS only (`frontend/css/style.css`). No HTML, JavaScript, API or database changes. Why: teal sits better with the progress page's green and blue tiles and soft bars, and brown is a calmer, more neutral colour for a page of forms. Verified: pytest 180 passed, Node tests passed, automated contrast, text-size and target-size check on every page at 360, 768 and 1280 px in normal and high-contrast mode.

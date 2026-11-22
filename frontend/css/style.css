@@ -807,6 +807,8 @@ html.contrast-high .activity-card .activity-icon, html.contrast-high .timeline-i
 html.contrast-high #charts > section { border-top-color: #000; }
 
 /* ---- Settings: solid icon discs on each section heading ---- */
+#settings-form { margin-inline: auto; }   /* v2k: the 40rem form column is centred under the title card */
+#settings-form > #settings-save { display: block; margin-inline: auto; }   /* v2k: Save settings is centred under the cards */
 #settings-form > .card { --k-solid: var(--orange-solid); }   /* v2j: all four discs use the page colour (chocolate brown) */
 #settings-form legend i { display: inline-grid; place-items: center; width: 2.4rem; height: 2.4rem; border-radius: 50%; background: var(--k-solid); color: #fff; font-size: 1.1rem; }
 html.contrast-high #settings-form legend i { background: #000; }
