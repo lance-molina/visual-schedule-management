@@ -119,7 +119,7 @@ unclear point and should be confirmed with the instructor.
   and Pumpkin Spice carry dark text. Jungle Teal, Dusty Lavender, Chocolate Brown and Sage Green carry white text.
 - **Sage Green is deepened.** The team's #5B9537 is 3.62:1 with white text, so #47792A (5.2:1) is used for the schedule creator title card.
 - **Each page has its own title card colour again** (dashboard Yale Blue, creator Sage Green, talking board Dusty Lavender,
-  progress Chocolate Brown, settings Jungle Teal). The matching accent (creator toolbar bar, sentence box, chart card tops, settings
+  progress Jungle Teal, settings Chocolate Brown; swapped in v2j so progress matches its green and blue tiles and settings gets the calmer colour). The matching accent (creator toolbar bar, sentence box, chart card tops, settings
   discs) uses the same colour. The title cards read `--hero` from `body[data-page]`, which uses the same tokens as v2f.
 - **Selection does not use a category colour.** Activities is Electric Green, so a selected talking board card is white with a thick
   Yale Blue border and a blue check, and the open category tab keeps its colour with a thick Yale Blue border. This works in every

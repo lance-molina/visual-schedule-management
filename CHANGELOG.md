@@ -2,6 +2,14 @@
 
 Every change since the v1 baseline (`docs/versions/v1-baseline.md`, commit cd1eeee) is listed here, newest first.
 
+## v2j (2026-11-22, on top of v2i): progress and settings swap colours
+
+CSS only (`frontend/css/style.css`). No HTML, JavaScript, API or database changes. Why: teal sits better with the progress page's green and blue tiles and soft bars, and brown is a calmer, more neutral colour for a page of forms. Verified: pytest 180 passed, Node tests passed, automated contrast, text-size and target-size check on every page at 360, 768 and 1280 px in normal and high-contrast mode.
+
+- Progress is Jungle Teal: title card and the three chart-card top bars
+- Settings is Chocolate Brown: title card and the four section icon discs
+- Docs: `design-decisions.md` "Visual design (v2h)"
+
 ## v2i (2026-11-22, on top of v2h): softer chart bars
 
 CSS only (`frontend/css/style.css`, the five `--chart-*` tokens). No HTML, JavaScript, API or database changes. Why: after v2h the stat tiles were half-strength but the bars were still full-strength, so the charts were the loudest part of the progress page, and a bright green bar next to an orange one could read as good versus bad. Verified: pytest 180 passed, Node tests passed, automated contrast, text-size and target-size check on every page at 360, 768 and 1280 px in normal and high-contrast mode.
@@ -15,7 +23,7 @@ CSS only (`frontend/css/style.css`, the five `--chart-*` tokens). No HTML, JavaS
 CSS plus the fallback colours in `frontend/js/progress.js`. No HTML, API or database changes. Why: the team chose a second palette (Plum, Deep Sky Blue, Electric Green, Amber Honey, Pumpkin Spice; Yale Blue, Jungle Teal, Dusty Lavender, Sage Green, Chocolate Brown) and asked for each page to have its own colour again. Verified: pytest 180 passed, Node tests passed, every page at 360, 768 and 1280 px in normal and high-contrast mode with an automated check (no text under 4.5:1, or 3:1 for large text; no text under 16px; no target under 44px) and no horizontal scroll.
 
 - Palette: Yale Blue #124E78 replaces cerulean for the top bar, primary buttons, links and icons; Deep Sky Blue #51C1F5, Electric Green #3BF75A, Amber Honey #F5AB1B, Plum #E090D4 and Pumpkin Spice #FF8C42 replace the five pale colours (dark text on them); Jungle Teal, Dusty Lavender and Chocolate Brown are accents. Sage Green is #47792A, not #5B9537, because the original is only 3.6:1 with white text (the new one is 5.2:1)
-- Page title cards are one colour per page again: dashboard Yale Blue, schedule creator Sage Green, talking board Dusty Lavender, progress Chocolate Brown, settings Jungle Teal. The line above the creator toolbar, the talking board sentence box and the three chart cards use the same colour as their title card
+- Page title cards are one colour per page again: dashboard Yale Blue, schedule creator Sage Green, talking board Dusty Lavender, progress Chocolate Brown, settings Jungle Teal (swapped in v2j). The line above the creator toolbar, the talking board sentence box and the three chart cards use the same colour as their title card
 - Settings: the four section icon discs are all Jungle Teal
 - Talking board: Speak has no fill and a Dusty Lavender outline; Food is Pumpkin Spice, Feelings Amber Honey, Activities Electric Green and Basics Deep Sky Blue (full colour on the tab, a half-strength tint on the cards); word chips have a Dusty Lavender outline
 - Talking board selection no longer depends on green: a selected card is white with a thick Yale Blue border and a blue check, and the open tab keeps its own colour with a thick Yale Blue border (it was a dark fill, which made Feelings brown and Activities forest green)

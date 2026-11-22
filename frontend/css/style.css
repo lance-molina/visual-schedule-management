@@ -727,8 +727,8 @@ html.contrast-high .btn-primary { box-shadow: 0 3px 0 #000; }
 body[data-page="dashboard"]        { --hero: var(--blue-solid);   --hero-edge: var(--blue-edge);       --hero-glyph: "\f015"; }
 body[data-page="schedule-creator"] { --hero: var(--green-deep);   --hero-edge: var(--green-deep-edge); --hero-glyph: "\f271"; }
 body[data-page="communication"]    { --hero: var(--violet-solid); --hero-edge: var(--violet-edge);     --hero-glyph: "\f086"; }
-body[data-page="progress"]         { --hero: var(--orange-solid); --hero-edge: var(--orange-edge);     --hero-glyph: "\e0e3"; }
-body[data-page="settings"]         { --hero: var(--teal-solid);   --hero-edge: var(--teal-edge);       --hero-glyph: "\f013"; }
+body[data-page="progress"]         { --hero: var(--teal-solid);   --hero-edge: var(--teal-edge);       --hero-glyph: "\e0e3"; }
+body[data-page="settings"]         { --hero: var(--orange-solid); --hero-edge: var(--orange-edge);     --hero-glyph: "\f013"; }
 main > h1.h2 {
   position: relative; overflow: hidden; display: flex; align-items: center; gap: var(--space-4);
   padding: 1.1rem 1.5rem; border-radius: var(--radius-xl); background: var(--hero, var(--blue-solid)); color: #fff;
@@ -803,11 +803,11 @@ html.contrast-high .child-actions .btn { --bs-btn-bg: #fff; --bs-btn-color: #000
 html.contrast-high .activity-card .activity-icon, html.contrast-high .timeline-item .position { background: #000; }
 
 /* ---- Progress: each chart card gets a colour edge ---- */
-#charts > section { border-top: 8px solid var(--orange-solid); }   /* v2h: the page's own colour (chocolate brown) on all three */
+#charts > section { border-top: 8px solid var(--teal-solid); }   /* v2j: the page's own colour (jungle teal) on all three */
 html.contrast-high #charts > section { border-top-color: #000; }
 
 /* ---- Settings: solid icon discs on each section heading ---- */
-#settings-form > .card { --k-solid: var(--teal-solid); }   /* v2h: all four discs use the page colour (jungle teal) */
+#settings-form > .card { --k-solid: var(--orange-solid); }   /* v2j: all four discs use the page colour (chocolate brown) */
 #settings-form legend i { display: inline-grid; place-items: center; width: 2.4rem; height: 2.4rem; border-radius: 50%; background: var(--k-solid); color: #fff; font-size: 1.1rem; }
 html.contrast-high #settings-form legend i { background: #000; }
 
