@@ -2,6 +2,18 @@
 
 Every change since the v1 baseline (`docs/versions/v1-baseline.md`, commit cd1eeee) is listed here, newest first.
 
+## v3 (2026-11-22, branch v2-sidebar-nav, on top of v2k): side menu and sky background
+
+Navbar layout (CSS, with two small markup changes in `frontend/js/components.js`). No API, database or other HTML changes; every id, `data-*` attribute and class that JavaScript or tests use is kept. Why: the top bar was cramped (brand, six links, user badge and Log out on one row, and it collapsed into a hamburger below 1200px), and the team liked the side menus in the reference designs. Verified: pytest 180 passed, Node tests passed, an automated check on every page at 360, 768, 1000, 1200, 1280 and 1440 px in normal and high-contrast mode (no text under 4.5:1, or 3:1 for large text; no text under 16px; no target under 44px), no horizontal scroll, keyboard focus, Filipino labels, the slide-out menu at phone width.
+
+- From 1200px up the navbar is a fixed 16rem Yale Blue side menu: brand at the top, the six links with their words, and the name, role and Log out in a panel at the bottom. Below 1200px the hamburger and slide-out menu are unchanged
+- The open page's item is a tab in the page background colour with curved corners above and below, so the menu seems to open into the page
+- Each link has an icon disc in its page's colour (dashboard Yale Blue, creator Sage, child view dark blue, talking board Lavender, progress Teal, settings Brown), shown at every width
+- `components.js`: each link gets `data-nav` and an icon at every size plus a `nav-label` span; the role text lost the `d-xl-none` class and is now `user-role`
+- Page background is a soft sky blue (`--color-bg` #DDF0FC, was #EDF6FC) with a sun and hills behind the content (decoration only, hidden in high contrast); the child view now uses the same background
+- The undo bar shifts right by the menu width
+- Docs: `design-decisions.md` "Visual design (v3)"
+
 ## v2k (2026-11-22, on top of v2j): settings column centred
 
 CSS only (`frontend/css/style.css`). No HTML, JavaScript, API or database changes. Why: on wide screens the 40rem settings form sat against the left edge under a full-width title card, which looked lopsided. Verified: pytest 180 passed, Node tests passed, automated contrast, text-size and target-size check on every page at 360, 768 and 1280 px in normal and high-contrast mode.

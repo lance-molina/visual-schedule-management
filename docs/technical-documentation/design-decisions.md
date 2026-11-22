@@ -134,6 +134,23 @@ unclear point and should be confirmed with the instructor.
   high contrast still turns every bar solid black. Colour is decoration only.
 - **Not changed:** HTML, API, database, ids, `data-*` attributes. JavaScript: only the fallback colours in `progress.js`.
 
+## Visual design (v3): side menu
+
+- **Why a side menu.** At 1280px the top bar held the brand, six links, the user badge and Log out with almost no spacing, and below
+  1200px it became a hamburger. A fixed side menu gives each item room for its words and moves the account block to the bottom.
+- **Words stay on every item.** The reference designs use icon-only menus; here every item keeps its label (caregivers and therapists
+  should not have to guess an icon). The icon disc is a second cue, in the colour of the page it opens.
+- **The open page is a tab, not only a colour.** The active item uses the page background colour with curved corners and
+  `aria-current="page"`, so it is told apart by shape and position as well as colour. In high contrast it is a white tab on a black menu.
+- **Same markup, CSS layout.** The navbar is still Bootstrap's `navbar-expand-xl` with an offcanvas below 1200px. `components.js` only adds
+  `data-nav`, an icon at every size and a label span. That keeps the slide-out menu, focus handling and tests working.
+- **Sky background.** `--color-bg` is a softer sky blue so white cards stand out, and the active tab uses the same variable so it merges
+  with the page. The sun and hills are `body::before`/`::after`, fixed, behind the content, `pointer-events: none`, hidden in high contrast.
+  Text that sits directly on the background is dark on pale blue or green (over 10:1).
+- **Child view** has no menu by design; it only picks up the new background.
+- **Trade-off.** The menu takes 16rem from the width; at 1200px the content column is 944px, which the grids, board and charts fit without
+  horizontal scroll. Below 1200px nothing changes.
+
 ## Tooling
 
 - **Libraries are pinned and loaded from a CDN with integrity hashes:** Bootstrap 5.3.8, Font Awesome 6.7.2,

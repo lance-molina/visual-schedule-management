@@ -26,7 +26,7 @@
   --color-now: #F5AB1B;             /* amber honey: the task happening now, with the word Now; dark text */
   --color-text: #1B2A41;            /* ink navy, not black */
   --color-muted: #4A5B73;
-  --color-bg: #EDF6FC;              /* cool canvas; white cards and solid colour blocks stand out on it */
+  --color-bg: #DDF0FC;              /* soft sky blue canvas (v3); white cards and solid colour blocks stand out on it, and the active menu tab uses it so it merges into the page */
   --color-surface: #FFFFFF;
   --color-border: #C9DCE8;          /* soft dividers */
   --color-field: #6C8CA3;           /* borders of inputs and outline buttons (3:1 on white) */
@@ -479,7 +479,7 @@ html.contrast-high .task-now .task-chip-state { background: #fff; color: #000; b
 /* =====================================================================
    Child view
    ===================================================================== */
-body[data-page="child-view"] { background: #F7FAFE; }
+body[data-page="child-view"] { background: var(--color-bg); }
 .child-view .cv-header { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-4); }
 .child-view .cv-name { font-size: 1.5rem; font-weight: 800; margin: 0; }
 .child-view .cv-date { color: var(--color-muted); margin: 0; font-weight: 600; }
@@ -934,3 +934,56 @@ html.contrast-high .child-view > .d-flex:first-child:has(.cv-header:not([hidden]
 html.contrast-high .activity-card .activity-icon i[class*="fa-"] { color: #fff !important; }
 html.contrast-high .timeline-item .position { color: #fff; }
 html.contrast-high .activity-card .activity-icon { box-shadow: none; }
+
+/* ---- v3: side menu and sky background ----
+   From 1200px up the navbar is a fixed side menu (Yale Blue). The open page's item becomes a tab in the page colour with
+   curved corners, so the menu seems to open into the page. Below 1200px the hamburger and slide-out menu are unchanged.
+   The markup is the same as before; only the icon discs and labels were added in components.js. */
+:root { --nav-w: 16rem; }
+.nav-ico { display: inline-grid; place-items: center; width: 2.2rem; height: 2.2rem; border-radius: 50%; color: #fff; font-size: 1rem; flex: none;
+           box-shadow: 0 0 0 2px #fff; margin-right: .75rem; }
+.nav-link[data-nav="dashboard"] .nav-ico { background: var(--blue-solid); }
+.nav-link[data-nav="schedule-creator"] .nav-ico { background: var(--green-deep); }
+.nav-link[data-nav="child-view"] .nav-ico { background: var(--blue-edge); }
+.nav-link[data-nav="communication"] .nav-ico { background: var(--violet-solid); }
+.nav-link[data-nav="progress"] .nav-ico { background: var(--teal-solid); }
+.nav-link[data-nav="settings"] .nav-ico { background: var(--orange-solid); }
+.user-role { display: block; font-weight: 600; font-size: .9rem; }
+@media (max-width: 1199.98px) { .user-role { display: inline; } .user-role::before { content: "\00b7"; margin: 0 .4em; } }
+
+/* Sky: a sun and hills behind everything (decoration only, hidden in high contrast) */
+body::before { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(circle at 94% -6%, #FFE08A 0 8.5rem, transparent 8.6rem); }
+body::after { content: ""; position: fixed; z-index: -1; pointer-events: none; right: -6rem; bottom: -8.5rem; width: 36rem; height: 14rem;
+  border-radius: 50%; background: #BFE8C6; box-shadow: -26rem 3.2rem 0 -1rem #A9DDB3; }
+html.contrast-high body::before, html.contrast-high body::after { display: none; }
+
+@media (min-width: 1200px) {
+  body:has(#app-header nav) { padding-left: var(--nav-w); }
+  #app-header { position: fixed; inset: 0 auto 0 0; width: var(--nav-w); z-index: 1030; }
+  .navbar { height: 100%; background: var(--blue-solid) !important; border: 0 !important; padding: 1.25rem 0 1.25rem 1rem; }
+  .navbar > .container { flex-direction: column; align-items: stretch; flex-wrap: nowrap; max-width: none; height: 100%; padding: 0; gap: 1.5rem; }
+  .navbar-brand { color: #fff !important; font-size: 1.2rem; padding-left: .25rem; }
+  html .navbar .navbar-brand .fa-calendar-check { background: #fff; color: var(--blue-solid); box-shadow: 0 3px 0 rgba(0, 0, 0, .3); margin-right: .6rem !important; }
+  .navbar .offcanvas-xl { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; }
+  .navbar-expand-xl .offcanvas-body { flex-direction: column; flex: 1 1 auto; justify-content: space-between; align-items: stretch !important; padding: 0; overflow: visible; }
+  .navbar-expand-xl .navbar-nav { flex-direction: column; gap: .3rem !important; margin: 0 !important; }
+  .navbar .nav-link { color: #fff; font-size: 1.05rem; border-radius: 999px 0 0 999px; padding: .5rem .75rem .5rem .5rem; position: relative; }
+  .navbar .nav-link:hover { background: rgba(255, 255, 255, .14); color: #fff; }
+  .navbar .nav-link.active { background: var(--color-bg); color: var(--color-text); }
+  html.contrast-high .navbar .nav-link.active { outline: none; }
+  .navbar .nav-link.active::before, .navbar .nav-link.active::after { content: ""; position: absolute; right: 0; width: 1.3rem; height: 1.3rem; }
+  .navbar .nav-link.active::before { top: -1.3rem; background: radial-gradient(circle at 0 0, transparent 1.3rem, var(--color-bg) 1.32rem); }
+  .navbar .nav-link.active::after { bottom: -1.3rem; background: radial-gradient(circle at 0 100%, transparent 1.3rem, var(--color-bg) 1.32rem); }
+  .navbar :focus-visible { box-shadow: 0 0 0 3px var(--blue-solid), 0 0 0 6px #fff; }
+  .navbar .offcanvas-body > .d-flex { flex-direction: column !important; align-items: stretch !important; margin: 0 1rem 0 0; padding: .85rem;
+    background: rgba(255, 255, 255, .14); border-radius: 1.25rem; gap: .75rem !important; }
+  #user-badge { background: transparent; padding: 0; color: #fff; display: block; margin: 0 !important; border-radius: 0; }
+  #user-badge .user-icon { display: none; }
+  #user-badge .user-name-text { position: static; width: auto; height: auto; clip: auto; display: block; font-size: 1.05rem; }
+  #user-badge .user-role::before { content: none; }
+  #logout-btn { color: #fff; border-color: #fff; border-width: 2px; width: 100%; justify-content: center; }
+  #logout-btn:hover { background: #fff; color: var(--blue-solid); }
+  .undo-bar { left: calc(var(--nav-w) + var(--space-3)); }
+}
