@@ -2,6 +2,8 @@
 // a "View as table" alternative, and a plain CSV export. All figures come from GET /api/progress,
 // which uses the same task rows the child view writes, so the screens cannot disagree.
 // Completion rate = completed / scheduled, shown as a dash when nothing was scheduled.
+// Bar fills cycle through five pastel colours (--chart-1 to --chart-5) with a dark outline; the colour is decoration
+// only, so every value is also on the axis, in the tooltip, in the summary sentence and in the table.
 
 import { children as childrenApi, progress } from "./api.js";
 import { clear, formatDateShort, h, percent, todayLocal } from "./components.js";
@@ -21,7 +23,8 @@ await document.fonts?.ready;   // draw the charts only after Nunito has loaded
 
 function colors() {
   const css = getComputedStyle(document.documentElement);
-  return { bar: css.getPropertyValue("--color-action").trim() || "#2B6CB0",
+  const fills = [1, 2, 3, 4, 5].map((n) => css.getPropertyValue(`--chart-${n}`).trim() || "#96FFFF");
+  return { bar: css.getPropertyValue("--color-action").trim() || "#1F7DA8", fills,
            text: css.getPropertyValue("--color-text").trim() || "#1F2937",
            grid: css.getPropertyValue("--color-border").trim() || "#D1D5DB" };
 }
@@ -117,7 +120,8 @@ function render(data) {
   draw("daily", "daily-chart", {
     type: "bar",
     data: { labels: data.daily.map((d) => formatDateShort(d.date)),
-            datasets: [{ data: data.daily.map((d) => pct(d.completion_rate)), backgroundColor: c.bar }] },
+            datasets: [{ data: data.daily.map((d) => pct(d.completion_rate)), backgroundColor: data.daily.map((_, i) => c.fills[i % c.fills.length]),
+                         borderColor: c.bar, borderWidth: 2, borderRadius: 6 }] },
     options: { ...chartOptions(c), plugins: { legend: { display: false },
       tooltip: { callbacks: { label: (ctx) => detail(data.daily[ctx.dataIndex]) } } } },
   });
@@ -126,8 +130,8 @@ function render(data) {
   draw("weekly", "weekly-chart", {
     type: "line",
     data: { labels: data.weekly.map(weekLabel),
-            datasets: [{ data: data.weekly.map((w) => pct(w.completion_rate)), borderColor: c.bar, backgroundColor: c.bar,
-                         pointRadius: 5, tension: 0.2, spanGaps: false }] },
+            datasets: [{ data: data.weekly.map((w) => pct(w.completion_rate)), borderColor: c.bar, borderWidth: 3, backgroundColor: c.fills[0],
+                         pointBackgroundColor: c.fills[0], pointBorderColor: c.bar, pointBorderWidth: 2, pointRadius: 6, tension: 0.2, spanGaps: false }] },
     options: { ...chartOptions(c), plugins: { legend: { display: false },
       tooltip: { callbacks: { label: (ctx) => detail(data.weekly[ctx.dataIndex]) } } } },
   });
@@ -137,7 +141,8 @@ function render(data) {
   draw("tasks", "tasks-chart", {
     type: "bar",
     data: { labels: picks.map((p) => shortName(p.name)),
-            datasets: [{ data: picks.map((p) => pct(p.completion_rate)), backgroundColor: c.bar }] },
+            datasets: [{ data: picks.map((p) => pct(p.completion_rate)), backgroundColor: picks.map((_, i) => c.fills[i % c.fills.length]),
+                         borderColor: c.bar, borderWidth: 2, borderRadius: 6 }] },
     options: { ...chartOptions(c), indexAxis: "y",
       scales: { x: { min: 0, max: 100, ticks: { color: c.text, callback: (v) => `${v}%` }, grid: { color: c.grid } },
                 y: { ticks: { color: c.text }, grid: { display: false } } },

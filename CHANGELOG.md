@@ -2,6 +2,42 @@
 
 Every change since the v1 baseline (`docs/versions/v1-baseline.md`, commit cd1eeee) is listed here, newest first.
 
+## v2g (2026-11-21, on top of v2f): team palette
+
+CSS plus one file of JavaScript (`frontend/js/progress.js`, chart colours only). No HTML, API or database changes. Why: the team chose a new palette (cerulean and five pale colours) and asked for fewer, calmer colours. Verified: pytest 180 passed, Node tests passed, browser run of all 16 flows, every page at 360, 768, 1024 and 1280 px with no horizontal scroll, no text under 16px and no target under 44px (automated check), and no text under 4.5:1 (3:1 for large text) in normal or high-contrast mode.
+
+- Palette: cerulean #1F7DA8 for the top bar, page title cards and solid blocks; five pale colours with dark text (cyan #96FFFF, lime #C9FF94, yellow #FFFF94, lavender #C994FF, coral #FF9494). Deep violet #8F1FA8, rust #A84A1F, green #2A7F18 and teal #26805A stay as edges and accents (two were darkened from the team's #38A81F and #2C9364 so white text passes 4.5:1)
+- Blue text and primary buttons use #1B7699, a little deeper than the fill cerulean, because #1F7DA8 measured only 4.3:1 on the pale page tint
+- Every page title card is cerulean (it was one colour per page); the schedule creator toolbar bar and the three chart-card top bars are cerulean too
+- One icon colour: every picture (child view, talking board, schedule creator timeline, avatars) is cerulean. The per-icon colours from v2e (red apple, gold smile) are gone; the picture, the word and the tint behind it carry the meaning
+- Dashboard and progress: the blue tile and the "Schedule" link are soft cyan with dark text; child avatars are white discs with a cerulean ring; the child picker uses pale keys
+- Schedule creator: category discs and timeline numbers are pastel with dark glyphs (hygiene cyan, food coral, school lavender, play lime)
+- Talking board: the sentence strip is cerulean and the word chips are white; Feelings is lavender and Activities yellow, so green is used only for "selected"
+- Progress charts: bars cycle through the five pale colours with a cerulean outline (`--chart-1` to `--chart-5`, read by `progress.js`); the weekly line stays cerulean with cyan dots. The bar colour carries no meaning: every value is also on the axis, in the tooltip, in the summary sentence and in the table
+- High contrast: every new pale and cerulean token turns white or black, discs stay black with white glyphs
+- High contrast charts: bars and dots are solid black (were white with an outline, hard to see)
+- Fix: the "+" on a schedule-creator library card turned white on a white background when hovered; it now shows a white "+" on the category's dark colour
+- Docs: `design-decisions.md` "Visual design (v2g)"
+
+## v2f (2026-11-21, on top of v2e): colour-forward look
+
+CSS only (`frontend/css/style.css`). No HTML, JavaScript, API or database changes. Why: a person outside the team compared v2e with another team's build page by page; the other build won every page except the talking board, and settings tied. The cause was colour strength: v2e used pale tints on a pale background. Verified: pytest 180 passed, Node tests passed, browser run of all 16 flows, every page at 360, 768, 1024 and 1280 px with no horizontal scroll, an automated check finds no text under 16px and no target under 44px, and a script finds no text under 4.5:1 (3:1 for large text) in normal or high-contrast mode.
+
+- Palette: the PDF's blue, green and yellow are now used at full strength as solid fills, with violet, orange and teal added as accents (new `--blue-solid`, `--lime-solid`, `--yellow-solid`, `--violet-solid`, `--orange-solid`, `--teal-solid` and `--green-deep` tokens, each with an edge colour). Every text and fill pair is 4.5:1 or better: white on blue, violet, orange, teal and deep green; dark ink on lime and yellow
+- Main blue is a little deeper (`--color-action` #2B6CB0 to #2769B5) so blue text also reads on the tinted page background (5.0:1)
+- Top bar is solid blue with a white brand tile and a white pill for the current page; below 1200px the same bar opens the menu panel
+- Every page opens with a solid banner (dashboard blue, schedule creator green, talking board violet, progress orange, settings teal) with a white icon disc and confetti dots; built from the existing `h1`, so no markup changed
+- Sign-in: solid blue panel with the done / now / later preview
+- Dashboard and progress: solid blue, green and yellow number tiles; child cards have blue, green and yellow action buttons
+- Schedule creator: solid category discs with white icons (blue, orange, violet, green), coloured timeline bars, a green bar on the toolbar
+- Progress charts: coloured top bar on each chart card (chart bars stay blue, and are read from `--color-action`)
+- Settings: coloured heading discs per group
+- Child view: blue greeting band, yellow "Now" card, lime celebration card, solid yellow "Now" row, soft green finished rows, solid-colour child picker
+- Talking board: violet outline and shadow on the sentence strip, yellow word chips
+- High contrast still turns every fill white and every edge, icon and border black; confetti dots are hidden there and below 480px
+- Kept: Nunito, toy-key press effect, `html.fs-S/M/L`, focus rings, reduced motion, 44px and 64px targets, every HTML id, `data-*` attribute and JS-targeted class
+- Docs: `design-decisions.md` "Visual design (v2f)"
+
 ## v2e (2026-11-13, on top of v2d): look and feel
 
 CSS and HTML, plus one line in progress.js (chart font). No API or database changes. Verified: pytest 180 passed, Node tests passed, browser run of all 16 flows, every page checked at 360, 768, 1024 and 1280 px with no horizontal scroll.

@@ -17,29 +17,48 @@
 
 :root {
   /* Core colour */
-  --color-brand-blue: #4A90D9;      /* from the PDF: brand tile, sky edge; NOT for white text */
-  --color-action: #2B6CB0;          /* primary buttons, links, active nav (white text) */
-  --color-action-dark: #235A96;
-  --color-done: #7ED321;            /* from the PDF: Done button, with a check icon; dark text */
-  --color-done-edge: #4F9A0F;
-  --color-done-ink: #2F6B0B;        /* green text on white */
-  --color-now: #F5A623;             /* from the PDF: the task happening now, with the word Now; dark text */
+  --color-brand-blue: #1F7DA8;      /* cerulean (v2g); the PDF's #4A90D9 is replaced by the team's palette */
+  --color-action: #1B7699;          /* primary buttons, links, outline buttons: cerulean a little deeper so blue text is 4.5:1 on every tint (white text 5.1:1) */
+  --color-action-dark: #155A79;
+  --color-done: #C9FF94;            /* pale lime: Done button, with a check icon; dark text */
+  --color-done-edge: #5FA32E;
+  --color-done-ink: #24690F;        /* green text on white */
+  --color-now: #FFFF94;             /* pale yellow: the task happening now, with the word Now; dark text */
   --color-text: #1B2A41;            /* ink navy, not black */
   --color-muted: #4A5B73;
-  --color-bg: #F1F6FC;              /* cool tinted canvas */
+  --color-bg: #EEF8FA;              /* cool canvas; white cards and solid colour blocks stand out on it */
   --color-surface: #FFFFFF;
-  --color-border: #C9D6E6;          /* soft dividers */
-  --color-field: #7488A3;           /* borders of inputs and outline buttons (3:1 on white) */
+  --color-border: #C5DDE4;          /* soft dividers */
+  --color-field: #6F8F9C;           /* borders of inputs and outline buttons (3:1 on white) */
   --color-error: #B42318;           /* always with an icon and words */
-  --color-selected: #E6F1FC;
+  --color-selected: #E2F6FB;
 
   /* Pastel families: tint (surface), edge (border and key edge), ink (text and icons on tint or white) */
-  --sky-tint: #E6F1FC;     --sky-edge: #3F86CF;     --sky-ink: #1F5FA8;
-  --apricot-tint: #FFEFDD; --apricot-edge: #C26D08; --apricot-ink: #9A4A05;
-  --lilac-tint: #EFE9FB;   --lilac-edge: #8767D6;   --lilac-ink: #5636AA;
-  --mint-tint: #E3F5E1;    --mint-edge: #3E9B45;    --mint-ink: #25692A;
-  --rose-tint: #FDE8EF;    --rose-edge: #D24D7C;    --rose-ink: #A81F4B;
-  --sun-tint: #FFF6D6;     --sun-edge: #B07D00;     --sun-ink: #7A4F00;
+  --sky-tint: #DDFFFF;     --sky-edge: #1F7DA8;     --sky-ink: #14607F;
+  --apricot-tint: #FBE8DD; --apricot-edge: #A84A1F; --apricot-ink: #8A3A14;
+  --lilac-tint: #F2E6FF;   --lilac-edge: #8F1FA8;   --lilac-ink: #6A178A;
+  --mint-tint: #E4FBD3;    --mint-edge: #3E9A26;    --mint-ink: #256A12;
+  --rose-tint: #FFE3E3;    --rose-edge: #D9534F;    --rose-ink: #A32727;
+  --sun-tint: #FFFFD0;     --sun-edge: #A8A100;     --sun-ink: #645C00;
+
+  /* Solid colour blocks (v2f): the PDF's blue, green and yellow at full strength, plus three more crayons.
+     Each is paired with the text colour that passes 4.5:1 on it: white on the blue, violet, orange, teal and deep
+     green; ink on the bright green and the yellow. */
+  --blue-solid: #1F7DA8;   --blue-edge: #155A79;      /* cerulean */
+  --lime-solid: #C9FF94;   --lime-edge: #5FA32E;      /* ink text */
+  --yellow-solid: #FFFF94; --yellow-edge: #B3AB00;    /* ink text */
+  --green-deep: #2A7F18;   --green-deep-edge: #1D5A10;
+  --violet-solid: #8F1FA8; --violet-edge: #68137B;
+  --orange-solid: #A84A1F; --orange-edge: #7A3112;
+  --teal-solid: #26805A;   --teal-edge: #185A3E;
+  /* v2g: the pale set (dark text on these) */
+  --cyan-solid: #96FFFF;   --cyan-edge: #2AA7B8;
+  --coral-solid: #FF9494;  --coral-edge: #B73A3A;
+  --lavender-solid: #C994FF; --lavender-ink: #5C1275;
+  --yellow-ink: #5C5600;
+  --icon-color: var(--blue-solid);                    /* one colour for every picture */
+  --chart-1: var(--cyan-solid); --chart-2: var(--lime-solid); --chart-3: var(--yellow-solid);
+  --chart-4: var(--lavender-solid); --chart-5: var(--coral-solid);   /* bar fills, outlined in --color-action */
 
   /* Schedule categories (always shown with the category word too) */
   --cat-hygiene: var(--sky-ink);
@@ -94,6 +113,13 @@ html.contrast-high {
   --color-action: #1E4E8C;
   --color-action-dark: #163A68;
   --color-selected: #FFFFFF;
+  --blue-solid: #000000;   --blue-edge: #000000;   --lime-solid: #FFFFFF; --lime-edge: #000000;
+  --yellow-solid: #FFFFFF; --yellow-edge: #000000; --green-deep: #000000; --green-deep-edge: #000000;
+  --violet-solid: #000000; --violet-edge: #000000; --orange-solid: #000000; --orange-edge: #000000;
+  --teal-solid: #000000;   --teal-edge: #000000;
+  --cyan-solid: #FFFFFF;   --cyan-edge: #000000;   --coral-solid: #FFFFFF; --coral-edge: #000000;
+  --lavender-solid: #FFFFFF; --lavender-ink: #000000; --yellow-ink: #000000;
+  --chart-1: #000000; --chart-2: #000000; --chart-3: #000000; --chart-4: #000000; --chart-5: #000000;   /* solid black bars */
   --color-done-edge: #000000;
   --color-done-ink: #000000;
   --sky-tint: #FFFFFF;     --sky-edge: #000000;     --sky-ink: #000000;
@@ -150,24 +176,10 @@ main:focus { outline: none; }
 img { max-width: 100%; height: auto; }
 
 /* =====================================================================
-   Icon colours: each picture gets its own colour (water is blue, an apple is red, a smile is gold),
-   read through --ic. Anything not listed falls back to the colour of its family.
-   Every colour here is at least 3:1 on white and on all six tints.
+   Icon colours (v2g): every picture uses one colour (--icon-color, cerulean) so the screens stay calm.
+   The picture, the word and the tint behind it carry the meaning, never colour alone.
    ===================================================================== */
-.fa-droplet, .fa-glass-water, .fa-bath, .fa-hands-bubbles, .fa-fish { --ic: #1F6FBF; }
-.fa-toilet, .fa-book, .fa-book-open, .fa-face-sad-tear, .fa-tooth { --ic: #2B6CB0; }
-.fa-apple-whole, .fa-face-angry, .fa-circle-stop, .fa-thumbs-down, .fa-rocket { --ic: #C0392B; }
-.fa-carrot { --ic: #C2570C; }
-.fa-bowl-rice, .fa-bowl-food, .fa-utensils, .fa-cookie-bite, .fa-shoe-prints, .fa-dog { --ic: #8A5A2B; }
-.fa-bread-slice { --ic: #A9590F; }
-.fa-house, .fa-cat { --ic: #B45309; }
-.fa-egg, .fa-face-smile, .fa-bus, .fa-hand, .fa-star, .fa-pencil, .fa-shirt { --ic: #A66F00; }
-.fa-futbol, .fa-tree, .fa-circle-plus, .fa-thumbs-up, .fa-circle-check, .fa-dragon { --ic: #2F855A; }
-.fa-puzzle-piece, .fa-school, .fa-face-surprise { --ic: #6D3FC0; }
-.fa-bed, .fa-moon { --ic: #4C4FB5; }
-.fa-music, .fa-hand-holding-heart { --ic: #B8326A; }
-.fa-palette, .fa-paw { --ic: #A83279; }
-.fa-tv, .fa-train { --ic: #3B5470; }
+i[class*="fa-"] { --ic: var(--icon-color); }
 
 :is(.talk-pic, .sentence-word, .pic-label, .my-card-pic, .task-icon, .task-chip-icon, .activity-icon,
     .timeline-main, .avatar, .avatar-picker label, .demo-key, #ts-icon) i[class*="fa-"],
@@ -672,3 +684,244 @@ html.contrast-high .reminder-banner { background: #fff; border-color: #000; colo
   .task-chip { padding: var(--space-3); }
   .stat-card .stat-number, .metric .metric-number { font-size: 2.1rem; }
 }
+
+/* =====================================================================
+   v2f: colour-forward layer
+   The base look above is calm. This layer turns the colour up: a solid blue bar, a coloured banner on every page,
+   solid stat tiles in the PDF's blue, green and yellow, and solid icon discs. It sits last so it can restyle the
+   rules above without changing their markup. Text on every solid colour is checked for 4.5:1 (see :root).
+   ===================================================================== */
+
+/* ---- Navigation: a solid blue bar with a keycap edge ---- */
+.navbar, .navbar.bg-white { background-color: var(--blue-solid) !important; }   /* bg-white and border-bottom are !important utilities on the bar */
+.navbar.border-bottom { border-bottom: 0 !important; }
+.navbar { box-shadow: 0 5px 0 var(--blue-edge); margin-bottom: 6px; }
+.navbar-brand, .navbar-brand:hover { color: #fff; }
+.navbar-brand .fa-calendar-check { background: #fff; color: var(--blue-solid); box-shadow: 0 3px 0 rgba(0, 0, 0, .25); }
+.navbar-toggler { border-color: #fff; background: transparent; }
+.navbar-toggler-icon { filter: invert(1) brightness(2); }
+.navbar-toggler:focus-visible { box-shadow: 0 0 0 3px var(--blue-solid), 0 0 0 6px #fff; }
+.navbar .nav-link.active { background: var(--blue-solid); color: #fff; }
+.navbar .nav-link:hover { background: var(--sky-tint); }
+@media (min-width: 1200px) {
+  .navbar .nav-link { color: #fff; }
+  .navbar .nav-link:hover { background: rgba(0, 0, 0, .18); color: #fff; }
+  .navbar .nav-link.active { background: #fff; color: var(--blue-solid); }
+  #user-badge { background: #fff; color: var(--color-text); }
+  #logout-btn { --bs-btn-color: #fff; --bs-btn-border-color: #fff; --bs-btn-hover-color: var(--blue-solid); --bs-btn-hover-bg: #fff; --bs-btn-hover-border-color: #fff; --bs-btn-active-color: var(--blue-solid); --bs-btn-active-bg: #fff; }
+  #logout-btn:focus-visible { box-shadow: 0 0 0 3px var(--blue-solid), 0 0 0 6px #fff; }
+}
+html.contrast-high .navbar, html.contrast-high .navbar.bg-white { background-color: #000 !important; box-shadow: none; }
+html.contrast-high .navbar .nav-link.active { background: #fff; color: #000; outline: 3px solid #fff; }
+
+/* ---- Buttons: the primary button gets a keycap edge too ---- */
+.btn-primary { box-shadow: 0 3px 0 var(--blue-edge); }
+.btn-primary:active:not(:disabled) { transform: translateY(2px); box-shadow: 0 1px 0 var(--blue-edge); }
+.btn-primary:focus-visible { box-shadow: var(--focus-ring), 0 3px 0 var(--blue-edge); }
+html.contrast-high .btn-primary { box-shadow: 0 3px 0 #000; }
+
+/* ---- Page banner: the page title becomes a solid colour block with an icon disc and three confetti dots ---- */
+body[data-page="dashboard"]        { --hero: var(--blue-solid);   --hero-edge: var(--blue-edge);       --hero-glyph: "\f015"; }
+body[data-page="schedule-creator"] { --hero: var(--green-deep);   --hero-edge: var(--green-deep-edge); --hero-glyph: "\f271"; }
+body[data-page="communication"]    { --hero: var(--violet-solid); --hero-edge: var(--violet-edge);     --hero-glyph: "\f086"; }
+body[data-page="progress"]         { --hero: var(--orange-solid); --hero-edge: var(--orange-edge);     --hero-glyph: "\e0e3"; }
+body[data-page="settings"]         { --hero: var(--teal-solid);   --hero-edge: var(--teal-edge);       --hero-glyph: "\f013"; }
+main > h1.h2 {
+  position: relative; overflow: hidden; display: flex; align-items: center; gap: var(--space-4);
+  padding: 1.1rem 1.5rem; border-radius: var(--radius-xl); background: var(--hero, var(--blue-solid)); color: #fff;
+  font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.2rem); box-shadow: 0 6px 0 var(--hero-edge, var(--blue-edge));
+}
+main > h1.h2::before {
+  content: var(--hero-glyph); font: 900 1.5rem/1 "Font Awesome 6 Free"; flex: none; display: grid; place-items: center;
+  width: 3.25rem; height: 3.25rem; border-radius: 50%; background: #fff; color: var(--hero, var(--blue-solid));
+}
+main > h1.h2::after {      /* confetti: one yellow dot, with a green and a white one around it */
+  content: ""; position: absolute; right: 2.2rem; top: 50%; width: 1.1rem; height: 1.1rem; border-radius: 50%; background: var(--yellow-solid);
+  box-shadow: -2.6rem .9rem 0 -.1rem var(--lime-solid), -5.2rem -.7rem 0 .2rem rgba(255, 255, 255, .55), 2.4rem -1rem 0 -.3rem rgba(255, 255, 255, .55);
+  transform: translateY(-50%);
+}
+@media (max-width: 480px) { main > h1.h2::after { display: none; } }
+html.contrast-high main > h1.h2 { background: #000; box-shadow: none; }
+html.contrast-high main > h1.h2::before { color: #000; }
+html.contrast-high main > h1.h2::after { display: none; }
+/* Help text under a banner */
+#talk-help { margin: var(--space-3) 0 var(--space-4); font-size: 1.05rem; font-weight: 600; }
+
+/* ---- Sign in: the left panel is a solid blue block ---- */
+.auth-layout { align-items: stretch; }
+.auth-hero { position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center; padding: var(--space-6) var(--space-5) var(--space-5);
+             background: var(--blue-solid); color: #fff; border-radius: var(--radius-xl); box-shadow: 0 8px 0 var(--blue-edge); }
+.auth-hero h1, .auth-hero .lead { color: #fff; }
+.auth-hero::before { content: ""; position: absolute; right: -3rem; top: -3rem; width: 11rem; height: 11rem; border-radius: 50%; background: rgba(255, 255, 255, .12); }
+.auth-hero::after { content: ""; position: absolute; right: -1.6rem; bottom: -1.6rem; width: 6rem; height: 6rem; border-radius: 50%; background: var(--yellow-solid);
+                    box-shadow: -5.2rem 1.2rem 0 -1.6rem var(--lime-solid); }
+.auth-hero > * { position: relative; z-index: 1; }
+.auth-hero .demo-key { color: var(--color-text); }
+.auth-card { display: flex; flex-direction: column; justify-content: center; }
+html.contrast-high .auth-hero { background: #000; box-shadow: none; }
+html.contrast-high .auth-hero::before, html.contrast-high .auth-hero::after { display: none; }
+@media (min-width: 992px) { .auth-hero { padding: var(--space-7) var(--space-6); } }
+
+/* ---- Solid stat tiles: blue, green, yellow (dashboard and progress) ---- */
+.stat-card, .metric { box-shadow: 0 6px 0 var(--k-edge, var(--color-border)); }
+#stat-cards > :nth-child(1) .stat-card, #progress-cards > :nth-child(2) .metric { --k-tint: var(--blue-solid);   --k-edge: var(--blue-edge);   --k-ink: #fff; --on: #fff; }
+#stat-cards > :nth-child(2) .stat-card, #progress-cards > :nth-child(1) .metric { --k-tint: var(--lime-solid);   --k-edge: var(--lime-edge);   --k-ink: var(--color-text); --on: var(--color-text); }
+#stat-cards > :nth-child(3) .stat-card, #progress-cards > :nth-child(3) .metric { --k-tint: var(--yellow-solid); --k-edge: var(--yellow-edge); --k-ink: var(--color-text); --on: var(--color-text); }
+:is(.stat-card, .metric) { color: var(--on, var(--color-text)); }
+:is(.stat-card, .metric) .text-muted,
+:is(.stat-card, .metric) > .text-muted:first-child { color: var(--on, var(--color-text)) !important; }   /* second selector out-ranks the v2e label rule above */
+:is(.stat-card, .metric) > .text-muted:first-child i { display: inline-grid; place-items: center; width: 2rem; height: 2rem; border-radius: 50%; background: #fff; color: var(--color-text); }
+#stat-cards > :nth-child(1) .stat-card > .text-muted:first-child i, #progress-cards > :nth-child(2) .metric > .text-muted:first-child i { color: var(--blue-solid); }
+html.contrast-high :is(.stat-card, .metric) { background: #fff; color: #000; box-shadow: none; }
+html.contrast-high :is(.stat-card, .metric) * { color: #000 !important; }
+html.contrast-high :is(.stat-card, .metric) > .text-muted:first-child i { background: #fff; border: 2px solid #000; }
+
+/* Child cards: three solid links */
+.child-actions .btn:nth-child(1) { --bs-btn-color: #fff;                --bs-btn-bg: var(--blue-solid);   --bs-btn-border-color: var(--blue-solid);   --bs-btn-hover-bg: var(--blue-edge);   --bs-btn-hover-border-color: var(--blue-edge);   --bs-btn-hover-color: #fff; }
+.child-actions .btn:nth-child(2) { --bs-btn-color: var(--color-text);   --bs-btn-bg: var(--lime-solid);   --bs-btn-border-color: var(--lime-solid);   --bs-btn-hover-bg: var(--lime-edge);   --bs-btn-hover-border-color: var(--lime-edge);   --bs-btn-hover-color: #fff; }
+.child-actions .btn:nth-child(3) { --bs-btn-color: var(--color-text);   --bs-btn-bg: var(--yellow-solid); --bs-btn-border-color: var(--yellow-solid); --bs-btn-hover-bg: var(--yellow-edge); --bs-btn-hover-border-color: var(--yellow-edge); --bs-btn-hover-color: #fff; }
+html.contrast-high .child-actions .btn { --bs-btn-bg: #fff; --bs-btn-color: #000; --bs-btn-border-color: #000; --bs-btn-hover-bg: #000; --bs-btn-hover-color: #fff; }
+
+/* ---- Schedule creator: solid category discs ---- */
+.cat-hygiene { --k-solid: var(--blue-solid); }
+.cat-food    { --k-solid: var(--orange-solid); }
+.cat-school  { --k-solid: var(--violet-solid); }
+.cat-play    { --k-solid: var(--green-deep); }
+.activity-card { background: #fff; border: 2px solid var(--k-edge, var(--sky-edge)); border: 2px solid color-mix(in srgb, var(--k-edge, var(--sky-edge)) 60%, #fff); box-shadow: 0 3px 0 color-mix(in srgb, var(--k-edge, var(--sky-edge)) 60%, #fff); }
+.activity-card:hover { border-color: var(--k-edge, var(--sky-edge)); }
+.activity-card .activity-icon { background: var(--k-solid, var(--blue-solid)); }
+.activity-card .activity-icon i[class*="fa-"] { color: #fff !important; }   /* white glyph on the solid disc (beats the per-icon colours) */
+.activity-card .activity-add { --bs-btn-color: var(--k-ink, var(--color-action)); }
+.activity-card .activity-add:is(:hover, :active) { background: var(--k-ink, var(--color-action)); border-color: var(--k-ink, var(--color-action)); color: #fff; }   /* the fixed white background hid the white "+" */
+.timeline-item .position { background: var(--k-solid, var(--blue-solid)); border-color: var(--k-solid, var(--blue-solid)); color: #fff; }
+.timeline-item { border-left: 6px solid var(--k-solid, var(--blue-solid)); }
+.creator-toolbar { border-top: 6px solid var(--green-deep); }
+.panel-head h2 { font-size: 1.35rem; }
+html.contrast-high .activity-card .activity-icon, html.contrast-high .timeline-item .position { background: #000; }
+
+/* ---- Progress: each chart card gets a colour edge ---- */
+#charts > section { border-top: 8px solid var(--blue-solid); }
+#charts > section:nth-of-type(2) { border-top-color: var(--lime-solid); }
+#charts > section:nth-of-type(3) { border-top-color: var(--yellow-solid); }
+html.contrast-high #charts > section { border-top-color: #000; }
+
+/* ---- Settings: solid icon discs on each section heading ---- */
+#settings-form > .card:nth-of-type(1) { --k-solid: var(--blue-solid); }
+#settings-form > .card:nth-of-type(2) { --k-solid: var(--orange-solid); }
+#settings-form > .card:nth-of-type(3) { --k-solid: var(--green-deep); }
+#settings-form > .card:nth-of-type(4) { --k-solid: var(--violet-solid); }
+#settings-form legend i { display: inline-grid; place-items: center; width: 2.4rem; height: 2.4rem; border-radius: 50%; background: var(--k-solid); color: #fff; font-size: 1.1rem; }
+html.contrast-high #settings-form legend i { background: #000; }
+
+/* ---- Child view: a blue greeting band; yellow "Now" card; green celebration ---- */
+.child-view > .d-flex:first-child:has(.cv-header:not([hidden])) {
+  position: relative; overflow: hidden; align-items: center !important; background: var(--blue-solid); border-radius: var(--radius-xl);
+  padding: var(--space-3) var(--space-4); margin-bottom: var(--space-4); box-shadow: 0 6px 0 var(--blue-edge);
+}
+.child-view > .d-flex:first-child:has(.cv-header:not([hidden]))::after {
+  content: ""; position: absolute; right: 5rem; top: 50%; width: 1rem; height: 1rem; border-radius: 50%; background: var(--yellow-solid); transform: translateY(-50%);
+  box-shadow: -2.4rem .8rem 0 -.1rem var(--lime-solid), -4.8rem -.6rem 0 .2rem rgba(255, 255, 255, .5);
+}
+@media (max-width: 480px) { .child-view > .d-flex:first-child:has(.cv-header:not([hidden]))::after { display: none; } }
+.child-view > .d-flex:first-child:has(.cv-header:not([hidden])) > * { position: relative; z-index: 1; }
+.child-view .cv-header { margin-bottom: 0; }
+.child-view .cv-name, .child-view .cv-date { color: #fff; }
+.child-view > .d-flex:first-child:has(.cv-header:not([hidden])) #exit-child-view { --bs-btn-bg: #fff; --bs-btn-border-color: #fff; --bs-btn-color: var(--blue-solid); --bs-btn-hover-bg: var(--sky-tint); --bs-btn-hover-color: var(--blue-edge); --bs-btn-hover-border-color: #fff; }
+html.contrast-high .child-view > .d-flex:first-child:has(.cv-header:not([hidden])) { background: #000; box-shadow: none; }
+
+.now-card { background: var(--yellow-solid); border: 3px solid var(--yellow-edge); box-shadow: 0 8px 0 var(--yellow-edge); }
+.now-card > p:first-child { background: #fff; color: var(--color-text); }
+.now-card .task-name, .now-card .task-time { color: var(--color-text); }
+.now-card .task-icon { box-shadow: 0 0 0 6px rgba(255, 255, 255, .55); }
+.now-card .timer-start { --bs-btn-bg: #fff; --bs-btn-hover-bg: var(--color-action); }
+html.contrast-high .now-card { background: #fff; border-color: #000; box-shadow: none; }
+html.contrast-high .now-card .task-icon { box-shadow: 0 0 0 4px #fff, 0 0 0 7px #000; }
+
+.state-card:has(.big-check) { background: var(--lime-solid); border-color: var(--lime-edge); box-shadow: 0 8px 0 var(--lime-edge); color: var(--color-text); }
+.state-card:has(.big-check) .task-time { color: var(--color-text); }   /* muted grey is only 4:1 on lime */
+.state-card:has(.big-check) .big-check { color: var(--lime-edge); background: #fff; border-radius: 50%; width: 1.4em; height: 1.4em; display: inline-grid; place-items: center; font-size: 4.5rem; }
+html.contrast-high .state-card:has(.big-check) { background: #fff; border-color: #000; box-shadow: none; }
+html.contrast-high .state-card:has(.big-check) .big-check { color: #000; }
+
+/* Task strip: now = solid yellow, done = green, later = plain dashed */
+.task-now { background: var(--yellow-solid); border-color: var(--yellow-edge); }
+.task-now .task-chip-time { color: var(--color-text); }
+.task-now .task-chip-state { background: #fff; color: var(--color-text); }
+.task-done { background: #E8F7D2; border-color: var(--lime-edge); }
+html.contrast-high .task-now, html.contrast-high .task-done { background: #fff; }
+
+/* Child picker: solid colour keys */
+.picker-list a { background: var(--blue-solid); color: #fff; border-color: var(--blue-edge); --key-edge: var(--blue-edge); }
+.picker-list li:nth-child(6n+2) a { background: var(--lime-solid);   color: var(--color-text); border-color: var(--lime-edge);   --key-edge: var(--lime-edge); }
+.picker-list li:nth-child(6n+3) a { background: var(--yellow-solid); color: var(--color-text); border-color: var(--yellow-edge); --key-edge: var(--yellow-edge); }
+.picker-list li:nth-child(6n+4) a { background: var(--violet-solid); color: #fff;              border-color: var(--violet-edge); --key-edge: var(--violet-edge); }
+.picker-list li:nth-child(6n+5) a { background: var(--orange-solid); color: #fff;              border-color: var(--orange-edge); --key-edge: var(--orange-edge); }
+.picker-list li:nth-child(6n+6) a { background: var(--teal-solid);   color: #fff;              border-color: var(--teal-edge);   --key-edge: var(--teal-edge); }
+.picker-list a .avatar { background: #fff; box-shadow: 0 0 0 2px rgba(255, 255, 255, .6); }
+html.contrast-high .picker-list a { background: #fff !important; color: #000 !important; border-color: #000 !important; --key-edge: #000; }
+
+/* ---- Talking board: bolder strip and keys (the open tab stays solid) ---- */
+.sentence-strip { border: 3px solid var(--violet-solid); box-shadow: 0 6px 0 var(--violet-solid); }
+.sentence-word { background: var(--yellow-solid); border-color: var(--yellow-edge); color: var(--color-text); }
+.sentence-start { background: transparent; border-color: transparent; }
+.card-grid { background: transparent; }
+.talk-card { border-width: 3px; }
+html.contrast-high .sentence-strip { border-color: #000; box-shadow: none; }
+html.contrast-high .sentence-word { background: #fff; border-color: #000; }
+html.contrast-high .sentence-start { background: transparent; border-color: transparent; }
+
+/* ---- v2f: high-contrast fixes (must out-rank the colour layer above) ---- */
+html.contrast-high .navbar-brand .fa-calendar-check { background: #fff; color: #000; box-shadow: none; }
+html.contrast-high :is(.stat-card, .metric) > .text-muted:first-child,
+html.contrast-high :is(.stat-card, .metric) .text-muted { color: #000 !important; }
+html.contrast-high .child-view > .d-flex:first-child:has(.cv-header:not([hidden]))::after { display: none; }
+
+/* =====================================================================
+   v2g: pastel layer (dark text on light colour), cerulean titles, one icon colour
+   ===================================================================== */
+
+/* Every page title card is cerulean */
+body[data-page] { --hero: var(--blue-solid); --hero-edge: var(--blue-edge); }
+.creator-toolbar { border-top-color: var(--blue-solid); }
+
+/* Tiles and links that were solid blue are soft cyan with dark text */
+#stat-cards > :nth-child(1) .stat-card, #progress-cards > :nth-child(2) .metric { --k-tint: var(--cyan-solid); --k-edge: var(--cyan-edge); --k-ink: var(--color-text); --on: var(--color-text); }
+.child-actions .btn:nth-child(1) { --bs-btn-color: var(--color-text); --bs-btn-bg: var(--cyan-solid); --bs-btn-border-color: var(--cyan-solid);
+  --bs-btn-hover-bg: #74F0F0; --bs-btn-hover-border-color: #74F0F0; --bs-btn-hover-color: var(--color-text); }
+
+/* Child avatars: white disc with a cerulean ring */
+.avatar { background: #fff; box-shadow: 0 0 0 2px var(--blue-solid); }
+
+/* Child picker: pale keys, dark text */
+.picker-list a { background: var(--cyan-solid); color: var(--color-text); border-color: var(--blue-solid); --key-edge: var(--blue-solid); }
+.picker-list li:nth-child(6n+4) a { background: var(--lavender-solid); color: var(--color-text); border-color: var(--violet-solid); --key-edge: var(--violet-solid); }
+.picker-list li:nth-child(6n+5) a { background: var(--coral-solid);     color: var(--color-text); border-color: var(--coral-edge);   --key-edge: var(--coral-edge); }
+.picker-list li:nth-child(6n+6) a { background: #fff;                   color: var(--color-text); border-color: var(--blue-solid);   --key-edge: var(--blue-solid); }
+
+/* Schedule creator: pastel category discs with dark glyphs and numbers */
+.cat-hygiene { --k-solid: var(--cyan-solid); }
+.cat-food    { --k-solid: var(--coral-solid); }
+.cat-school  { --k-solid: var(--lavender-solid); }
+.cat-play    { --k-solid: var(--lime-solid); }
+.activity-card .activity-icon { box-shadow: inset 0 0 0 2px var(--k-edge, var(--blue-solid)); }
+.activity-card .activity-icon i[class*="fa-"] { color: var(--color-text) !important; }
+.timeline-item .position { color: var(--color-text); border: 2px solid var(--k-edge, var(--blue-solid)); }
+.timeline-item { border-left-color: var(--k-edge, var(--blue-solid)); }
+
+/* Progress: chart cards share one cerulean top bar */
+#charts > section, #charts > section:nth-of-type(2), #charts > section:nth-of-type(3) { border-top-color: var(--blue-solid); }
+
+/* Talking board: cerulean sentence strip, white word chips; Feelings is lavender, Activities yellow
+   (green is kept for the selected state) */
+.sentence-strip { border-color: var(--blue-solid); box-shadow: 0 6px 0 var(--blue-solid); }
+.sentence-word { background: #fff; border-color: var(--blue-solid); }
+.sentence-start { background: transparent; border-color: transparent; }
+.cat-tabs > :nth-child(6n+2) { --k-tint: var(--lavender-solid); --k-edge: var(--violet-solid); --k-ink: var(--lavender-ink); }
+.cat-tabs > :nth-child(6n+3) { --k-tint: var(--yellow-solid);   --k-edge: var(--yellow-edge);  --k-ink: var(--yellow-ink); }
+.cat-tabs:has(> :nth-child(6n+2)[aria-pressed="true"]) + .card-grid { --k-tint: var(--lavender-solid); --k-edge: var(--violet-solid); --k-ink: var(--lavender-ink); }
+.cat-tabs:has(> :nth-child(6n+3)[aria-pressed="true"]) + .card-grid { --k-tint: var(--yellow-solid);   --k-edge: var(--yellow-edge);  --k-ink: var(--yellow-ink); }
+
+/* High contrast: black discs keep white glyphs and numbers */
+html.contrast-high .activity-card .activity-icon i[class*="fa-"] { color: #fff !important; }
+html.contrast-high .timeline-item .position { color: #fff; }
+html.contrast-high .activity-card .activity-icon { box-shadow: none; }

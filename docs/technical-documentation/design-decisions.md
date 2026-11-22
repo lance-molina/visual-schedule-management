@@ -71,6 +71,46 @@ unclear point and should be confirmed with the instructor.
   `progress.js` that gives the charts the page font. Chart colours still come from `--color-action`, `--color-text`
   and `--color-border`.
 
+## Visual design (v2f)
+
+- **Why it changed.** A first-impression test with one person outside the team (every page of v2e next to another team's build)
+  favoured the other build on all pages except the talking board; settings tied. The difference was colour strength, so v2f
+  keeps the v2e layout, type and "toy key" idea and raises the colour. This was one informal comparison, not a usability study.
+- **Solid colour, used with rules.** The PDF's blue, green and yellow are now full-strength fills (`--blue-solid`,
+  `--lime-solid`, `--yellow-solid`). Violet, orange, teal and a deeper green are accents for categories and page banners.
+  Text on blue, violet, orange, teal and deep green is white; text on lime and yellow is the dark ink. Muted grey is never
+  placed on a solid fill. Each pair is 4.5:1 or better (checked by script).
+- **One banner colour per page.** Dashboard blue, schedule creator green, talking board violet, progress orange, settings teal.
+  The banner is the page's existing `h1` restyled in CSS (white icon disc and confetti dots from pseudo-elements), so no HTML
+  changed. Confetti dots are decoration only and are hidden at 480px and below and in high contrast.
+- **Category colours match everywhere.** Hygiene is blue, food orange, school violet, play green: library cards, timeline bars
+  and number discs use the same mapping. The category word is still shown.
+- **Main blue was deepened** (#2B6CB0 to #2769B5) because blue text on the tinted page background measured 4.44:1 with the
+  first v2f blue; the final value gives 5.0:1 on the tint and 5.6:1 against white text.
+- **Bootstrap utilities carry `!important`** (`bg-white`, `border-bottom`, `text-muted`), so the v2f rules that must beat them
+  (navbar, stat-tile labels, category-disc icons) use `!important` too, as do the high-contrast resets.
+- **Not changed:** HTML, JavaScript, ids, `data-*` attributes, behaviour. Chart bars are still drawn from `--color-action`.
+
+## Visual design (v2g)
+
+- **What v2g replaces.** The palette, the per-icon colours (v2e) and the page-by-page banner colours (v2f) are replaced by the
+  rules below. Layout, Nunito, the "toy key" press effect, accessibility settings and every HTML id are unchanged.
+- **Palette is the team's.** Cerulean #1F7DA8 is the main colour; five pale colours (cyan, lime, yellow, lavender, coral) carry dark
+  text. Deep colours (violet, rust, green, teal) are used for edges and a few accents. The project PDF names blue #4A90D9,
+  green #7ED321 and yellow #F5A623 as its soft colours; v2g keeps the idea (soft blue, green and yellow) but not those exact
+  values. Confirm this is acceptable before submission.
+- **Dark text on light colour is the default.** White text is only used on cerulean, violet, rust, green and teal, each at
+  4.5:1 or better. Two of the team's greens (#38A81F, #2C9364) were 3.1:1 and 3.8:1 with white text, so darker versions are used.
+- **Blue text is #1B7699, not the fill cerulean.** #1F7DA8 on the pale page tint was 4.3:1, so text, links, outline buttons and
+  primary buttons use the slightly deeper #1B7699 (4.6 to 5.1:1 everywhere). The top bar and title cards keep #1F7DA8.
+- **One colour for pictures.** All activity pictures are cerulean (`--icon-color`). This is calmer, but a red apple no longer
+  looks red; the word is always shown beside the picture. If caregivers find colour helps, restore per-icon colours for the
+  Feelings cards only.
+- **Green means selected.** Activities is yellow and Feelings lavender so the green "selected" state is not confused with a category.
+- **Chart bars cycle through the pastel set.** Colour is decoration only; the outline (cerulean, 2px) keeps each bar at 3:1 against white.
+  `progress.js` reads `--chart-1` to `--chart-5`, so high contrast turns every bar solid black.
+- **Not changed:** HTML, API, database, ids, `data-*` attributes. JavaScript changed in one place: the chart colours in `progress.js`.
+
 ## Tooling
 
 - **Libraries are pinned and loaded from a CDN with integrity hashes:** Bootstrap 5.3.8, Font Awesome 6.7.2,
