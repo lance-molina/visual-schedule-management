@@ -23,8 +23,8 @@ await document.fonts?.ready;   // draw the charts only after Nunito has loaded
 
 function colors() {
   const css = getComputedStyle(document.documentElement);
-  const fills = [1, 2, 3, 4, 5].map((n) => css.getPropertyValue(`--chart-${n}`).trim() || "#96FFFF");
-  return { bar: css.getPropertyValue("--color-action").trim() || "#1F7DA8", fills,
+  const fills = [1, 2, 3, 4, 5].map((n) => css.getPropertyValue(`--chart-${n}`).trim() || "#51C1F5");
+  return { bar: css.getPropertyValue("--color-action").trim() || "#124E78", fills,
            text: css.getPropertyValue("--color-text").trim() || "#1F2937",
            grid: css.getPropertyValue("--color-border").trim() || "#D1D5DB" };
 }

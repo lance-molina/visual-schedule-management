@@ -17,45 +17,48 @@
 
 :root {
   /* Core colour */
-  --color-brand-blue: #1F7DA8;      /* cerulean (v2g); the PDF's #4A90D9 is replaced by the team's palette */
-  --color-action: #1B7699;          /* primary buttons, links, outline buttons: cerulean a little deeper so blue text is 4.5:1 on every tint (white text 5.1:1) */
-  --color-action-dark: #155A79;
-  --color-done: #C9FF94;            /* pale lime: Done button, with a check icon; dark text */
-  --color-done-edge: #5FA32E;
-  --color-done-ink: #24690F;        /* green text on white */
-  --color-now: #FFFF94;             /* pale yellow: the task happening now, with the word Now; dark text */
+  --color-brand-blue: #124E78;      /* Yale Blue (v2h); the PDF's #4A90D9 is replaced by the team's palette */
+  --color-action: #124E78;          /* primary buttons, links, outline buttons: Yale Blue (9:1 on white, white text on it 9:1) */
+  --color-action-dark: #0B3350;
+  --color-done: #3BF75A;            /* electric green: Done button, with a check icon; dark text */
+  --color-done-edge: #1F9E3A;
+  --color-done-ink: #14591F;        /* green text on white */
+  --color-now: #F5AB1B;             /* amber honey: the task happening now, with the word Now; dark text */
   --color-text: #1B2A41;            /* ink navy, not black */
   --color-muted: #4A5B73;
-  --color-bg: #EEF8FA;              /* cool canvas; white cards and solid colour blocks stand out on it */
+  --color-bg: #EDF6FC;              /* cool canvas; white cards and solid colour blocks stand out on it */
   --color-surface: #FFFFFF;
-  --color-border: #C5DDE4;          /* soft dividers */
-  --color-field: #6F8F9C;           /* borders of inputs and outline buttons (3:1 on white) */
+  --color-border: #C9DCE8;          /* soft dividers */
+  --color-field: #6C8CA3;           /* borders of inputs and outline buttons (3:1 on white) */
   --color-error: #B42318;           /* always with an icon and words */
-  --color-selected: #E2F6FB;
+  --color-selected: #E1F3FD;
 
   /* Pastel families: tint (surface), edge (border and key edge), ink (text and icons on tint or white) */
-  --sky-tint: #DDFFFF;     --sky-edge: #1F7DA8;     --sky-ink: #14607F;
-  --apricot-tint: #FBE8DD; --apricot-edge: #A84A1F; --apricot-ink: #8A3A14;
-  --lilac-tint: #F2E6FF;   --lilac-edge: #8F1FA8;   --lilac-ink: #6A178A;
-  --mint-tint: #E4FBD3;    --mint-edge: #3E9A26;    --mint-ink: #256A12;
-  --rose-tint: #FFE3E3;    --rose-edge: #D9534F;    --rose-ink: #A32727;
-  --sun-tint: #FFFFD0;     --sun-edge: #A8A100;     --sun-ink: #645C00;
+  --sky-tint: #E1F5FE;     --sky-edge: #2A9BD0;     --sky-ink: #0F5F86;
+  --apricot-tint: #FFE8D6; --apricot-edge: #E27424; --apricot-ink: #8F3E08;
+  --lilac-tint: #FAE6F7;   --lilac-edge: #B35AA5;   --lilac-ink: #7A2B6E;
+  --mint-tint: #DDFCE3;    --mint-edge: #2E9E3E;    --mint-ink: #1B6B2A;
+  --rose-tint: #F4E4D8;    --rose-edge: #A25216;    --rose-ink: #7C3C0E;
+  --sun-tint: #FFF1CF;     --sun-edge: #B87708;     --sun-ink: #6B4300;
 
   /* Solid colour blocks (v2f): the PDF's blue, green and yellow at full strength, plus three more crayons.
      Each is paired with the text colour that passes 4.5:1 on it: white on the blue, violet, orange, teal and deep
      green; ink on the bright green and the yellow. */
-  --blue-solid: #1F7DA8;   --blue-edge: #155A79;      /* cerulean */
-  --lime-solid: #C9FF94;   --lime-edge: #5FA32E;      /* ink text */
-  --yellow-solid: #FFFF94; --yellow-edge: #B3AB00;    /* ink text */
-  --green-deep: #2A7F18;   --green-deep-edge: #1D5A10;
-  --violet-solid: #8F1FA8; --violet-edge: #68137B;
-  --orange-solid: #A84A1F; --orange-edge: #7A3112;
-  --teal-solid: #26805A;   --teal-edge: #185A3E;
+  --blue-solid: #124E78;   --blue-edge: #0B3350;      /* Yale Blue */
+  --lime-solid: #3BF75A;   --lime-edge: #1F9E3A;      /* electric green, ink text */
+  --yellow-solid: #F5AB1B; --yellow-edge: #B87708;    /* amber honey, ink text */
+  --green-deep: #47792A;   --green-deep-edge: #305419;   /* sage green, deepened from #5B9537 so white text is 5.2:1 */
+  --violet-solid: #685973; --violet-edge: #4A3F53;   /* dusty lavender */
+  --orange-solid: #A25216; --orange-edge: #753A0E;   /* chocolate brown */
+  --teal-solid: #12785E;   --teal-edge: #0B5340;     /* jungle teal */
   /* v2g: the pale set (dark text on these) */
-  --cyan-solid: #96FFFF;   --cyan-edge: #2AA7B8;
-  --coral-solid: #FF9494;  --coral-edge: #B73A3A;
-  --lavender-solid: #C994FF; --lavender-ink: #5C1275;
-  --yellow-ink: #5C5600;
+  --cyan-solid: #51C1F5;   --cyan-edge: #1C7FB0;     /* deep sky blue */
+  --coral-solid: #FF8C42; --coral-edge: #B84E10;    /* pumpkin spice */
+  --lavender-solid: #E090D4; --lavender-ink: #6A1F5E;   /* plum */
+  --yellow-ink: #6B4300;
+  /* v2h: softer versions (about half strength) for big surfaces; the full colours stay on small keys, tabs and buttons */
+  --lime-soft: color-mix(in srgb, var(--lime-solid) 50%, #fff);     --yellow-soft: color-mix(in srgb, var(--yellow-solid) 50%, #fff);
+  --cyan-soft: color-mix(in srgb, var(--cyan-solid) 50%, #fff);     --coral-soft: color-mix(in srgb, var(--coral-solid) 50%, #fff);
   --icon-color: var(--blue-solid);                    /* one colour for every picture */
   --chart-1: var(--cyan-solid); --chart-2: var(--lime-solid); --chart-3: var(--yellow-solid);
   --chart-4: var(--lavender-solid); --chart-5: var(--coral-solid);   /* bar fills, outlined in --color-action */
@@ -765,8 +768,8 @@ html.contrast-high .auth-hero::before, html.contrast-high .auth-hero::after { di
 /* ---- Solid stat tiles: blue, green, yellow (dashboard and progress) ---- */
 .stat-card, .metric { box-shadow: 0 6px 0 var(--k-edge, var(--color-border)); }
 #stat-cards > :nth-child(1) .stat-card, #progress-cards > :nth-child(2) .metric { --k-tint: var(--blue-solid);   --k-edge: var(--blue-edge);   --k-ink: #fff; --on: #fff; }
-#stat-cards > :nth-child(2) .stat-card, #progress-cards > :nth-child(1) .metric { --k-tint: var(--lime-solid);   --k-edge: var(--lime-edge);   --k-ink: var(--color-text); --on: var(--color-text); }
-#stat-cards > :nth-child(3) .stat-card, #progress-cards > :nth-child(3) .metric { --k-tint: var(--yellow-solid); --k-edge: var(--yellow-edge); --k-ink: var(--color-text); --on: var(--color-text); }
+#stat-cards > :nth-child(2) .stat-card, #progress-cards > :nth-child(1) .metric { --k-tint: var(--lime-soft);   --k-edge: var(--lime-edge);   --k-ink: var(--color-text); --on: var(--color-text); }
+#stat-cards > :nth-child(3) .stat-card, #progress-cards > :nth-child(3) .metric { --k-tint: var(--yellow-soft); --k-edge: var(--yellow-edge); --k-ink: var(--color-text); --on: var(--color-text); }
 :is(.stat-card, .metric) { color: var(--on, var(--color-text)); }
 :is(.stat-card, .metric) .text-muted,
 :is(.stat-card, .metric) > .text-muted:first-child { color: var(--on, var(--color-text)) !important; }   /* second selector out-ranks the v2e label rule above */
@@ -800,16 +803,11 @@ html.contrast-high .child-actions .btn { --bs-btn-bg: #fff; --bs-btn-color: #000
 html.contrast-high .activity-card .activity-icon, html.contrast-high .timeline-item .position { background: #000; }
 
 /* ---- Progress: each chart card gets a colour edge ---- */
-#charts > section { border-top: 8px solid var(--blue-solid); }
-#charts > section:nth-of-type(2) { border-top-color: var(--lime-solid); }
-#charts > section:nth-of-type(3) { border-top-color: var(--yellow-solid); }
+#charts > section { border-top: 8px solid var(--orange-solid); }   /* v2h: the page's own colour (chocolate brown) on all three */
 html.contrast-high #charts > section { border-top-color: #000; }
 
 /* ---- Settings: solid icon discs on each section heading ---- */
-#settings-form > .card:nth-of-type(1) { --k-solid: var(--blue-solid); }
-#settings-form > .card:nth-of-type(2) { --k-solid: var(--orange-solid); }
-#settings-form > .card:nth-of-type(3) { --k-solid: var(--green-deep); }
-#settings-form > .card:nth-of-type(4) { --k-solid: var(--violet-solid); }
+#settings-form > .card { --k-solid: var(--teal-solid); }   /* v2h: all four discs use the page colour (jungle teal) */
 #settings-form legend i { display: inline-grid; place-items: center; width: 2.4rem; height: 2.4rem; border-radius: 50%; background: var(--k-solid); color: #fff; font-size: 1.1rem; }
 html.contrast-high #settings-form legend i { background: #000; }
 
@@ -829,7 +827,7 @@ html.contrast-high #settings-form legend i { background: #000; }
 .child-view > .d-flex:first-child:has(.cv-header:not([hidden])) #exit-child-view { --bs-btn-bg: #fff; --bs-btn-border-color: #fff; --bs-btn-color: var(--blue-solid); --bs-btn-hover-bg: var(--sky-tint); --bs-btn-hover-color: var(--blue-edge); --bs-btn-hover-border-color: #fff; }
 html.contrast-high .child-view > .d-flex:first-child:has(.cv-header:not([hidden])) { background: #000; box-shadow: none; }
 
-.now-card { background: var(--yellow-solid); border: 3px solid var(--yellow-edge); box-shadow: 0 8px 0 var(--yellow-edge); }
+.now-card { background: var(--yellow-soft); border: 3px solid var(--yellow-edge); box-shadow: 0 8px 0 var(--yellow-edge); }
 .now-card > p:first-child { background: #fff; color: var(--color-text); }
 .now-card .task-name, .now-card .task-time { color: var(--color-text); }
 .now-card .task-icon { box-shadow: 0 0 0 6px rgba(255, 255, 255, .55); }
@@ -837,14 +835,14 @@ html.contrast-high .child-view > .d-flex:first-child:has(.cv-header:not([hidden]
 html.contrast-high .now-card { background: #fff; border-color: #000; box-shadow: none; }
 html.contrast-high .now-card .task-icon { box-shadow: 0 0 0 4px #fff, 0 0 0 7px #000; }
 
-.state-card:has(.big-check) { background: var(--lime-solid); border-color: var(--lime-edge); box-shadow: 0 8px 0 var(--lime-edge); color: var(--color-text); }
+.state-card:has(.big-check) { background: var(--mint-tint); border-color: var(--lime-edge); box-shadow: 0 8px 0 var(--lime-edge); color: var(--color-text); }
 .state-card:has(.big-check) .task-time { color: var(--color-text); }   /* muted grey is only 4:1 on lime */
 .state-card:has(.big-check) .big-check { color: var(--lime-edge); background: #fff; border-radius: 50%; width: 1.4em; height: 1.4em; display: inline-grid; place-items: center; font-size: 4.5rem; }
 html.contrast-high .state-card:has(.big-check) { background: #fff; border-color: #000; box-shadow: none; }
 html.contrast-high .state-card:has(.big-check) .big-check { color: #000; }
 
 /* Task strip: now = solid yellow, done = green, later = plain dashed */
-.task-now { background: var(--yellow-solid); border-color: var(--yellow-edge); }
+.task-now { background: var(--yellow-soft); border-color: var(--yellow-edge); }
 .task-now .task-chip-time { color: var(--color-text); }
 .task-now .task-chip-state { background: #fff; color: var(--color-text); }
 .task-done { background: #E8F7D2; border-color: var(--lime-edge); }
@@ -877,17 +875,14 @@ html.contrast-high :is(.stat-card, .metric) .text-muted { color: #000 !important
 html.contrast-high .child-view > .d-flex:first-child:has(.cv-header:not([hidden]))::after { display: none; }
 
 /* =====================================================================
-   v2g: pastel layer (dark text on light colour), cerulean titles, one icon colour
+   v2g/v2h: pastel layer (dark text on light colour), one icon colour
    ===================================================================== */
 
-/* Every page title card is cerulean */
-body[data-page] { --hero: var(--blue-solid); --hero-edge: var(--blue-edge); }
-.creator-toolbar { border-top-color: var(--blue-solid); }
 
 /* Tiles and links that were solid blue are soft cyan with dark text */
-#stat-cards > :nth-child(1) .stat-card, #progress-cards > :nth-child(2) .metric { --k-tint: var(--cyan-solid); --k-edge: var(--cyan-edge); --k-ink: var(--color-text); --on: var(--color-text); }
+#stat-cards > :nth-child(1) .stat-card, #progress-cards > :nth-child(2) .metric { --k-tint: var(--cyan-soft); --k-edge: var(--cyan-edge); --k-ink: var(--color-text); --on: var(--color-text); }
 .child-actions .btn:nth-child(1) { --bs-btn-color: var(--color-text); --bs-btn-bg: var(--cyan-solid); --bs-btn-border-color: var(--cyan-solid);
-  --bs-btn-hover-bg: #74F0F0; --bs-btn-hover-border-color: #74F0F0; --bs-btn-hover-color: var(--color-text); }
+  --bs-btn-hover-bg: #3AB0EA; --bs-btn-hover-border-color: #3AB0EA; --bs-btn-hover-color: var(--color-text); }
 
 /* Child avatars: white disc with a cerulean ring */
 .avatar { background: #fff; box-shadow: 0 0 0 2px var(--blue-solid); }
@@ -908,18 +903,30 @@ body[data-page] { --hero: var(--blue-solid); --hero-edge: var(--blue-edge); }
 .timeline-item .position { color: var(--color-text); border: 2px solid var(--k-edge, var(--blue-solid)); }
 .timeline-item { border-left-color: var(--k-edge, var(--blue-solid)); }
 
-/* Progress: chart cards share one cerulean top bar */
-#charts > section, #charts > section:nth-of-type(2), #charts > section:nth-of-type(3) { border-top-color: var(--blue-solid); }
 
-/* Talking board: cerulean sentence strip, white word chips; Feelings is lavender, Activities yellow
-   (green is kept for the selected state) */
-.sentence-strip { border-color: var(--blue-solid); box-shadow: 0 6px 0 var(--blue-solid); }
-.sentence-word { background: #fff; border-color: var(--blue-solid); }
+/* Talking board (v2h): white word chips; Food is pumpkin, Feelings honey, Activities green, Basics deep sky blue.
+   The open tab turns dark with white text and its cards take the same colour */
+.sentence-word { background: #fff; border-color: var(--violet-solid); }
 .sentence-start { background: transparent; border-color: transparent; }
-.cat-tabs > :nth-child(6n+2) { --k-tint: var(--lavender-solid); --k-edge: var(--violet-solid); --k-ink: var(--lavender-ink); }
-.cat-tabs > :nth-child(6n+3) { --k-tint: var(--yellow-solid);   --k-edge: var(--yellow-edge);  --k-ink: var(--yellow-ink); }
-.cat-tabs:has(> :nth-child(6n+2)[aria-pressed="true"]) + .card-grid { --k-tint: var(--lavender-solid); --k-edge: var(--violet-solid); --k-ink: var(--lavender-ink); }
-.cat-tabs:has(> :nth-child(6n+3)[aria-pressed="true"]) + .card-grid { --k-tint: var(--yellow-solid);   --k-edge: var(--yellow-edge);  --k-ink: var(--yellow-ink); }
+.cat-tabs > :nth-child(6n+1) { --k-tint: var(--coral-solid);  --k-edge: var(--coral-edge);  --k-ink: var(--apricot-ink); }
+.cat-tabs > :nth-child(6n+2) { --k-tint: var(--yellow-solid); --k-edge: var(--yellow-edge); --k-ink: var(--yellow-ink); }
+.cat-tabs > :nth-child(6n+3) { --k-tint: var(--lime-solid);   --k-edge: var(--lime-edge);   --k-ink: var(--color-done-ink); }
+.cat-tabs > :nth-child(6n+4) { --k-tint: var(--cyan-solid);   --k-edge: var(--cyan-edge);   --k-ink: var(--sky-ink); }
+.card-grid, .cat-tabs:has(> :nth-child(6n+1)[aria-pressed="true"]) + .card-grid { --k-tint: var(--coral-soft);  --k-edge: var(--coral-edge);  --k-ink: var(--apricot-ink); }
+.cat-tabs:has(> :nth-child(6n+2)[aria-pressed="true"]) + .card-grid { --k-tint: var(--yellow-soft); --k-edge: var(--yellow-edge); --k-ink: var(--yellow-ink); }
+.cat-tabs:has(> :nth-child(6n+3)[aria-pressed="true"]) + .card-grid { --k-tint: var(--lime-soft);   --k-edge: var(--lime-edge);   --k-ink: var(--color-done-ink); }
+.cat-tabs:has(> :nth-child(6n+4)[aria-pressed="true"]) + .card-grid { --k-tint: var(--cyan-soft);   --k-edge: var(--cyan-edge);   --k-ink: var(--sky-ink); }
+/* Selected card: white with a thick Yale Blue border and blue check, so it never depends on the category colour (Activities is green) */
+.talk-card.is-selected { --key-edge: var(--blue-solid); background: #fff; border-color: var(--blue-solid); border-width: 5px; box-shadow: 0 var(--key-depth, 6px) 0 var(--blue-solid); }
+.talk-card.is-selected .talk-check { background: var(--blue-solid); }
+/* Open tab: keeps its own bright colour with a thick Yale Blue border and a pressed-down key (the old dark fill made Feelings brown and Activities forest green) */
+.cat-tabs > .btn[aria-pressed="true"] { --bs-btn-color: var(--color-text); --bs-btn-bg: var(--k-tint); --bs-btn-border-color: var(--blue-solid);
+  --bs-btn-hover-color: var(--color-text); --bs-btn-hover-bg: var(--k-tint); --bs-btn-hover-border-color: var(--blue-solid); --bs-btn-border-width: 4px; --key-edge: var(--blue-solid); }
+/* Speak: no fill, dusty-lavender outline and key edge */
+.sentence-actions #speak-btn { --bs-btn-bg: transparent; --bs-btn-hover-bg: var(--color-bg); --bs-btn-active-bg: var(--color-bg);
+  --bs-btn-color: var(--color-text); --bs-btn-hover-color: var(--color-text); --bs-btn-active-color: var(--color-text);
+  --bs-btn-border-color: var(--violet-solid); --bs-btn-hover-border-color: var(--violet-solid); --bs-btn-active-border-color: var(--violet-solid);
+  --bs-btn-border-width: 3px; --key-edge: var(--violet-solid); background: transparent; }
 
 /* High contrast: black discs keep white glyphs and numbers */
 html.contrast-high .activity-card .activity-icon i[class*="fa-"] { color: #fff !important; }

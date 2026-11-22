@@ -2,6 +2,20 @@
 
 Every change since the v1 baseline (`docs/versions/v1-baseline.md`, commit cd1eeee) is listed here, newest first.
 
+## v2h (2026-11-22, on top of v2g): Yale Blue palette, page colours
+
+CSS plus the fallback colours in `frontend/js/progress.js`. No HTML, API or database changes. Why: the team chose a second palette (Plum, Deep Sky Blue, Electric Green, Amber Honey, Pumpkin Spice; Yale Blue, Jungle Teal, Dusty Lavender, Sage Green, Chocolate Brown) and asked for each page to have its own colour again. Verified: pytest 180 passed, Node tests passed, every page at 360, 768 and 1280 px in normal and high-contrast mode with an automated check (no text under 4.5:1, or 3:1 for large text; no text under 16px; no target under 44px) and no horizontal scroll.
+
+- Palette: Yale Blue #124E78 replaces cerulean for the top bar, primary buttons, links and icons; Deep Sky Blue #51C1F5, Electric Green #3BF75A, Amber Honey #F5AB1B, Plum #E090D4 and Pumpkin Spice #FF8C42 replace the five pale colours (dark text on them); Jungle Teal, Dusty Lavender and Chocolate Brown are accents. Sage Green is #47792A, not #5B9537, because the original is only 3.6:1 with white text (the new one is 5.2:1)
+- Page title cards are one colour per page again: dashboard Yale Blue, schedule creator Sage Green, talking board Dusty Lavender, progress Chocolate Brown, settings Jungle Teal. The line above the creator toolbar, the talking board sentence box and the three chart cards use the same colour as their title card
+- Settings: the four section icon discs are all Jungle Teal
+- Talking board: Speak has no fill and a Dusty Lavender outline; Food is Pumpkin Spice, Feelings Amber Honey, Activities Electric Green and Basics Deep Sky Blue (full colour on the tab, a half-strength tint on the cards); word chips have a Dusty Lavender outline
+- Talking board selection no longer depends on green: a selected card is white with a thick Yale Blue border and a blue check, and the open tab keeps its own colour with a thick Yale Blue border (it was a dark fill, which made Feelings brown and Activities forest green)
+- Big surfaces are softer: new `--lime-soft`, `--yellow-soft`, `--cyan-soft` and `--coral-soft` tokens (half strength) are used for the dashboard and progress tiles, the child view "Now" card and the "Now" task row. Buttons, tabs and small keys keep the full colours
+- Dashboard "Schedule" button hover is a darker Deep Sky Blue; the all-done card uses a soft green tint instead of full Electric Green
+- Chart bars cycle through the five bright colours with a Yale Blue outline; high contrast is still solid black
+- Docs: `design-decisions.md` "Visual design (v2h)"
+
 ## v2g (2026-11-21, on top of v2f): team palette
 
 CSS plus one file of JavaScript (`frontend/js/progress.js`, chart colours only). No HTML, API or database changes. Why: the team chose a new palette (cerulean and five pale colours) and asked for fewer, calmer colours. Verified: pytest 180 passed, Node tests passed, browser run of all 16 flows, every page at 360, 768, 1024 and 1280 px with no horizontal scroll, no text under 16px and no target under 44px (automated check), and no text under 4.5:1 (3:1 for large text) in normal or high-contrast mode.

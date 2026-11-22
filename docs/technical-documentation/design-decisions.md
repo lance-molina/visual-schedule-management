@@ -111,6 +111,25 @@ unclear point and should be confirmed with the instructor.
   `progress.js` reads `--chart-1` to `--chart-5`, so high contrast turns every bar solid black.
 - **Not changed:** HTML, API, database, ids, `data-*` attributes. JavaScript changed in one place: the chart colours in `progress.js`.
 
+## Visual design (v2h)
+
+- **What v2h changes.** Only colour values and where they are used. v2g's structure (dark text on light colour, one icon colour,
+  pastel discs, varied chart bars) stays; layout, HTML ids and accessibility settings are unchanged.
+- **Palette is the team's second palette.** Yale Blue #124E78 is the main colour. Plum, Deep Sky Blue, Electric Green, Amber Honey
+  and Pumpkin Spice carry dark text. Jungle Teal, Dusty Lavender, Chocolate Brown and Sage Green carry white text.
+- **Sage Green is deepened.** The team's #5B9537 is 3.62:1 with white text, so #47792A (5.2:1) is used for the schedule creator title card.
+- **Each page has its own title card colour again** (dashboard Yale Blue, creator Sage Green, talking board Dusty Lavender,
+  progress Chocolate Brown, settings Jungle Teal). The matching accent (creator toolbar bar, sentence box, chart card tops, settings
+  discs) uses the same colour. The title cards read `--hero` from `body[data-page]`, which uses the same tokens as v2f.
+- **Selection does not use a category colour.** Activities is Electric Green, so a selected talking board card is white with a thick
+  Yale Blue border and a blue check, and the open category tab keeps its colour with a thick Yale Blue border. This works in every
+  category and in high contrast (the border turns black).
+- **Big surfaces use half-strength colours.** Electric Green and Amber Honey are loud over large areas, so the dashboard and progress
+  tiles, talking board cards, the child view "Now" card and the "Now" task row use `--lime-soft`, `--yellow-soft`, `--cyan-soft` and
+  `--coral-soft` (50% colour, 50% white). Buttons, tabs and small keys keep the full colours. If testers still find it tiring,
+  lower the percentage in `:root`.
+- **Not changed:** HTML, API, database, ids, `data-*` attributes. JavaScript: only the fallback colours in `progress.js`.
+
 ## Tooling
 
 - **Libraries are pinned and loaded from a CDN with integrity hashes:** Bootstrap 5.3.8, Font Awesome 6.7.2,
