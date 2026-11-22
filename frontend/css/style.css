@@ -60,8 +60,8 @@
   --lime-soft: color-mix(in srgb, var(--lime-solid) 50%, #fff);     --yellow-soft: color-mix(in srgb, var(--yellow-solid) 50%, #fff);
   --cyan-soft: color-mix(in srgb, var(--cyan-solid) 50%, #fff);     --coral-soft: color-mix(in srgb, var(--coral-solid) 50%, #fff);
   --icon-color: var(--blue-solid);                    /* one colour for every picture */
-  --chart-1: var(--cyan-solid); --chart-2: var(--lime-solid); --chart-3: var(--yellow-solid);
-  --chart-4: var(--lavender-solid); --chart-5: var(--coral-solid);   /* bar fills, outlined in --color-action */
+  --chart-1: #A8E0FA; --chart-2: #9DFBAC; --chart-3: #FAD58D;   /* v2i: half-strength versions of the five colours, as fixed hex because Chart.js cannot read color-mix() */
+  --chart-4: #F0C8EA; --chart-5: #FFC6A1;   /* bar fills, outlined in --color-action */
 
   /* Schedule categories (always shown with the category word too) */
   --cat-hygiene: var(--sky-ink);

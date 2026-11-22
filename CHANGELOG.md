@@ -2,6 +2,14 @@
 
 Every change since the v1 baseline (`docs/versions/v1-baseline.md`, commit cd1eeee) is listed here, newest first.
 
+## v2i (2026-11-22, on top of v2h): softer chart bars
+
+CSS only (`frontend/css/style.css`, the five `--chart-*` tokens). No HTML, JavaScript, API or database changes. Why: after v2h the stat tiles were half-strength but the bars were still full-strength, so the charts were the loudest part of the progress page, and a bright green bar next to an orange one could read as good versus bad. Verified: pytest 180 passed, Node tests passed, automated contrast, text-size and target-size check on every page at 360, 768 and 1280 px in normal and high-contrast mode.
+
+- Bar fills are now half-strength: Deep Sky Blue #A8E0FA, Electric Green #9DFBAC, Amber Honey #FAD58D, Plum #F0C8EA, Pumpkin Spice #FFC6A1 (each is the v2h colour mixed 50% with white, written as hex because Chart.js cannot read `color-mix()`)
+- The Yale Blue outline, the weekly line and the solid black high-contrast bars are unchanged
+- Docs: `design-decisions.md` "Visual design (v2h)"
+
 ## v2h (2026-11-22, on top of v2g): Yale Blue palette, page colours
 
 CSS plus the fallback colours in `frontend/js/progress.js`. No HTML, API or database changes. Why: the team chose a second palette (Plum, Deep Sky Blue, Electric Green, Amber Honey, Pumpkin Spice; Yale Blue, Jungle Teal, Dusty Lavender, Sage Green, Chocolate Brown) and asked for each page to have its own colour again. Verified: pytest 180 passed, Node tests passed, every page at 360, 768 and 1280 px in normal and high-contrast mode with an automated check (no text under 4.5:1, or 3:1 for large text; no text under 16px; no target under 44px) and no horizontal scroll.

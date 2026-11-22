@@ -128,6 +128,10 @@ unclear point and should be confirmed with the instructor.
   tiles, talking board cards, the child view "Now" card and the "Now" task row use `--lime-soft`, `--yellow-soft`, `--cyan-soft` and
   `--coral-soft` (50% colour, 50% white). Buttons, tabs and small keys keep the full colours. If testers still find it tiring,
   lower the percentage in `:root`.
+- **Chart bars are half-strength (v2i).** `--chart-1` to `--chart-5` are fixed hex values (#A8E0FA, #9DFBAC, #FAD58D, #F0C8EA,
+  #FFC6A1), the five bright colours mixed 50% with white. They are hex, not `color-mix()`, because `progress.js` passes the value to
+  Chart.js, which draws on a canvas and cannot read `color-mix()`. The 2px Yale Blue outline keeps each bar at 3:1 against white, and
+  high contrast still turns every bar solid black. Colour is decoration only.
 - **Not changed:** HTML, API, database, ids, `data-*` attributes. JavaScript: only the fallback colours in `progress.js`.
 
 ## Tooling
