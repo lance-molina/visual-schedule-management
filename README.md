@@ -12,9 +12,7 @@ talking board of picture cards that speak a word or short sentence aloud.
 
 Course project for **Modeling and Simulation** (Finals Activity).
 
-**Final deadline:** November 25, 2026
-
-**Demo video:** TODO paste the link here (unlisted YouTube or Google Drive, "anyone with the link" can view)
+**Demo video:** (https://drive.google.com/drive/folders/1Vr0D2pJp-Z360TvX7NVLLAsYZFcgZEKI?usp=drive_link)
 
 ---
 
@@ -209,14 +207,3 @@ Libraries used (loaded from a CDN with integrity hashes, except the Python packa
 (icons CC BY 4.0, fonts SIL OFL, code MIT), Chart.js 4.6.1, SortableJS 1.15.7; the Nunito typeface (SIL OFL) from Google Fonts, which needs internet
 (without it the pages use the system font and stay readable);  Flask, Flask-SQLAlchemy, Flask-JWT-Extended,
 Flask-CORS, PyMySQL, bcrypt, pytest. Add paper sources here only after you have read and cited them.
-
----
-
-## Final repository checklist (before tagging `v1.0-submission`)
-
-- [ ] Frontend and backend both run from a fresh clone using only this README
-- [ ] No `.env`, secrets, real personal data or large unneeded files
-- [ ] `schema.sql`, `seed.py`, the Postman collection and the pytest suite are included
-- [ ] `docs/` holds the API reference, ERD, deployment plan and the documents' source files
-- [ ] Every member has commits or a documented contribution
-- [ ] The submission tag exists and the repository link opens for the instructor
