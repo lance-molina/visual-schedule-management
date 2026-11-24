@@ -12,7 +12,7 @@ talking board of picture cards that speak a word or short sentence aloud.
 
 Course project for **Modeling and Simulation** (Finals Activity).
 
-**Demo video:** (https://drive.google.com/drive/folders/1Vr0D2pJp-Z360TvX7NVLLAsYZFcgZEKI?usp=drive_link)
+**Demo video:** https://drive.google.com/drive/folders/1Vr0D2pJp-Z360TvX7NVLLAsYZFcgZEKI?usp=drive_link
 
 ---
 
