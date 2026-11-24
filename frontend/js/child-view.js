@@ -1,13 +1,18 @@
 // Child view: today's routine, one thing at a time. Tasks are completed HERE.
 // Rules: a large picture with a short word, one primary button in the same place, a calm check mark,
-// no timers, no flashing, a 5-second Undo, and an exit that needs a confirmation.
+// no flashing, a 5-second Undo, an exit that needs a confirmation, and an OPTIONAL countdown (js/timer.js) that
+// only starts when someone presses Start.
 // The SERVER sets completed_at; Undo uses PUT /api/tasks/<id> with status "pending".
 
 import { children as childrenApi, schedules, tasks as tasksApi } from "./api.js";
 import { clear, confirmModal, formatDateLong, formatTime12, h, icon, renderAvatar, renderTaskCard, setBusy, taskStates,
          todayLocal } from "./components.js";
-import { t } from "./i18n.js";
+import { localizedName } from "./activities.js";
+import { t, tf } from "./i18n.js";
+import { reminderFor } from "./reminders.js";
+import { speak as say } from "./speech.js";
 import { getCachedSettings, initPage, playChime } from "./script.js";
+import { createTimer } from "./timer.js";
 
 const $ = (id) => document.getElementById(id);
 const UNDO_MS = 5000;
@@ -15,7 +20,36 @@ const UNDO_MS = 5000;
 await initPage("child-view");
 const lang = getCachedSettings().language;
 
-const state = { childId: null, child: null, tasks: [], undoTimer: null, undoTaskId: null };
+const state = { childId: null, child: null, tasks: [], undoTimer: null, undoTaskId: null, timer: null, reminderEl: null };
+const nameOf = (task) => localizedName(task.name, lang);
+
+// Spoken messages follow the same Sound setting as the chime. Nothing is spoken until something happens
+// (a task is finished, the timer warns, a reminder is due); there is no automatic reading of the screen.
+function sayAloud(key, task, extra = {}) {
+  if (getCachedSettings().sound_on === false) return;
+  say(tf(key, lang, { task: nameOf(task), ...extra }), lang);
+}
+
+// Reminders: a banner (and a spoken line once) when the current task is near or at its start time and has a reminder set.
+const spokenReminders = new Set();
+function checkReminder() {
+  const el = state.reminderEl;
+  if (!el) return;
+  const task = state.tasks.find((x) => x.status !== "completed");
+  const now = new Date();
+  const reminder = task && reminderFor(task, now.getHours() * 60 + now.getMinutes());
+  el.hidden = !reminder;
+  if (!reminder) return;
+  el.textContent = reminder.kind === "soon"
+    ? tf("reminder_soon", lang, { task: nameOf(task), n: reminder.minutes })
+    : tf("reminder_now", lang, { task: nameOf(task) });
+  const key = `${task.id}:${reminder.kind}`;
+  if (!spokenReminders.has(key)) {
+    spokenReminders.add(key);
+    if (getCachedSettings().sound_on !== false) say(el.textContent, lang);
+  }
+}
+setInterval(checkReminder, 30000);
 const main = $("cv-main");
 
 $("exit-label").textContent = t("back_adult", lang);
@@ -46,6 +80,8 @@ function renderError() {
 }
 
 function render() {
+  state.timer?.dispose();                                  // a new render means a new current task: stop the old countdown
+  state.timer = null;
   const states = taskStates(state.tasks);
   const nowIndex = states.indexOf("now");
   clear(main);
@@ -68,11 +104,15 @@ function render() {
     const button = h("button", { id: "done-btn", type: "button", class: "btn btn-success btn-child",
                                  onClick: () => markDone(task, button) },
       icon("fa-check", "me-2"), t("done", lang));
-    main.append(h("section", { class: "now-card", "aria-label": `${t("now", lang)}: ${task.name}` },
+    state.reminderEl = h("div", { class: "reminder-banner", role: "status", hidden: true });
+    main.append(state.reminderEl);
+    main.append(h("section", { class: "now-card", "aria-label": `${t("now", lang)}: ${nameOf(task)}` },
       h("p", { class: "fw-semibold mb-1" }, icon("fa-circle-dot", "me-1"), t("now", lang)),
       h("div", { class: "task-icon", "aria-hidden": "true" }, icon(task.icon)),
-      h("p", { class: "task-name" }, task.name),
+      h("p", { class: "task-name" }, nameOf(task)),
       h("p", { class: "task-time" }, formatTime12(task.time)),
+      (state.timer = createTimer({ minutes: task.duration, lang, onStatus: live,
+                                     onAlert: (kind) => sayAloud(kind === "almost" ? "spoken_almost" : "spoken_up", task) })).el,
       button));
   }
 
@@ -80,6 +120,7 @@ function render() {
   clear(strip);
   state.tasks.forEach((task, index) => strip.append(renderTaskCard(task, { state: states[index], lang })));
   $("strip-section").hidden = false;
+  checkReminder();
 }
 
 // ------------------------------------------------------------------ actions
@@ -95,7 +136,8 @@ async function markDone(task, button) {
     replaceTask(updated);
     playChime();
     render();
-    live(`${task.name} ${t("marked_done", lang)}`);
+    live(`${nameOf(task)} ${t("marked_done", lang)}`);
+    sayAloud("spoken_done", task);
     showUndo(updated);
     $("done-btn")?.focus();
   } catch {
@@ -106,7 +148,7 @@ async function markDone(task, button) {
 function showUndo(task) {
   clearTimeout(state.undoTimer);
   state.undoTaskId = task.id;
-  $("undo-text").textContent = `${task.name}: ${t("marked_done", lang)}`;
+  $("undo-text").textContent = `${nameOf(task)}: ${t("marked_done", lang)}`;
   $("undo-btn").textContent = t("undo", lang);
   $("undo-bar").hidden = false;
   document.querySelector(".child-view").classList.add("has-undo");

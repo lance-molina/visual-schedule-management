@@ -6,6 +6,7 @@ cannot probe which ids exist.
 from flask_jwt_extended import get_jwt_identity
 
 from extensions import db
+from models.card import BoardCard
 from models.child import Child
 from models.schedule import Schedule
 from models.task import Task
@@ -51,3 +52,10 @@ def get_task_or_404(task_id, user_id):
     if task is None:
         raise not_found()
     return task
+
+
+def get_card_or_404(card_id, user_id):
+    card = BoardCard.query.filter_by(id=card_id, user_id=user_id).first()
+    if card is None:
+        raise not_found()
+    return card

@@ -68,6 +68,11 @@ to the signed-in user, so a request for another user's record returns 404, not 4
 | `PATCH /api/tasks/<id>/complete` | Mark complete; **the server sets `completed_at`** | none | 200 task | 401, 404 | same chain |
 | `GET /api/dashboard/summary` | Counts for the three stat cards | `today` | 200 totals | 400, 401 | own children only |
 | `GET /api/progress` | Data for all charts and cards | child_id, range, today | 200 summary, daily, weekly, tasks | 400, 401, 404 | child must be yours |
+| `GET /api/cards` | List own talking-board cards (ordered by category, label) | page, per_page | 200 items | 401 | filtered by user |
+| `POST /api/cards` | Add a card (at most 100 per user, 30 with photos) | label, category, icon, label_fil, image | 201 card | 400, 401, 409 | user from token |
+| `PUT /api/cards/<id>` | Replace the card (an omitted label_fil or image is cleared) | label, category, icon, label_fil, image | 200 card | 400, 401, 404, 409 | id and user |
+| `DELETE /api/cards/<id>` | Delete a card | none | 204 | 401, 404 | id and user |
+| `POST /api/speech` | Text to speech (MP3). 503 `speech_unavailable` means use the browser voice | text (1 to 200 characters), lang `en` or `fil`, rate (optional) | 200 `audio/mpeg` | 400, 401, 503 | token required |
 | `GET /health` | Deployment smoke test | none | 200 `{"status":"ok"}` | none | public |
 
 ### Behaviour worth knowing
@@ -109,7 +114,13 @@ Text is trimmed before it is checked. An optional text field that is blank becom
 | `time` | `HH:MM`, 00:00 to 23:59 |
 | `duration` | Whole number of minutes, 5 to 240 |
 | `position` | Whole number 1 to 1000 |
-| `reminder_minutes` | Optional whole number 0 to 60, or `null`. **Stored only; no notification is sent** |
+| `reminder_minutes` | Optional whole number 0 to 60, or `null`. Minutes before `time`. Shown as a banner (and spoken once) in the child view while it is open; **no push, email or SMS is sent** |
+| `card.label` | Required, 1 to 30 characters (the spoken word) |
+| `card.category` | Required, 1 to 30 characters; the UI offers Food, Emotions, Activities or a new name |
+| `card.icon` | One of 33 preset Font Awesome classes (see `CARD_ICONS` in `backend/models/card.py`); always required, shown when there is no photo |
+| `card.label_fil` | Optional, up to 30 characters; the word spoken when the language is Filipino. Blank becomes `null` |
+| `card.image` | Optional small JPEG data URL (`data:image/jpeg;base64,...`), at most 60,000 characters (about 45 KB), valid base64 with the JPEG signature; `null` or `""` means none. At most 30 cards per user may have one |
+| `speech.rate` | Optional number from 0.5 to 1.4 (1 = normal speed); default 0.85 |
 | `status` | `pending` or `completed` (only on `PUT /api/tasks/<id>`) |
 | `settings.font_size` | `S`, `M` or `L` |
 | `settings.contrast` | `normal` or `high` |
@@ -235,6 +246,30 @@ PUT /api/tasks/456                   (Undo)
 
 200   same task with "status": "pending" and "completed_at": null
 ```
+
+### Talking board cards
+
+```json
+POST /api/cards
+{ "label": "Banana", "category": "Food", "icon": "fa-carrot", "label_fil": "Saging", "image": "data:image/jpeg;base64,/9j/4AAQ..." }
+
+201
+{ "id": 5, "label": "Juice", "category": "Food", "icon": "fa-glass-water", "created_at": "2026-11-12T03:10:00Z" }
+```
+
+The 101st card, or the 31st card with a photo, answers `409 conflict`. A picture that is not a small JPEG answers `400` with `fields.image`. Another user's card id answers `404`.
+
+### Speech
+
+```json
+POST /api/speech
+{ "text": "I want Water", "lang": "en", "rate": 1.0 }
+
+200  audio/mpeg bytes
+503  { "error": { "code": "speech_unavailable", "message": "Online speech is not available right now." } }
+```
+
+Voices: `en-US-AnaNeural` and `fil-PH-BlessicaNeural` through the unofficial `edge-tts` package. Results are cached in memory (200 entries). The page falls back to the browser voice on any non-200.
 
 ### Dashboard and progress
 

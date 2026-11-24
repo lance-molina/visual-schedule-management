@@ -24,6 +24,8 @@ class Config:
     BCRYPT_ROUNDS = int(os.getenv("BCRYPT_ROUNDS", "12"))
 
     CORS_ORIGINS = [o.strip() for o in os.getenv("CORS_ORIGINS", "").split(",") if o.strip()]
+    # Online (Edge) text-to-speech for the talking board. Set TTS_ENABLED=false to skip it and use browser voices only.
+    TTS_ENABLED = os.getenv("TTS_ENABLED", "true").lower() != "false"
     LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 
     @classmethod

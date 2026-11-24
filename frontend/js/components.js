@@ -2,6 +2,7 @@
 // Rule: build DOM with createElement/textContent (the h() helper below). Never put user-supplied text
 // into innerHTML.
 
+import { localizedName } from "./activities.js";
 import { t } from "./i18n.js";
 
 // ------------------------------------------------------------------ DOM helpers
@@ -117,13 +118,14 @@ const NAV_ITEMS = [
   { href: "dashboard.html", key: "nav_dashboard", icon: "fa-house", page: "dashboard" },
   { href: "schedule-creator.html", key: "nav_schedule", icon: "fa-calendar-days", page: "schedule-creator" },
   { href: "child-view.html", key: "nav_child_view", icon: "fa-child", page: "child-view" },
+  { href: "communication.html", key: "nav_talk", icon: "fa-comments", page: "communication" },
   { href: "progress.html", key: "nav_progress", icon: "fa-chart-simple", page: "progress" },
   { href: "settings.html", key: "nav_settings", icon: "fa-gear", page: "settings" },
 ];
 
 /**
- * Builds the navbar into #app-header: a hamburger that opens an offcanvas menu below 992px,
- * the signed-in name and role, a log out button, and aria-current on the active page.
+ * Builds the navbar into #app-header: a side menu from 1200px up and a hamburger that opens an offcanvas menu below
+ * that (layout is all CSS), the signed-in name and role, a log out button, and aria-current on the active page.
  * The child view has no navbar on purpose: a child should not see adult navigation.
  */
 export function renderShell(activePage, { lang = "en", user = null, onLogout } = {}) {
@@ -132,16 +134,15 @@ export function renderShell(activePage, { lang = "en", user = null, onLogout } =
   clear(header);
 
   const links = NAV_ITEMS.map((item) => h("li", { class: "nav-item" },
-    h("a", { class: `nav-link${item.page === activePage ? " active" : ""}`, href: item.href,
+    h("a", { class: `nav-link${item.page === activePage ? " active" : ""}`, href: item.href, "data-nav": item.page,
              "aria-current": item.page === activePage ? "page" : null },
-      icon(item.icon, "me-2 d-xl-none"), t(item.key, lang))));
+      icon(item.icon, "nav-ico"), h("span", { class: "nav-label" }, t(item.key, lang)))));
 
-  // Wide screens: name only (the role is in the menu and on hover). Between 1200 and 1399px the name collapses to an
-  // icon (still read aloud) so the whole bar fits on one line at a common laptop width.
+  // The side menu shows the name and the role in a panel at the bottom; in the hamburger menu they sit under the links.
   const who = user ? h("span", { class: "navbar-text me-xl-3 text-nowrap", id: "user-badge", title: `${user.name} \u00b7 ${ROLE_LABELS[user.role] || user.role}` },
     icon("fa-circle-user", "me-1 user-icon"),
     h("strong", { class: "user-name-text" }, user.name),
-    h("span", { class: "text-muted d-xl-none" }, ` \u00b7 ${ROLE_LABELS[user.role] || user.role}`)) : null;
+    h("span", { class: "user-role" }, ROLE_LABELS[user.role] || user.role)) : null;
 
   header.append(
     h("nav", { class: "navbar navbar-expand-xl bg-white border-bottom", "aria-label": "Main" },
@@ -168,7 +169,7 @@ export function renderTaskCard(task, { state = "later", lang = "en" } = {}) {
   const stateIcon = state === "done" ? "fa-circle-check" : state === "now" ? "fa-circle-dot" : "fa-clock";
   return h("li", { class: `task-chip task-${state}`, ...(state === "now" ? { "aria-current": "step" } : {}) },
     h("span", { class: "task-chip-icon" }, icon(task.icon)),
-    h("span", { class: "task-chip-name" }, task.name),
+    h("span", { class: "task-chip-name" }, localizedName(task.name, lang)),
     h("span", { class: "task-chip-time" }, formatTime12(task.time)),
     h("span", { class: "task-chip-state" }, icon(stateIcon, "me-1"), t(state, lang)));
 }

@@ -9,4 +9,5 @@ Flask-CORS==6.0.5
 bcrypt==5.0.0
 python-dotenv==1.2.4
 gunicorn==26.2.0
+edge-tts==7.3.1          # unofficial Microsoft Edge online voices; optional, the app falls back to browser voices
 pytest==9.2.0

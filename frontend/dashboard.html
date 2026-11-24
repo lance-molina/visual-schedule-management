@@ -8,6 +8,10 @@
        integrity mismatch, regenerate the hash for that exact file. -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/all.min.css" integrity="sha384-nRgPTkuX86pH8yjPJUAFuASXQSSl2/bBUiNV47vSYpKFxHJhbcrGnmlYpYJMeD7a" crossorigin="anonymous">
+  <!-- Nunito (weights 500 to 800) from Google Fonts. It needs internet; without it the page falls back to the system font and stays readable. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body data-page="dashboard">
@@ -24,9 +28,9 @@
     <section aria-labelledby="stats-h" class="mb-4">
       <h2 id="stats-h" class="visually-hidden">Today at a glance</h2>
       <div class="row g-3" id="stat-cards">
-        <div class="col-md-4"><div class="card stat-card p-3 h-100"><div class="text-muted">Total Children</div><div class="stat-number" id="stat-children">–</div></div></div>
-        <div class="col-md-4"><div class="card stat-card p-3 h-100"><div class="text-muted">Tasks Completed Today</div><div class="stat-number" id="stat-completed">–</div></div></div>
-        <div class="col-md-4"><div class="card stat-card p-3 h-100"><div class="text-muted">Upcoming Routines</div><div class="stat-number" id="stat-upcoming">–</div><div class="small text-muted">Schedules from today with a task still to do</div></div></div>
+        <div class="col-md-4"><div class="card stat-card p-3 h-100"><div class="text-muted"><i class="fa-solid fa-user-group me-2" aria-hidden="true"></i>Total Children</div><div class="stat-number" id="stat-children">–</div></div></div>
+        <div class="col-md-4"><div class="card stat-card p-3 h-100"><div class="text-muted"><i class="fa-solid fa-circle-check me-2" aria-hidden="true"></i>Tasks Completed Today</div><div class="stat-number" id="stat-completed">–</div></div></div>
+        <div class="col-md-4"><div class="card stat-card p-3 h-100"><div class="text-muted"><i class="fa-solid fa-calendar-day me-2" aria-hidden="true"></i>Upcoming Routines</div><div class="stat-number" id="stat-upcoming">–</div><div class="small text-muted">Schedules from today with a task still to do</div></div></div>
       </div>
     </section>
 
