@@ -48,7 +48,7 @@ see limitations).
 - [x] Accessibility settings: font size, high contrast, sound, language (English / Filipino), saved to the database and cached in the browser
 - [x] Role stored per user (all roles share the same permissions in the MVP)
 
-The seeded data uses invented names only. Take screenshots with the demo accounts, save them in `docs/screenshots/` and link one or two here.
+The seeded data uses invented names only.
 
 ## 3. Technology stack
 
